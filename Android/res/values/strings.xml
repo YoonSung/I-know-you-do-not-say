@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Safe Return Home</string>
+	<string name="service_name">안심귀가</string>
+</resources>
