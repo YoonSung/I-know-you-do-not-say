@@ -428,6 +428,7 @@ containing a value of this type.
         public static final int selectionDetails=0x7f09000b;
         public static final int strict_sandbox=0x7f090009;
         public static final int terrain=0x7f090004;
+        public static final int test=0x7f090014;
         public static final int wrap_content=0x7f09000d;
     }
     public static final class integer {
