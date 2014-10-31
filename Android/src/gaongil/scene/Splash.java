@@ -1,9 +1,17 @@
 package gaongil.scene;
 
+import gaongil.safereturnhome.R;
+import gaongil.support.NetworkManager;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import gaongil.safereturnhome.R;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -33,7 +41,7 @@ public class Splash extends Activity {
     AtomicInteger msgId = new AtomicInteger();
     SharedPreferences prefs;
     Context context;
-    String regid;
+    String regId;
     
     //TODO DELETE TEST Declation
     TextView mDisplay;
@@ -59,15 +67,15 @@ public class Splash extends Activity {
         // Otherwise, prompt user to get valid Play Services APK.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
-            regid = getRegistrationId(context);
+            regId = getRegistrationId(context);
 
-            if (regid.isEmpty()) {
+            if (regId.isEmpty()) {
                 registerInBackground();
             } 
             
             //TODO DELETE TEST Declation
             else {
-            	mDisplay.append(regid);
+            	mDisplay.append(regId);
             }
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
@@ -152,15 +160,15 @@ public class Splash extends Activity {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
-                    regid = gcm.register(PROJECT_ID);
-                    msg = "Device registered, registration ID=" + regid;
-
+                    regId = gcm.register(PROJECT_ID);
+                    msg = "Device registered, registration ID=" + regId;
+                    
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
-                    sendRegistrationIdToBackend();
+                    sendRegistrationIdToBackend(regId);
 
                     // Persist the regID - no need to register again.
-                    storeRegistrationId(context, regid);
+                    storeRegistrationId(context, regId);
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
@@ -206,8 +214,30 @@ public class Splash extends Activity {
      * messages to your app. Not needed for this demo since the device sends upstream messages
      * to a server that echoes back the message using the 'from' address in the message.
      */
-    private void sendRegistrationIdToBackend() {
+    private void sendRegistrationIdToBackend(final String registerationId) {
     	// Send Data To Server
     	// 서버로 유저 고유값인 registrationID 를 전달한다.
+    	
+    	/* Upload file with data
+    	@SuppressWarnings("serial")
+		List<Map<String, Object>> parameters = new ArrayList<Map<String, Object>>(){{
+    		new HashMap<String, String>(){{
+        		put("registerId", registerationId);
+        	}};	
+    	}};
+    	*/
+    	
+    	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("registerId", registerationId));
+		
+    	 //String response = NetworkManager.uploadStringDataToServer("/test", parameters);
+    	String response = null;
+		try {
+			response = NetworkManager.executePostRequest("/test", nameValuePairs);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+    	Log.i(TAG, "responseString = "+response);
     }
 }
