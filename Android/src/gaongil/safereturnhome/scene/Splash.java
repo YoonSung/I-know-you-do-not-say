@@ -1,7 +1,7 @@
-package gaongil.scene;
+package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
-import gaongil.support.NetworkManager;
+import gaongil.safereturnhome.support.NetworkManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
