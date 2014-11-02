@@ -1,6 +1,7 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.NetworkManager;
 
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
@@ -27,16 +27,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class Splash extends Activity {
 
-	public static final String EXTRA_MESSAGE = "message";
-    public static final String PROPERTY_REG_ID = "registration_id";
-    private static final String PROPERTY_APP_VERSION = "appVersion";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
-    // Project number from the API Console
-    String PROJECT_ID = "342931063456";
-
-    private static final String TAG = "Splash";
-
+	private static final String TAG = Splash.class.getSimpleName();
+	
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
     SharedPreferences prefs;
@@ -92,7 +84,7 @@ public class Splash extends Activity {
 	    if (resultCode != ConnectionResult.SUCCESS) {
 	        if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
 	            GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-	                    PLAY_SERVICES_RESOLUTION_REQUEST).show();
+	                    Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
 	        } else {
 	            Log.i(TAG, "This device is not supported.");
 	            finish();
@@ -114,8 +106,8 @@ public class Splash extends Activity {
         int appVersion = getAppVersion(context);
         Log.i(TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(PROPERTY_REG_ID, regId);
-        editor.putInt(PROPERTY_APP_VERSION, appVersion);
+        editor.putString(Constant.PROPERTY_REG_ID, regId);
+        editor.putInt(Constant.PROPERTY_APP_VERSION, appVersion);
         editor.commit();
     }
 
@@ -129,7 +121,7 @@ public class Splash extends Activity {
      */
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGcmPreferences(context);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+        String registrationId = prefs.getString(Constant.PROPERTY_REG_ID, "");
         if (registrationId.isEmpty()) {
             Log.i(TAG, "Registration not found.");
             return "";
@@ -137,7 +129,7 @@ public class Splash extends Activity {
         // Check if app was updated; if so, it must clear the registration ID
         // since the existing regID is not guaranteed to work with the new
         // app version.
-        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int registeredVersion = prefs.getInt(Constant.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int currentVersion = getAppVersion(context);
         if (registeredVersion != currentVersion) {
             Log.i(TAG, "App version changed.");
@@ -160,7 +152,7 @@ public class Splash extends Activity {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
-                    regId = gcm.register(PROJECT_ID);
+                    regId = gcm.register(Constant.PROJECT_ID);
                     msg = "Device registered, registration ID=" + regId;
                     
                     // You should send the registration ID to your server over HTTP, so it
@@ -217,23 +209,13 @@ public class Splash extends Activity {
     private void sendRegistrationIdToBackend(final String registerationId) {
     	// Send Data To Server
     	// 서버로 유저 고유값인 registrationID 를 전달한다.
-    	
-    	/* Upload file with data
-    	@SuppressWarnings("serial")
-		List<Map<String, Object>> parameters = new ArrayList<Map<String, Object>>(){{
-    		new HashMap<String, String>(){{
-        		put("registerId", registerationId);
-        	}};	
-    	}};
-    	*/
-    	
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("registerId", registerationId));
 		
     	 //String response = NetworkManager.uploadStringDataToServer("/test", parameters);
     	String response = null;
 		try {
-			response = NetworkManager.executePostRequest("/test", nameValuePairs);
+			response = NetworkManager.upload("/test", nameValuePairs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 

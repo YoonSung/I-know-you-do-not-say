@@ -1,5 +1,6 @@
-package gaongil.safereturnhome;
+package gaongil.safereturnhome.gcm;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
 
@@ -14,8 +15,6 @@ public class GcmIntentService extends IntentService {
     
     private static final String TAG = GcmIntentService.class.getSimpleName();
     
-    public static final String PROJECT_ID = "342931063456";
-
     public GcmIntentService() {
         super(TAG);
     }
@@ -36,21 +35,25 @@ public class GcmIntentService extends IntentService {
              * any message types you're not interested in, or that you don't
              * recognize.
              */
-            if (GoogleCloudMessaging.
-                    MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
+            if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                 Log.w(TAG, "Send error: " + extras.toString());
-            } else if (GoogleCloudMessaging.
-                    MESSAGE_TYPE_DELETED.equals(messageType)) {
+                
+            } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
                 Log.w(TAG, "Deleted messages on server: " + extras.toString());
             // If it's a regular GCM message, do some work.
-            } else if (GoogleCloudMessaging.
-                    MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+                
+            } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Iterator<String> iterator = extras.keySet().iterator();
                 while (iterator.hasNext()) {
                     String key = iterator.next();
                     String value = extras.get(key).toString();
-                    Log.d(TAG, "onMessage :: key = ^" + key 
-                            + "^, value = ^" + URLDecoder.decode(value) + "^");
+                    try {
+						Log.d(TAG, "onMessage :: key = ^" + key + "^, value = ^" + URLDecoder.decode(value, "UTF-8") + "^");
+						
+					} catch (UnsupportedEncodingException e) {
+						Log.e(TAG, "UnsupportedEncodingException, "+e.getStackTrace());
+						
+					}
                 }
                 
                // TODO something...

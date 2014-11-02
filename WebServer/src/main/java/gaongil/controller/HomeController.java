@@ -17,6 +17,7 @@ public class HomeController {
 	
 	@Autowired
     private GcmCcsSender mGcmCcsSender;
+	private static String regId;
 	
 	@RequestMapping("/")
 	public @ResponseBody String home() {
@@ -27,13 +28,13 @@ public class HomeController {
 	@RequestMapping(value="/test", method= RequestMethod.POST)
 	public @ResponseBody String test(String registerId) {
 		log.info("RegId : {}", registerId);
+		this.regId = registerId;
 		
 		return registerId;
 	}
 	
 	@RequestMapping(value="/test/ccm")
 	public @ResponseBody String testCCM() {
-		String regId = "APA91bEDa54P9evR09ndjhYfjRG4YdiLE8lPZUiM12kcfNDNi6gdj0qyiBrPN7q3wvwJjUtIJvu0BqE5Zfx6wGh8YkyvfuzxrrthxxiaP5tYydvuNIdyl5ozHtIISbXk3pi4Ob5b1DR5TUmZdlVSIwRoMU-djxFWNQ";
 		
 		mGcmCcsSender.send(regId, "TestMessage!!");
 		

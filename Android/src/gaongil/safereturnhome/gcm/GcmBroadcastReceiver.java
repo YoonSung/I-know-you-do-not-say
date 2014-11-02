@@ -1,4 +1,4 @@
-package gaongil.safereturnhome;
+package gaongil.safereturnhome.gcm;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -9,13 +9,14 @@ import android.util.Log;
 
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
+	private static final String TAG = GcmBroadcastReceiver.class.getSimpleName();
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.e("TAG", "TestReceive");
+		Log.i(TAG, "on GCM Receive");
 		
 		 // Explicitly specify that GcmIntentService will handle the intent.
-        ComponentName comp = new ComponentName(context.getPackageName(),
-                GcmIntentService.class.getName());
+        ComponentName comp = new ComponentName(context.getPackageName(), GcmIntentService.class.getName());
         // Start the service, keeping the device awake while it is launching.
         startWakefulService(context, (intent.setComponent(comp)));
         setResultCode(Activity.RESULT_OK);
