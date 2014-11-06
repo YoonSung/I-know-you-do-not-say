@@ -1,9 +1,26 @@
 package gaongil.safereturnhome.support;
 
 public class Constant {
-	public static final String EXTRA_MESSAGE = "message";
-	public static final String PROPERTY_REG_ID = "registration_id";
-	public static final String PROPERTY_APP_VERSION = "appVersion";
+
+	/********************************************************************************
+	 * 										Preference
+	 *********************************************************************************/
+	public static final String PREFERENCE_KEY_REG_ID = "registration_id";
+	public static final String PREFERENCE_KEY_APP_VERSION = "appVersion";
+
+	/********************************************************************************
+	 * 										Network Key
+	 *********************************************************************************/
+	public static final String NETWORK_PARAM_KEY_REGID = "regId";
+	
+	/********************************************************************************
+	 * 										Request URL
+	 *********************************************************************************/
+	public static final String NETWORK_URL_REGISTER_ID = "/user";
+	
+	/********************************************************************************
+	 * 										Constant
+	 *********************************************************************************/
 	public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     // Project number from the API Console
@@ -14,4 +31,7 @@ public class Constant {
 	public static final String LINE_END = "\r\n";
 	public static final String TWO_HYPHENS = "--";
 	public static final String DATA_BOUNDARY = "*****";
+	
+	//private static final String ROOT_PATH = "http://localhost:8080";
+	public static final String MESSAGE_PLAY_SERVICES_ERROR = "This device is not supported.";
 }
