@@ -24,6 +24,7 @@ public class UserDao extends JdbcDaoSupport {
 	RowMapper<User> rowMapper = new RowMapper<User>() {
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
 			return new User(
 					rs.getInt("pid"),
 					rs.getString("phone_number"),
@@ -49,5 +50,10 @@ public class UserDao extends JdbcDaoSupport {
 	public User findByRegId(String regId) {
 		String sql = "SELECT * FROM tbl_user WHERE reg_id = ?";
 		return getJdbcTemplate().queryForObject(sql, rowMapper, regId);
+	}
+
+	public void deleteAll() {
+		String sql = "DELETE FROM tbl_user";
+		getJdbcTemplate().update(sql);
 	}
 }

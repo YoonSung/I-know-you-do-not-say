@@ -36,14 +36,17 @@ public class UserDaoTest {
 	
 	@Test
 	public void create() throws Exception {
+		userDao.deleteAll();
 		userDao.create(user1);
 	}
 	
 	@Test
 	public void select() throws Exception {
+		userDao.deleteAll();
 		userDao.create(user1);
-		User selectedUser = userDao.findByRegId(user1.getRegistrationId());
 		
-		assertEquals(user1, selectedUser);
+		User selectedUser = userDao.findByRegId(user1.getRegistrationId());
+		System.out.println("selectedUser : "+selectedUser.toString());
+		assertEquals(user1.getNickname(), selectedUser.getNickname());
 	}
 }
