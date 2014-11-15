@@ -1,33 +1,17 @@
 package gaongil.safereturnhome.support;
 
-import gaongil.safereturnhome.scene.Splash;
-
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
+import gaongil.safereturnhome.scene.SplashScreen;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.util.Log;
 
 public class Common extends Activity{
 	
-	private static final String TAG = Splash.class.getSimpleName();
+	private static final String TAG = SplashScreen.class.getSimpleName();
 	private Context context;
 	
 	public Common(Context context) {
@@ -54,10 +38,7 @@ public class Common extends Activity{
         }
     }
 
-    /**
-     * @return Application's {@code SharedPreferences}.
-     */
-    public SharedPreferences getGcmPreferences() {
+    private SharedPreferences getPreferences() {
         // This sample app persists the registration ID in shared preferences, but
         // how you store the regID in your app is up to you.
         return context.getSharedPreferences(Common.class.getSimpleName(),
@@ -72,7 +53,7 @@ public class Common extends Activity{
      * @param regId registration ID
      */
     public void storeRegistrationId(String regId) {
-        final SharedPreferences prefs = getGcmPreferences();
+        final SharedPreferences prefs = getPreferences();
         int appVersion = getAppVersion();
         Log.i(TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
@@ -90,7 +71,7 @@ public class Common extends Activity{
      *         registration ID.
      */
     public String getRegistrationId() {
-        final SharedPreferences prefs = getGcmPreferences();
+        final SharedPreferences prefs = getPreferences();
         String registrationId = prefs.getString(Constant.PREFERENCE_KEY_REG_ID, "");
         if (registrationId.isEmpty()) {
             Log.i(TAG, "Registration not found.");
