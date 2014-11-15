@@ -59,10 +59,10 @@ public class SplashScreen extends Activity {
 
             if (regId.isEmpty()) {
                 registerInBackground();
-            } else {
-            	isRunning = true;
-        		startSplash();
             }
+            
+            isRunning = true;
+            startSplash();
             
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
