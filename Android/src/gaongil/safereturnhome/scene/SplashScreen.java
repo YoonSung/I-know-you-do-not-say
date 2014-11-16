@@ -26,7 +26,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class SplashScreen extends Activity {
 
-	private static final String TAG = SplashScreen.class.getSimpleName();
+	private final String TAG = SplashScreen.class.getSimpleName();
 	
 	private Common common;
 	private GoogleCloudMessaging gcm;

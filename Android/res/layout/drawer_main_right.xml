@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/pad_5dp"
+    android:background="#000"
     tools:context="gaongil.safereturnhome.scene.MainActivity" >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="drawer right"
-        android:layout_gravity="end"
         android:textStyle="bold" />
 
 </LinearLayout>
