@@ -1,6 +1,7 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.support.Constant;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.res.Configuration;
@@ -26,16 +27,12 @@ public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	
 	// drawer
-	private View mLeftDrawerView;
 	private View mRightDrawerView;
+	private View mLeftDrawerView;
 	
 	// The drawer toggle
 	private ActionBarDrawerToggle mDrawerToggle;
 
-	// Test
-	private float lastTranslate = 0.0f;
-	
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -64,9 +61,6 @@ public class MainActivity extends FragmentActivity {
 
 	private void setupDrawer() {
 		
-		//test
-		final LinearLayout frame = (LinearLayout) findViewById(R.id.test);
-		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_main_layout);
 		
 		mLeftDrawerView = (View) findViewById(R.id.drawer_main_left);
@@ -77,6 +71,11 @@ public class MainActivity extends FragmentActivity {
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_menu, R.string.drawer_main_leftToggle_open,
 				R.string.drawer_main_leftToggle_close) {
+			
+			//It's for lastTranslate Saved Variation
+			private float lastTranslate = 0.0f;
+			LinearLayout mainContentLayout = (LinearLayout) findViewById(R.id.main_content_layout);
+			
 			@Override
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(getResources().getString(R.string.drawer_main_leftToggle_close));
@@ -90,22 +89,30 @@ public class MainActivity extends FragmentActivity {
 			@SuppressLint("NewApi")
             public void onDrawerSlide(View drawerView, float slideOffset) {
 				
+				//Its Drawer action Conflict Prevent Code
+				if (drawerView == mLeftDrawerView) {
+					mDrawerLayout.closeDrawer(mRightDrawerView);
+				} else {
+					mDrawerLayout.closeDrawer(mLeftDrawerView);
+				}
+				
 				if (drawerView.getId() == R.id.drawer_main_right) {
+					//if rightDrawer Action, Opposite Direction Set
 					slideOffset *= -1;
 				}
 				
-                float moveFactor = (mDrawerLayout.getWidth() * slideOffset);
+                float moveFactor = (mDrawerLayout.getWidth() * Constant.DRAWER_SLIDE_WIDTH_RATE* slideOffset);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
                 {
-                    frame.setTranslationX(moveFactor);
+                    mainContentLayout.setTranslationX(moveFactor);
                 }
                 else
                 {
                     TranslateAnimation anim = new TranslateAnimation(lastTranslate, moveFactor, 0.0f, 0.0f);
-                    anim.setDuration(0);
+                    anim.setDuration(Constant.DRAWER_SLIDE_DURATION);
                     anim.setFillAfter(true);
-                    frame.startAnimation(anim);
+                    mainContentLayout.startAnimation(anim);
 
                     lastTranslate = moveFactor;
                 }

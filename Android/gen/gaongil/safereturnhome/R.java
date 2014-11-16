@@ -1538,6 +1538,7 @@ containing a value of this type.
         public static final int listMode=0x7f090006;
         public static final int list_item=0x7f09003b;
         public static final int main_btn_test=0x7f090050;
+        public static final int main_content_layout=0x7f09004f;
         public static final int main_toggle_timeline=0x7f090060;
         public static final int match_parent=0x7f090024;
         public static final int middle=0x7f090018;
@@ -1571,7 +1572,6 @@ containing a value of this type.
         public static final int submit_area=0x7f09004b;
         public static final int tabMode=0x7f090008;
         public static final int terrain=0x7f09001c;
-        public static final int test=0x7f09004f;
         public static final int title=0x7f09003d;
         public static final int top_action_bar=0x7f090032;
         public static final int up=0x7f090033;
