@@ -36,5 +36,4 @@ public class Constant {
 	public static final String MESSAGE_PLAY_SERVICES_ERROR = "This device is not supported.";
 	public static final int  SPLASH_WAIT_TIME = 1000;
 	public static final float DRAWER_SLIDE_WIDTH_RATE = 0.7f;
-	public static final long DRAWER_SLIDE_DURATION = 200;
 }

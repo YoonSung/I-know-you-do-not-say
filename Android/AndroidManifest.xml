@@ -69,6 +69,7 @@
         </receiver>
 
         <service android:name=".gcm.GcmIntentService" />
+        <activity android:name="ChatActivity"></activity>
     </application>
 
 </manifest>

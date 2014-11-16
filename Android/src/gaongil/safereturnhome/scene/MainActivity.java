@@ -4,6 +4,7 @@ import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.support.Constant;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +17,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends FragmentActivity {
@@ -38,8 +42,20 @@ public class MainActivity extends FragmentActivity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
+	    test();
 	    setupDrawer();
 	    setupActionBar();
+	}
+
+	private void test() {
+		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test);
+		btnMoveChatRoom.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, ChatActivity.class));
+			}
+		});
 	}
 
 	private void setupActionBar() {
@@ -110,7 +126,6 @@ public class MainActivity extends FragmentActivity {
                 else
                 {
                     TranslateAnimation anim = new TranslateAnimation(lastTranslate, moveFactor, 0.0f, 0.0f);
-                    anim.setDuration(Constant.DRAWER_SLIDE_DURATION);
                     anim.setFillAfter(true);
                     mainContentLayout.startAnimation(anim);
 
@@ -145,9 +160,13 @@ public class MainActivity extends FragmentActivity {
 			
 		//Right Drawer Toggle Clicked
 		} else if (item.getItemId() == R.id.main_toggle_timeline) {
-			mDrawerLayout.openDrawer(mRightDrawerView);
-			return true;
+			if (mDrawerLayout.isDrawerOpen(mRightDrawerView)) {
+				mDrawerLayout.closeDrawer(mRightDrawerView);
+			} else {
+				mDrawerLayout.openDrawer(mRightDrawerView);
+			}
 			
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

@@ -11,20 +11,21 @@
         android:layout_height="match_parent"
         android:id="@+id/main_content_layout"
         android:background="@android:color/background_light"
+        android:padding="@dimen/pad_15dp"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Test"
+            android:text="MainActivity"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/main_btn_test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Open Drawer" />
+            android:text="Move to ChatRoom" />
     </LinearLayout>
 
 	<include
