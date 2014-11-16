@@ -6,22 +6,23 @@ public class User {
 	private boolean isMember;
 	private String nickname;
 	private String imagePath;
-	private String registrationId;
+	private String regId;
 	
-	public User(String phoneNumber, String nickname, String registrationId) {
+	public User(){}
+	
+	public User(String phoneNumber, String nickname, String regId) {
 		this.phoneNumber = phoneNumber;
 		this.nickname = nickname;
-		this.registrationId = registrationId;
+		this.regId = regId;
 	}
 	
-	public User(int pid, String phoneNumber, boolean isMember, String nickname, String imagePath, String registrationId) {
-		super();
+	public User(int pid, String phoneNumber, boolean isMember, String nickname, String imagePath, String regId) {
 		this.pid = pid;
 		this.phoneNumber = phoneNumber;
 		this.isMember = isMember;
 		this.nickname = nickname;
 		this.imagePath = imagePath;
-		this.registrationId = registrationId;
+		this.regId = regId;
 	}
 
 	public int getPid() {
@@ -54,11 +55,12 @@ public class User {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	public String getRegistrationId() {
-		return registrationId;
+	public String getRegId() {
+		return regId;
 	}
-	public void setRegistrationId(String registrationId) {
-		this.registrationId = registrationId;
+
+	public void setRegId(String regId) {
+		this.regId = regId;
 	}
 
 	@Override
@@ -70,7 +72,7 @@ public class User {
 		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
 		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		result = prime * result + pid;
-		result = prime * result + ((registrationId == null) ? 0 : registrationId.hashCode());
+		result = prime * result + ((regId == null) ? 0 : regId.hashCode());
 		return result;
 	}
 
@@ -102,10 +104,10 @@ public class User {
 			return false;
 		if (pid != other.pid)
 			return false;
-		if (registrationId == null) {
-			if (other.registrationId != null)
+		if (regId == null) {
+			if (other.regId != null)
 				return false;
-		} else if (!registrationId.equals(other.registrationId))
+		} else if (!regId.equals(other.regId))
 			return false;
 		return true;
 	}
@@ -113,6 +115,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [pid=" + pid + ", phoneNumber=" + phoneNumber + ", isMember=" + isMember + ", nickname=" + nickname + ", imagePath=" + imagePath
-				+ ", registrationId=" + registrationId + "]";
+				+ ", regId=" + regId + "]";
 	}
 }

@@ -17,7 +17,7 @@ public class ChatController {
 	@Autowired
     private GcmCcsSender mGcmCcsSender;
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	@RequestMapping(value="", method=RequestMethod.POST)
 	public @ResponseBody boolean chat(String regId, String message) {
 		
 		if (regId == null || message == null)

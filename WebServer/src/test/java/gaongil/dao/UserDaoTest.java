@@ -45,7 +45,7 @@ public class UserDaoTest {
 		userDao.deleteAll();
 		userDao.create(user1);
 		
-		User selectedUser = userDao.findByRegId(user1.getRegistrationId());
+		User selectedUser = userDao.findByRegId(user1.getRegId());
 		System.out.println("selectedUser : "+selectedUser.toString());
 		assertEquals(user1.getNickname(), selectedUser.getNickname());
 	}

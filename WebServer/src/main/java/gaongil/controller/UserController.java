@@ -22,11 +22,13 @@ public class UserController {
 	UserDao userDao;
 
 	// Validation Apply TODO
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public @ResponseBody boolean register(User user) {
-
-		if (user.getRegistrationId() == null)
-			return false;
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public @ResponseBody String register(String regId, User user) {
+		log.info("regId : {}", regId);
+		log.info("User : {}", user.toString());
+		
+		if (user.getRegId() == null)
+			return "fail";
 
 		// DELETE TODO
 		user.setPhoneNumber("010" + new Random().nextInt(8));
@@ -34,12 +36,11 @@ public class UserController {
 
 		try {
 			userDao.create(user);
-			return true;
+			return "success";
 
 		} catch (Exception e) {
 			log.error("Register Request User : {}, Error : {}", user.toString(), e.getMessage());
+			return "error";
 		}
-
-		return false;
 	}
 }

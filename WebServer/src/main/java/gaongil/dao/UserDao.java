@@ -44,7 +44,7 @@ public class UserDao extends JdbcDaoSupport {
 	
 	public void create(User user) {
 		String sql = "INSERT INTO tbl_user(phone_number, nickname, reg_id) VALUES(?, ?, ?)";
-		getJdbcTemplate().update(sql, user.getPhoneNumber(), user.getNickname(), user.getRegistrationId());
+		getJdbcTemplate().update(sql, user.getPhoneNumber(), user.getNickname(), user.getRegId());
 	}
 
 	public User findByRegId(String regId) {

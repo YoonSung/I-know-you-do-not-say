@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS tbl_user (
   nickname VARCHAR(80) NOT NULL,
   image_path VARCHAR(255) NULL,
   created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  reg_id VARCHAR(120) NOT NULL,
+  reg_id VARCHAR(250) NOT NULL,
   PRIMARY KEY (pid)
 );
 
