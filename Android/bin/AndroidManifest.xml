@@ -21,8 +21,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- permission to prevent other Android applications from registering and receiving the Android application's messages. The permission name must exactly match this pattern—otherwise the Android application will not receive the messages. -->
-    <permission android:name="gaongil.safereturnhome.permission.C2D_MESSAGE"
+    <permission
+        android:name="gaongil.safereturnhome.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="gaongil.safereturnhome.permission.C2D_MESSAGE" />
 
     <application
@@ -35,19 +37,19 @@
 
         <activity
             android:name=".scene.SplashScreen"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-            
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".scene.MainActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".scene.MainActivity"></activity>
-        
         <!--
 		The receiver should require the com.google.android.c2dm.SEND permission, 
 		so that only the GCM Framework can send a message to it. 
