@@ -25,7 +25,7 @@
         android:layout_weight="10" />
 
     <Button
-        android:id="@+id/chat_btn_Send"
+        android:id="@+id/chat_btn_send"
         style="@style/btn_transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
