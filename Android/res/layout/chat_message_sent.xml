@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" 
-    android:gravity="right">
+    android:layout_marginTop="@dimen/pad_30dp"
+    android:gravity="right"
+    android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/pad_15dp"
         android:layout_marginRight="@dimen/pad_20dp" >
@@ -15,25 +16,22 @@
             android:id="@+id/message_img_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/test_chat_user2"
             android:layout_alignParentRight="true"
-             />
+            android:src="@drawable/test_chat_user2" />
 
         <LinearLayout
             android:id="@+id/message_linearlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_blue_bubble"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingRight="@dimen/pad_chat_item"
-            android:paddingLeft="@dimen/pad_15dp" 
-            android:paddingTop="@dimen/pad_5dp"
-            android:paddingBottom="@dimen/pad_5dp"
             android:layout_alignBottom="@+id/message_img_profile"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/pad_chat_item"
-            >
+            android:background="@drawable/chat_blue_bubble"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/pad_5dp"
+            android:paddingRight="@dimen/pad_chat_item"
+            android:paddingTop="@dimen/pad_5dp" >
 
             <TextView
                 android:id="@+id/message_content"
@@ -49,13 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/message_linearlayout"
-            android:layout_toLeftOf="@+id/message_linearlayout"
             android:layout_marginBottom="@dimen/pad_2dp"
             android:layout_marginLeft="@dimen/pad_2dp"
+            android:layout_toLeftOf="@+id/message_linearlayout"
             android:paddingRight="@dimen/pad_2dp"
-            android:text="AM 12:30"
             android:textColor="@color/main_color_gray"
             android:textSize="@dimen/txt_14sp" />
-        
     </RelativeLayout>
+
 </LinearLayout>
