@@ -1,8 +1,17 @@
 package gaongil.safereturnhome.model;
 
-import gaongil.safereturnhome.exception.InvalidMessageTypeException;
+import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.exception.InvalidMessageException;
+import gaongil.safereturnhome.support.Constant;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class Message {
 	
@@ -12,6 +21,8 @@ public class Message {
 	private Date date;
 	private MessageType type;
 	private boolean isReceived;
+	
+	private SimpleDateFormat writtenTimeFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
 	
 	public Message(int groupId, int writerId, String content, Date date,
 			MessageType type, boolean isReceived) {
@@ -24,12 +35,29 @@ public class Message {
 	}
 	
 	//getImageResourceId
-	public int getBubbleResourceId() {
-		
+	public View getView(Context context) throws InvalidMessageException {
 		if (this.type == null)
-			throw new InvalidMessageTypeException();
+			throw new InvalidMessageException();
 		
-		return this.type.getResourceId(isReceived);
+		int layoutId = isReceived ? R.layout.chat_message_rcv : R.layout.chat_message_sent;
+        LayoutInflater li = (LayoutInflater)context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View view = li.inflate (layoutId, null);
+        
+        //TODO Get User Profile Image
+        
+        // message set
+        TextView content = (TextView) view.findViewById(R.id.message_content);
+        content.setText(this.content);
+        
+        // writtenTime set
+        TextView date = (TextView) view.findViewById(R.id.message_time);
+        date.setText(writtenTimeFormat.format(this.date));
+        
+        // bubbleImage set
+        LinearLayout profile = (LinearLayout) view.findViewById(R.id.message_linearlayout);
+        profile.setBackgroundResource(this.type.getResourceId(this.isReceived));
+        
+		return view;
 	}
 	
 	public int getGroupId() {
