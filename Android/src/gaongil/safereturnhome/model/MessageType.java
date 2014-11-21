@@ -1,20 +1,26 @@
 package gaongil.safereturnhome.model;
 
+import gaongil.safereturnhome.R;
+
 public enum MessageType {
 	
-	NORMAL(1),
-	ANNOUNCE(2),
-	WARN(3),
-	URGENT(4);
+	NORMAL(1, R.drawable.chat_blue_bubble, R.drawable.chat_gray_bubble),
+	ANNOUNCE(2, R.drawable.chat_blue_bubble, R.drawable.chat_gray_bubble),
+	WARN(3, R.drawable.chat_blue_bubble, R.drawable.chat_gray_bubble),
+	URGENT(4, R.drawable.chat_blue_bubble, R.drawable.chat_gray_bubble);
 	
 	private final int type;
+	private final int receiveResourceId;
+	private final int sendResource;
 	
-	public MessageType valueOf(int i) {
-		return this;
+	MessageType(int type, int sendResource, int receiveResource) {
+		this.type = type;
+		this.receiveResourceId = receiveResource;
+		this.sendResource = sendResource;
 	}
 	
-	MessageType(int type) {
-		this.type = type;
+	int getResourceId(boolean isReceiveMessage) {
+		return isReceiveMessage == true ? receiveResourceId : sendResource;
 	}
 	
 	public int intValue() {

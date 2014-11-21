@@ -1,5 +1,7 @@
 package gaongil.safereturnhome.model;
 
+import gaongil.safereturnhome.exception.InvalidMessageTypeException;
+
 import java.sql.Date;
 
 public class Message {
@@ -9,35 +11,44 @@ public class Message {
 	private String content;
 	private Date date;
 	private MessageType type;
+	private boolean isReceived;
+	
+	public Message(int groupId, int writerId, String content, Date date,
+			MessageType type, boolean isReceived) {
+		this.groupId = groupId;
+		this.writerId = writerId;
+		this.content = content;
+		this.date = date;
+		this.type = type;
+		this.isReceived = isReceived;
+	}
+	
+	//getImageResourceId
+	public int getBubbleResourceId() {
+		
+		if (this.type == null)
+			throw new InvalidMessageTypeException();
+		
+		return this.type.getResourceId(isReceived);
+	}
 	
 	public int getGroupId() {
 		return groupId;
 	}
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
-	}
+	
 	public int getWriterId() {
 		return writerId;
 	}
-	public void setWriterId(int writerId) {
-		this.writerId = writerId;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+	
 	public Date getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	
+	public String getContent() {
+		return content;
 	}
-	public MessageType getType() {
-		return type;
-	}
-	public void setType(MessageType type) {
-		this.type = type;
+	
+	public boolean isReceived() {
+		return isReceived;
 	}
 }
