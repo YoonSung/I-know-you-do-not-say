@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
@@ -84,7 +85,7 @@ public class MainActivity extends FragmentActivity {
 			return;
 		
 		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		//mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setLogo(R.drawable.ic_menu);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
@@ -103,6 +104,7 @@ public class MainActivity extends FragmentActivity {
 		
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
+		
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_menu, R.string.drawer_main_leftToggle_open,
 				R.string.drawer_main_leftToggle_close) {
