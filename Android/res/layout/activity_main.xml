@@ -5,33 +5,44 @@
     android:layout_height="match_parent"
     tools:context="gaongil.safereturnhome.scene.MainActivity" >
 
-    <LinearLayout
-        android:id="@+id/main_content_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/chat_cozy"
-        android:orientation="vertical"
-        android:padding="@dimen/pad_15dp" >
+        android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/main_btn_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Go to Chat Room"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/main_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/chat_cozy"
+            android:orientation="vertical"
+            android:padding="@dimen/pad_15dp" >
 
-        <include layout="@layout/main_group" />
+            <Button
+                android:id="@+id/main_btn_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go to Chat Room"
+                android:textStyle="bold" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="center"
-            android:text="+"
-            android:textColor="@color/main_color_lightgray"
-            android:textSize="40sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <include layout="@layout/main_group" />
+
+            <include layout="@layout/main_group" />
+
+            <include layout="@layout/main_group" />
+
+            <Button
+                android:id="@+id/main_btn_addgroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center"
+                android:padding="@dimen/pad_15dp"
+                android:text="+"
+                android:textColor="@color/main_color_lightgray"
+                android:textSize="60sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/drawer_main_left"
