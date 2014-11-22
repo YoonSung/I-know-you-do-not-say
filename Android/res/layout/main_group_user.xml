@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/stroke_rect_maingray"
     android:orientation="vertical"
-    android:paddingTop="@dimen/pad_zero_point_1"
     android:paddingBottom="@dimen/pad_zero_point_1"
-    android:background="@drawable/stroke_rect_maingray">
+    android:paddingTop="@dimen/pad_zero_point_1" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@color/main_color_lightblue"
-        >
+        android:orientation="horizontal" >
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.5"
+            tools:ignore="UselessLeaf" />
 
         <ImageView
             android:id="@+id/group_user_profile"
@@ -32,21 +33,20 @@
             android:layout_height="match_parent"
             android:layout_weight="10"
             android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/pad_2dp"
             android:paddingLeft="@dimen/pad_10dp"
             android:paddingRight="@dimen/pad_10dp"
-            android:paddingBottom="@dimen/pad_2dp"
-            android:paddingTop="@dimen/pad_5dp"
-            android:orientation="vertical">
+            android:paddingTop="@dimen/pad_5dp" >
 
             <TextView
                 android:id="@+id/group_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/main_text_color"
                 android:text="남자친구님"
+                android:textColor="@color/main_text_color"
                 android:textSize="@dimen/txt_18sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/group_user_checkedtime"
@@ -54,10 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/pad_2dp"
                 android:text="확인 12분 이전"
+                android:textColor="@color/main_color_gray"
                 android:textSize="@dimen/txt_7sp"
-                android:textStyle="bold"
-                android:textColor="@color/main_color_gray"/>
-
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,13 +74,13 @@
             <TextView
                 android:id="@+id/group_user_status"
                 android:layout_width="0dp"
-                android:text="Safe"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:layout_height="match_parent"
-                android:layout_weight="5"/>
-            
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text="Safe"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

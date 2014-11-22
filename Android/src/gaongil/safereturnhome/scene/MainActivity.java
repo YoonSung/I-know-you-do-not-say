@@ -1,10 +1,11 @@
 package gaongil.safereturnhome.scene;
 
-import java.util.ArrayList;
-
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.support.Constant;
+
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -16,21 +17,17 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends FragmentActivity {
 	
-	private final String TAG = MainActivity.class.getSimpleName();
-
 	/// The drawer layout
 	private DrawerLayout mDrawerLayout;
 	

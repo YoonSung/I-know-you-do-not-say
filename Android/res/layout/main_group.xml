@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="@dimen/pad_30dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/pad_30dp" >
 
     <LinearLayout
         android:id="@+id/group_linear_name"
@@ -19,11 +20,11 @@
             android:id="@+id/group_txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="그룹1"
             android:textColor="@color/black"
             android:textSize="@dimen/txt_16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="InefficientWeight" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,7 +39,9 @@
         android:paddingTop="@dimen/pad_30dp" >
 
         <include layout="@layout/main_group_user" />
+
         <include layout="@layout/main_group_user" />
+
         <include layout="@layout/main_group_user" />
     </LinearLayout>
 
