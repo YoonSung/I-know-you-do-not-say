@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/message_linearlayout"
             android:layout_marginBottom="@dimen/pad_2dp"
-            android:layout_marginLeft="@dimen/pad_2dp"
+            android:layout_marginLeft="@dimen/pad_30dp"
             android:layout_toLeftOf="@+id/message_linearlayout"
             android:paddingRight="@dimen/pad_2dp"
             android:textColor="@color/main_color_gray"

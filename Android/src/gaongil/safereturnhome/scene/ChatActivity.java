@@ -140,34 +140,29 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 	/************************************************************************
 	 * Custom ChatAdapter
 	 */
-	private class ChatAdapter extends BaseAdapter
-	{
+	private class ChatAdapter extends BaseAdapter {
 
 		@Override
-		public int getCount()
-		{
+		public int getCount() {
 			return mMessageList.size();
 		}
 
 		@Override
-		public Message getItem(int index)
-		{
+		public Message getItem(int index) {
 			return mMessageList.get(index);
 		}
 
 		@Override
-		public long getItemId(int index)
-		{
+		public long getItemId(int index) {
 			return index;
 		}
 
 		@Override
-		public View getView(int position, View view, ViewGroup viewGroup)
-		{
+		public View getView(int position, View view, ViewGroup viewGroup) {
 			Message message = getItem(position);
 			
-			//TODO Type check and mapping proper XML Layout
-			//TODO Input data to layout component
+			// Type check and mapping proper XML Layout
+			// Input data to layout component
 			try {
 				return message.getView(ChatActivity.this);
 				

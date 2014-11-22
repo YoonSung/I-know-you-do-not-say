@@ -1,11 +1,15 @@
 package gaongil.safereturnhome.scene;
 
+import java.util.ArrayList;
+
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.support.Constant;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -45,6 +49,25 @@ public class MainActivity extends FragmentActivity {
 	    test();
 	    setupDrawer();
 	    setupActionBar();
+	    
+	    //TODO
+	    //setupUserInformation();
+	    //setupSensorInfo();
+	    
+	    setupGroupInfo();
+	}
+
+	private void setupGroupInfo() {
+		
+		//TODO GetData From DB.
+		//TODO DELETE Initialize Declation. Test GroupData
+		ArrayList<Group> groupList = new ArrayList<Group>();
+		
+		//If Group is Null, Create View for adding new group 
+		if (groupList.size() == 0) {
+			
+		}
+		
 	}
 
 	private void test() {
@@ -67,8 +90,7 @@ public class MainActivity extends FragmentActivity {
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setLogo(R.drawable.ic_menu);
-		mActionBar.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.actionbar_bg));
+		mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
 		
 		//Its default system menu graphical icon
 		//mActionBar.setDisplayHomeAsUpEnabled(true);

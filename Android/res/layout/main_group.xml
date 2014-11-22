@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/group_linear_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/shape_round_linearlayout"
+        android:paddingBottom="@dimen/pad_20dp"
+        android:paddingLeft="@dimen/pad_10dp"
+        android:paddingRight="@dimen/pad_10dp"
+        android:paddingTop="@dimen/pad_10dp" >
+
+        <TextView
+            android:id="@+id/group_txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="그룹1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/group_linearlayout_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_linear_name"
+        android:layout_marginTop="@dimen/pad_minus_20dp"
+        android:background="@drawable/shape_round_linearlayout"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/pad_20dp"
+        android:paddingTop="@dimen/pad_30dp" >
+
+        <include layout="@layout/main_group_user" />
+        <include layout="@layout/main_group_user" />
+        <include layout="@layout/main_group_user" />
+    </LinearLayout>
+
+</RelativeLayout>

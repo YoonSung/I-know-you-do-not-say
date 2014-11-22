@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
+    android:layout_marginTop="@dimen/pad_30dp"
     android:gravity="left">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/pad_15dp"
-        android:layout_marginRight="@dimen/pad_15dp" >
+        android:layout_marginRight="@dimen/pad_15dp">
 
         <ImageView
             android:id="@+id/message_img_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/test_chat_user1"
-             />
+            android:src="@drawable/test_chat_user1" />
 
         <LinearLayout
             android:id="@+id/message_linearlayout"
@@ -36,7 +36,6 @@
                 android:id="@+id/message_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 android:textColor="@color/main_color_gray"
                 android:textSize="@dimen/txt_13sp" />
         </LinearLayout>
@@ -48,9 +47,8 @@
             android:layout_alignBottom="@+id/message_linearlayout"
             android:layout_toRightOf="@+id/message_linearlayout"
             android:layout_marginBottom="@dimen/pad_2dp"
-            android:layout_marginRight="@dimen/pad_2dp"
+            android:layout_marginRight="@dimen/pad_30dp"
             android:paddingLeft="@dimen/pad_2dp"
-            android:text="textvdv"
             android:textColor="@color/main_color_gray"
             android:textSize="@dimen/txt_14sp"
             />
