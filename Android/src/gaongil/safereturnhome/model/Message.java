@@ -3,13 +3,22 @@ package gaongil.safereturnhome.model;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.exception.InvalidMessageException;
 import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.RoundedAvatarDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,6 +53,13 @@ public class Message {
         View view = li.inflate (layoutId, null);
         
         //TODO Get User Profile Image
+        // TestCode Start
+        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
+        RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
+        ImageView profile = (ImageView) view.findViewById(R.id.message_img_profile);  
+        profile.setImageDrawable(new RoundedAvatarDrawable(rondedAvatarImg.getBitmap()));
+
+        // TestCode End
         
         // message set
         TextView content = (TextView) view.findViewById(R.id.message_content);
@@ -54,8 +70,8 @@ public class Message {
         date.setText(writtenTimeFormat.format(this.date));
         
         // bubbleImage set
-        LinearLayout profile = (LinearLayout) view.findViewById(R.id.message_linearlayout);
-        profile.setBackgroundResource(this.type.getResourceId(this.isReceived));
+        LinearLayout messageBubble = (LinearLayout) view.findViewById(R.id.message_linearlayout);
+        messageBubble.setBackgroundResource(this.type.getResourceId(this.isReceived));
         
 		return view;
 	}
