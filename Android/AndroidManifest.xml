@@ -26,7 +26,8 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="gaongil.safereturnhome.permission.C2D_MESSAGE" />
-
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -49,11 +50,15 @@
         <activity
             android:name=".scene.MainActivity"
             android:screenOrientation="portrait" />
+        
         <activity
             android:name=".scene.ChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
+        
+        <activity android:name=".scene.ContactsActivity"></activity>
+        <activity android:name=".scene.GroupActivity"></activity>
+        
         <!--
 		The receiver should require the com.google.android.c2dm.SEND permission, 
 		so that only the GCM Framework can send a message to it. 

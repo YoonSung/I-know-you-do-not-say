@@ -13,7 +13,6 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
@@ -45,6 +44,7 @@ public class MainActivity extends FragmentActivity {
 	    setContentView(R.layout.activity_main);
 	    
 	    test();
+	    init();
 	    setupDrawer();
 	    setupActionBar();
 	    
@@ -53,6 +53,18 @@ public class MainActivity extends FragmentActivity {
 	    //setupSensorInfo();
 	    
 	    setupGroupInfo();
+	}
+
+	private void init() {
+		Button btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
+		btnAddGroup.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
+				startActivity(new Intent(MainActivity.this, ContactsActivity.class));
+			}
+		});
 	}
 
 	private void setupGroupInfo() {
