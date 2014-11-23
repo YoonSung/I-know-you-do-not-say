@@ -3,9 +3,8 @@
 
     <string name="app_name">Safe Return Home</string>
 	<string name="service_name">안심귀가</string>
-	<string name="drawer_main_leftToggle_open">Toggle On</string>
-	<string name="drawer_main_leftToggle_close">Toggle Off</string>
 	<string name="toggle_main_action_right">menu</string>
+	<string name="toggle_contact_action_right">apply</string>
 	<string name="plus">+</string>
 	<string name="chat_submit">전송</string>
 </resources>

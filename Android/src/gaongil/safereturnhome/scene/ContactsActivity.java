@@ -9,15 +9,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -32,17 +36,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 
 public class ContactsActivity extends Activity {
-	Context mContext = null;
-	ContactsAdapter mContactsAdapter;
-	ListView mListView = null;
-	EditText mEdtSearch = null;
-	LinearLayout mLinearLayout = null;
-	Button mBtnOK = null;
-	RelativeLayout mRelativeLayout = null;
-
-	final ArrayList<ContactInfo> mPhoneList = new ArrayList<ContactInfo>();
 	
 	private final String TAG = ContactsActivity.class.getSimpleName();
+	private final ArrayList<ContactInfo> mPhoneList = new ArrayList<ContactInfo>();
+	
+	private Context mContext;
+	private ContactsAdapter mContactsAdapter;
+	private ListView mListView;
+	private EditText mEdtSearch;
+	private LinearLayout mLinearLayout;
+	private Button mBtnOK;
+	private RelativeLayout mRelativeLayout;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +54,51 @@ public class ContactsActivity extends Activity {
 		setContentView(R.layout.activity_contacts);
 
 		init();
+		setupActionBar();
 		setListener();
 	}
 
+	/************************************************************************
+	 * Actionbar Code
+	 */
+	private void setupActionBar() {
+		ActionBar actionBar = getActionBar();
+		if (actionBar == null)
+			return;
+		
+		actionBar.setLogo(R.drawable.ic_cancle);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
+		actionBar.setHomeButtonEnabled(true);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.contact, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            // app icon in action bar clicked; goto parent activity.
+	            this.finish();
+	            return true;
+	        case R.id.contact_toggle_apply:
+	        	// TODO Save Database and reaction to user
+	        	Toast.makeText(this, "apply!", Toast.LENGTH_SHORT).show();
+	        	return true;
+	    }
+	    
+	    return super.onOptionsItemSelected(item);
+	}
+
+	/*
+	 * Actionbar Code
+	 ************************************************************************/
+	
 	private void setListener() {
 		mBtnOK.setOnClickListener(new OnClickListener() {
 			@Override

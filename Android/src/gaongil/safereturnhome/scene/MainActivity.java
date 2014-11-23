@@ -96,8 +96,8 @@ public class MainActivity extends FragmentActivity {
 		if (mActionBar == null)
 			return;
 		
-		mActionBar.setDisplayShowTitleEnabled(true);
 		//mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setLogo(R.drawable.ic_menu);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
@@ -118,8 +118,7 @@ public class MainActivity extends FragmentActivity {
 				GravityCompat.START);
 		
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_menu, R.string.drawer_main_leftToggle_open,
-				R.string.drawer_main_leftToggle_close) {
+				R.drawable.ic_menu, 0, 0) {
 			
 			//It's for lastTranslate Saved Variation
 			private float lastTranslate = 0.0f;
@@ -127,12 +126,10 @@ public class MainActivity extends FragmentActivity {
 			
 			@Override
 			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(getResources().getString(R.string.drawer_main_leftToggle_close));
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(getResources().getString(R.string.drawer_main_leftToggle_open));
 			}
 			
 			@SuppressLint("NewApi")

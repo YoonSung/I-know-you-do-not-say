@@ -2041,25 +2041,27 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f02004d;
         public static final int common_signin_btn_text_pressed_light=0x7f02004e;
         public static final int drawer_shadow=0x7f02004f;
-        public static final int ic_launcher=0x7f020050;
-        public static final int ic_menu=0x7f020051;
-        public static final int ic_plusone_medium_off_client=0x7f020052;
-        public static final int ic_plusone_small_off_client=0x7f020053;
-        public static final int ic_plusone_standard_off_client=0x7f020054;
-        public static final int ic_plusone_tall_off_client=0x7f020055;
-        public static final int ic_timeline=0x7f020056;
-        public static final int ic_with_off=0x7f020057;
-        public static final int icon_with_on=0x7f020058;
-        public static final int powered_by_google_dark=0x7f020059;
-        public static final int powered_by_google_light=0x7f02005a;
-        public static final int shape_checkbox_with=0x7f02005b;
-        public static final int shape_round_edt=0x7f02005c;
-        public static final int shape_round_linearlayout=0x7f02005d;
-        public static final int splash=0x7f02005e;
-        public static final int stroke_rect_maingray=0x7f02005f;
-        public static final int test_chat_user1=0x7f020060;
-        public static final int test_chat_user2=0x7f020061;
-        public static final int test_profile=0x7f020062;
+        public static final int ic_apply=0x7f020050;
+        public static final int ic_cancle=0x7f020051;
+        public static final int ic_launcher=0x7f020052;
+        public static final int ic_menu=0x7f020053;
+        public static final int ic_plusone_medium_off_client=0x7f020054;
+        public static final int ic_plusone_small_off_client=0x7f020055;
+        public static final int ic_plusone_standard_off_client=0x7f020056;
+        public static final int ic_plusone_tall_off_client=0x7f020057;
+        public static final int ic_timeline=0x7f020058;
+        public static final int ic_with_off=0x7f020059;
+        public static final int icon_with_on=0x7f02005a;
+        public static final int powered_by_google_dark=0x7f02005b;
+        public static final int powered_by_google_light=0x7f02005c;
+        public static final int shape_checkbox_with=0x7f02005d;
+        public static final int shape_round_edt=0x7f02005e;
+        public static final int shape_round_linearlayout=0x7f02005f;
+        public static final int splash=0x7f020060;
+        public static final int stroke_rect_maingray=0x7f020061;
+        public static final int test_chat_user1=0x7f020062;
+        public static final int test_chat_user2=0x7f020063;
+        public static final int test_profile=0x7f020064;
     }
     public static final class id {
         public static final int action_bar=0x7f090042;
@@ -2093,6 +2095,7 @@ containing a value of this type.
         public static final int contact_checkbox=0x7f090062;
         public static final int contact_edt_search=0x7f090051;
         public static final int contact_progressbar_relativelayout=0x7f090054;
+        public static final int contact_toggle_apply=0x7f09006e;
         public static final int contact_txt_name=0x7f090064;
         public static final int contact_txt_phonenum=0x7f090065;
         public static final int contactimage=0x7f090063;
@@ -2131,7 +2134,7 @@ containing a value of this type.
         public static final int main_btn_addgroup=0x7f090058;
         public static final int main_btn_test=0x7f090057;
         public static final int main_content_layout=0x7f090056;
-        public static final int main_toggle_timeline=0x7f09006e;
+        public static final int main_toggle_timeline=0x7f09006f;
         public static final int match_parent=0x7f090028;
         public static final int message_content=0x7f09005d;
         public static final int message_img_profile=0x7f09005b;
@@ -2239,7 +2242,8 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f030023;
     }
     public static final class menu {
-        public static final int main=0x7f0c0000;
+        public static final int contact=0x7f0c0000;
+        public static final int main=0x7f0c0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -2300,7 +2304,7 @@ containing a value of this type.
         public static final int abc_toolbar_collapse_description=0x7f0a0004;
         public static final int accept=0x7f0a0012;
         public static final int app_name=0x7f0a0033;
-        public static final int chat_submit=0x7f0a0039;
+        public static final int chat_submit=0x7f0a0038;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f0a0019;
@@ -2403,13 +2407,12 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f0a0015;
         public static final int create_calendar_title=0x7f0a0014;
         public static final int decline=0x7f0a0013;
-        public static final int drawer_main_leftToggle_close=0x7f0a0036;
-        public static final int drawer_main_leftToggle_open=0x7f0a0035;
-        public static final int plus=0x7f0a0038;
+        public static final int plus=0x7f0a0037;
         public static final int service_name=0x7f0a0034;
         public static final int store_picture_message=0x7f0a0011;
         public static final int store_picture_title=0x7f0a0010;
-        public static final int toggle_main_action_right=0x7f0a0037;
+        public static final int toggle_contact_action_right=0x7f0a0036;
+        public static final int toggle_main_action_right=0x7f0a0035;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
