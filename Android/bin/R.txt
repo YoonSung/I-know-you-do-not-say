@@ -502,13 +502,13 @@ int id classic 0x7f09002c
 int id collapseActionView 0x7f090015
 int id contact_btn_ok 0x7f090053
 int id contact_checkbox 0x7f090062
+int id contact_data_container 0x7f090052
 int id contact_edt_search 0x7f090051
 int id contact_progressbar_relativelayout 0x7f090054
 int id contact_toggle_apply 0x7f09006e
 int id contact_txt_name 0x7f090064
 int id contact_txt_phonenum 0x7f090065
 int id contactimage 0x7f090063
-int id data_container 0x7f090052
 int id decor_content_parent 0x7f090040
 int id default_activity_button 0x7f090035
 int id dialog 0x7f090019
@@ -672,6 +672,7 @@ int string common_google_play_services_update_title 0x7f0a0023
 int string common_open_on_phone 0x7f0a0031
 int string common_signin_button_text 0x7f0a002f
 int string common_signin_button_text_long 0x7f0a0030
+int string contact_edt_searchhint 0x7f0a0039
 int string create_calendar_message 0x7f0a0015
 int string create_calendar_title 0x7f0a0014
 int string decline 0x7f0a0013

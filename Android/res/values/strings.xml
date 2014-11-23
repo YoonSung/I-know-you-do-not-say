@@ -7,4 +7,5 @@
 	<string name="toggle_contact_action_right">apply</string>
 	<string name="plus">+</string>
 	<string name="chat_submit">전송</string>
+	<string name="contact_edt_searchhint">검색</string>
 </resources>

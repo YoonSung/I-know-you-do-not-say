@@ -8,26 +8,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:hint="Search Contacts"
+        android:hint="@string/contact_edt_searchhint"
         android:textSize="@dimen/txt_18sp" />
  
     <LinearLayout
-        android:id="@+id/data_container"
+        android:id="@+id/contact_data_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/contact_btn_ok"
         android:layout_below="@+id/contact_edt_search"
+        android:background="@color/white"
         android:gravity="center|top"
         android:orientation="vertical" />
- 
-    <Button
-        android:id="@+id/contact_btn_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:text=" OK "
-        android:textSize="@dimen/txt_18sp" />
  
     <RelativeLayout
         android:id="@+id/contact_progressbar_relativelayout"

@@ -2093,13 +2093,13 @@ containing a value of this type.
         public static final int collapseActionView=0x7f090015;
         public static final int contact_btn_ok=0x7f090053;
         public static final int contact_checkbox=0x7f090062;
+        public static final int contact_data_container=0x7f090052;
         public static final int contact_edt_search=0x7f090051;
         public static final int contact_progressbar_relativelayout=0x7f090054;
         public static final int contact_toggle_apply=0x7f09006e;
         public static final int contact_txt_name=0x7f090064;
         public static final int contact_txt_phonenum=0x7f090065;
         public static final int contactimage=0x7f090063;
-        public static final int data_container=0x7f090052;
         public static final int decor_content_parent=0x7f090040;
         public static final int default_activity_button=0x7f090035;
         public static final int dialog=0x7f090019;
@@ -2404,6 +2404,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f0a0030;
+        public static final int contact_edt_searchhint=0x7f0a0039;
         public static final int create_calendar_message=0x7f0a0015;
         public static final int create_calendar_title=0x7f0a0014;
         public static final int decline=0x7f0a0013;

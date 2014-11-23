@@ -45,7 +45,6 @@ public class ContactsActivity extends Activity {
 	private ListView mListView;
 	private EditText mEdtSearch;
 	private LinearLayout mLinearLayout;
-	private Button mBtnOK;
 	private RelativeLayout mRelativeLayout;
 	
 	@Override
@@ -88,6 +87,7 @@ public class ContactsActivity extends Activity {
 	            return true;
 	        case R.id.contact_toggle_apply:
 	        	// TODO Save Database and reaction to user
+	        	// getSelectedContacts();
 	        	Toast.makeText(this, "apply!", Toast.LENGTH_SHORT).show();
 	        	return true;
 	    }
@@ -100,12 +100,6 @@ public class ContactsActivity extends Activity {
 	 ************************************************************************/
 	
 	private void setListener() {
-		mBtnOK.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				getSelectedContacts();
-			}
-		});
 
 		mEdtSearch.addTextChangedListener(new TextWatcher() {
 
@@ -129,8 +123,7 @@ public class ContactsActivity extends Activity {
 		mContext = this;
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.contact_progressbar_relativelayout);
 		mEdtSearch = (EditText) findViewById(R.id.contact_edt_search);
-		mLinearLayout = (LinearLayout) findViewById(R.id.data_container);
-		mBtnOK = (Button) findViewById(R.id.contact_btn_ok);
+		mLinearLayout = (LinearLayout) findViewById(R.id.contact_data_container);
 		
 		addContactsInList();
 	}
@@ -264,7 +257,6 @@ public class ContactsActivity extends Activity {
 			public void run() {
 				mRelativeLayout.setVisibility(View.VISIBLE);
 				mEdtSearch.setVisibility(View.GONE);
-				mBtnOK.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -275,7 +267,6 @@ public class ContactsActivity extends Activity {
 			public void run() {
 				mRelativeLayout.setVisibility(View.GONE);
 				mEdtSearch.setVisibility(View.VISIBLE);
-				mBtnOK.setVisibility(View.VISIBLE);
 			}
 		});
 	}
