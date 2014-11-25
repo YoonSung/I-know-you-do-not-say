@@ -1,21 +1,14 @@
 package gaongil.safereturnhome.model;
 
-public class UserStatus {
-	
-	private String name;
-	private String iconPath;
-	
-	public UserStatus(String name, String iconPath) {
-		super();
-		this.name = name;
-		this.iconPath = iconPath;
-	}
+import java.util.ArrayList;
 
-	public String getName() {
-		return name;
-	}
+public enum UserStatus {
 
-	public String getIconPath() {
-		return iconPath;
+	
+	
+	
+	public static ArrayList<UserStatus> getList() {
+		return null;
 	}
+	
 }

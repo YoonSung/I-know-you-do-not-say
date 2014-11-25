@@ -2,7 +2,9 @@ package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.Group;
+import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.StatusSpinnerAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import com.soundcloud.android.crop.Crop;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -31,16 +34,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class MainActivity extends FragmentActivity implements OnClickListener{
 	
 	/// The drawer layout
 	private DrawerLayout mDrawerLayout;
 	
 	// Left drawer
 	private View mLeftDrawerView;
-	private Spinner mStatusSpinner;
+	private Spinner mLeftDrawerStatusSpinner;
+	private TimePickerDialog.OnTimeSetListener mLeftDrawerStatusSpinnerListener;
 	
 	// Right drawer
 	private View mRightDrawerView;
@@ -71,6 +76,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
 		btnAddGroup.setOnClickListener(this);
 		
+		mLeftDrawerStatusSpinner = (Spinner) findViewById(R.id.drawer_main_left_user_spinner_status);
+		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
+		//mLeftDrawerStatusSpinner.setAdapter();
+		mLeftDrawerStatusSpinnerListener =  new TimePickerDialog.OnTimeSetListener() {
+	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+	        	//TODO
+	            Toast.makeText(MainActivity.this, "Time is=" + hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
+	        }
+	    };
+		
 		//TODO DELETE
 		//Test Start
 		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test1);
@@ -90,9 +105,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
 				startActivity(new Intent(MainActivity.this, ContactsActivity.class));
 				break;
+				
+			case R.id.drawer_main_left_user_spinner_status:
+				TimePickerDialog alert = new TimePickerDialog(this, mLeftDrawerStatusSpinnerListener, 0, 0, false);
+			    alert.show();
+			    break;
+			    
 			case R.id.main_btn_test1:
 				startActivity(new Intent(MainActivity.this, ChatActivity.class));
 				break;
+				
 			case R.id.main_btn_test2:
 				//Test Start YOONSUNG 2014. 11. 24
 				//TODO DELTE
@@ -101,7 +123,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				Crop.pickImage(MainActivity.this);
 				//Test End YOONSUNG 2014. 11. 24
 				break;
-		}
+				
+		} //switch end
 	}
 	
 	//Test Start YOONSUNG 2014. 11. 24

@@ -539,7 +539,7 @@ int id contact_checkbox 0x7f090065
 int id contact_data_container 0x7f090053
 int id contact_edt_search 0x7f090052
 int id contact_progressbar_relativelayout 0x7f090055
-int id contact_toggle_apply 0x7f09007b
+int id contact_toggle_apply 0x7f09007d
 int id contact_txt_name 0x7f090067
 int id contact_txt_phonenum 0x7f090068
 int id contactimage 0x7f090066
@@ -554,6 +554,7 @@ int id drawer_main_left 0x7f09005c
 int id drawer_main_left_user_btn_alarm 0x7f090071
 int id drawer_main_left_user_img_profile 0x7f09006e
 int id drawer_main_left_user_img_safetyzone 0x7f090072
+int id drawer_main_left_user_spinner_status 0x7f090070
 int id drawer_main_left_user_txt_join 0x7f09006f
 int id drawer_main_left_user_txt_title 0x7f09006d
 int id drawer_main_right 0x7f09005d
@@ -586,7 +587,7 @@ int id main_btn_test1 0x7f090058
 int id main_btn_test2 0x7f09005a
 int id main_content_layout 0x7f090057
 int id main_img_test 0x7f090059
-int id main_toggle_timeline 0x7f09007c
+int id main_toggle_timeline 0x7f09007e
 int id match_parent 0x7f090028
 int id message_content 0x7f090060
 int id message_img_profile 0x7f09005e
@@ -618,8 +619,9 @@ int id shortcut 0x7f09003c
 int id showCustom 0x7f090010
 int id showHome 0x7f090011
 int id showTitle 0x7f090012
-int id spinner1 0x7f090070
 int id split_action_bar 0x7f090004
+int id status_list_row_img 0x7f09007b
+int id status_list_row_txt 0x7f09007c
 int id strict_sandbox 0x7f090025
 int id submit_area 0x7f09004e
 int id tabMode 0x7f09000c
@@ -669,7 +671,8 @@ int layout drawer_main_left_user 0x7f030022
 int layout drawer_main_right 0x7f030023
 int layout main_group 0x7f030024
 int layout main_group_user 0x7f030025
-int layout support_simple_spinner_dropdown_item 0x7f030026
+int layout status_list_row 0x7f030026
+int layout support_simple_spinner_dropdown_item 0x7f030027
 int menu contact 0x7f0c0000
 int menu main 0x7f0c0001
 int string abc_action_bar_home_description 0x7f0a0001

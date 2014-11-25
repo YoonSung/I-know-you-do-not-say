@@ -2156,7 +2156,7 @@ containing a value of this type.
         public static final int contact_data_container=0x7f090053;
         public static final int contact_edt_search=0x7f090052;
         public static final int contact_progressbar_relativelayout=0x7f090055;
-        public static final int contact_toggle_apply=0x7f09007b;
+        public static final int contact_toggle_apply=0x7f09007d;
         public static final int contact_txt_name=0x7f090067;
         public static final int contact_txt_phonenum=0x7f090068;
         public static final int contactimage=0x7f090066;
@@ -2171,6 +2171,7 @@ containing a value of this type.
         public static final int drawer_main_left_user_btn_alarm=0x7f090071;
         public static final int drawer_main_left_user_img_profile=0x7f09006e;
         public static final int drawer_main_left_user_img_safetyzone=0x7f090072;
+        public static final int drawer_main_left_user_spinner_status=0x7f090070;
         public static final int drawer_main_left_user_txt_join=0x7f09006f;
         public static final int drawer_main_left_user_txt_title=0x7f09006d;
         public static final int drawer_main_right=0x7f09005d;
@@ -2203,7 +2204,7 @@ containing a value of this type.
         public static final int main_btn_test2=0x7f09005a;
         public static final int main_content_layout=0x7f090057;
         public static final int main_img_test=0x7f090059;
-        public static final int main_toggle_timeline=0x7f09007c;
+        public static final int main_toggle_timeline=0x7f09007e;
         public static final int match_parent=0x7f090028;
         public static final int message_content=0x7f090060;
         public static final int message_img_profile=0x7f09005e;
@@ -2235,8 +2236,9 @@ containing a value of this type.
         public static final int showCustom=0x7f090010;
         public static final int showHome=0x7f090011;
         public static final int showTitle=0x7f090012;
-        public static final int spinner1=0x7f090070;
         public static final int split_action_bar=0x7f090004;
+        public static final int status_list_row_img=0x7f09007b;
+        public static final int status_list_row_txt=0x7f09007c;
         public static final int strict_sandbox=0x7f090025;
         public static final int submit_area=0x7f09004e;
         public static final int tabMode=0x7f09000c;
@@ -2312,7 +2314,8 @@ containing a value of this type.
         public static final int drawer_main_right=0x7f030023;
         public static final int main_group=0x7f030024;
         public static final int main_group_user=0x7f030025;
-        public static final int support_simple_spinner_dropdown_item=0x7f030026;
+        public static final int status_list_row=0x7f030026;
+        public static final int support_simple_spinner_dropdown_item=0x7f030027;
     }
     public static final class menu {
         public static final int contact=0x7f0c0000;
