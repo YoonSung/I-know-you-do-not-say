@@ -4,13 +4,17 @@ import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.support.Constant;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import com.soundcloud.android.crop.Crop;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -24,7 +28,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 	
@@ -57,8 +63,25 @@ public class MainActivity extends FragmentActivity {
 
 	private void init() {
 		Button btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
-		btnAddGroup.setOnClickListener(new OnClickListener() {
+		
+		//Test Start
+		resultView = (ImageView) findViewById(R.id.main_img_test);
+		btnTest2 = (Button) findViewById(R.id.main_btn_test2);
+		//Test end
+		btnTest2.setOnClickListener(new OnClickListener() {
 			
+			@Override
+			public void onClick(View v) {
+				//Test Start YOONSUNG 2014. 11. 24
+				//TODO DELTE
+				//
+				resultView.setImageDrawable(null);
+				Crop.pickImage(MainActivity.this);
+				//Test End YOONSUNG 2014. 11. 24
+			}
+		});
+		
+		btnAddGroup.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
@@ -67,6 +90,32 @@ public class MainActivity extends FragmentActivity {
 		});
 	}
 
+	//Test Start YOONSUNG 2014. 11. 24
+	ImageView resultView;
+	Button btnTest2;
+	@Override
+	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+        		beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+        	handleCrop(resultCode, result);
+        }
+	}
+	private void beginCrop(Uri source) {
+        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        new Crop(source).output(outputUri).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            resultView.setImageURI(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    //Test End YOONSUNG 2014. 11. 24
+
+	
 	private void setupGroupInfo() {
 		
 		//TODO GetData From DB.
@@ -81,7 +130,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void test() {
-		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test);
+		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test1);
 		btnMoveChatRoom.setOnClickListener(new OnClickListener() {
 			
 			@Override

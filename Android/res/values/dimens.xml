@@ -11,7 +11,6 @@
     <dimen name="pad_20dp">20dp</dimen>
     <dimen name="pad_30dp">30dp</dimen>
     <dimen name="pad_35dp">35dp</dimen>
-    
     <dimen name="pad_chat_item">45dp</dimen>
     <dimen name="pad_chat_item1">10dp</dimen>
     
@@ -23,5 +22,7 @@
     <dimen name="txt_16sp">16sp</dimen>
     <dimen name="txt_18sp">18sp</dimen>
     <dimen name="txt_20sp">20sp</dimen>
+    
+    <dimen name="crop__bar_height">48dp</dimen>
 
 </resources>

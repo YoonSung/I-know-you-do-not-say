@@ -18,16 +18,27 @@
             android:padding="@dimen/pad_15dp" >
 
             <Button
-                android:id="@+id/main_btn_test"
+                android:id="@+id/main_btn_test1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Go to Chat Room"
                 android:textStyle="bold" />
 
-            <include layout="@layout/main_group" />
+            <ImageView
+                android:id="@+id/main_img_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/splash" />
+
+            <Button
+                android:id="@+id/main_btn_test2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CropImage"
+                android:textStyle="bold" />
 
             <include layout="@layout/main_group" />
-
+            <include layout="@layout/main_group" />
             <include layout="@layout/main_group" />
 
             <Button

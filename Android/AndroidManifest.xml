@@ -58,8 +58,8 @@
         
         <activity android:name=".scene.ContactsActivity"></activity>
         <activity android:name=".scene.GroupActivity"></activity>
-        
-        <!--
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <!--	
 		The receiver should require the com.google.android.c2dm.SEND permission, 
 		so that only the GCM Framework can send a message to it. 
 		If your app uses an IntentService (not required, but a common pattern), 
