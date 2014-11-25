@@ -30,66 +30,80 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements OnClickListener {
 	
 	/// The drawer layout
 	private DrawerLayout mDrawerLayout;
 	
-	// drawer
-	private View mRightDrawerView;
+	// Left drawer
 	private View mLeftDrawerView;
+	private Spinner mStatusSpinner;
+	
+	// Right drawer
+	private View mRightDrawerView;
 	
 	// The drawer toggle
 	private ActionBarDrawerToggle mDrawerToggle;
 
+	// Add Group Button
+	private Button btnAddGroup;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
-	    test();
 	    init();
 	    setupDrawer();
 	    setupActionBar();
+	    setupGroupInfo();
 	    
 	    //TODO
 	    //setupUserInformation();
 	    //setupSensorInfo();
 	    
-	    setupGroupInfo();
 	}
 
 	private void init() {
-		Button btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
+		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
+		btnAddGroup.setOnClickListener(this);
 		
+		//TODO DELETE
 		//Test Start
+		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test1);
+		btnMoveChatRoom.setOnClickListener(this);
+		
 		resultView = (ImageView) findViewById(R.id.main_img_test);
 		btnTest2 = (Button) findViewById(R.id.main_btn_test2);
+		btnTest2.setOnClickListener(this);
 		//Test end
-		btnTest2.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.main_btn_addgroup:
+				//TODO Modify
+				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
+				startActivity(new Intent(MainActivity.this, ContactsActivity.class));
+				break;
+			case R.id.main_btn_test1:
+				startActivity(new Intent(MainActivity.this, ChatActivity.class));
+				break;
+			case R.id.main_btn_test2:
 				//Test Start YOONSUNG 2014. 11. 24
 				//TODO DELTE
 				//
 				resultView.setImageDrawable(null);
 				Crop.pickImage(MainActivity.this);
 				//Test End YOONSUNG 2014. 11. 24
-			}
-		});
-		
-		btnAddGroup.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
-				startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-			}
-		});
+				break;
+		}
 	}
-
+	
 	//Test Start YOONSUNG 2014. 11. 24
 	ImageView resultView;
 	Button btnTest2;
@@ -127,17 +141,6 @@ public class MainActivity extends FragmentActivity {
 			
 		}
 		
-	}
-
-	private void test() {
-		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test1);
-		btnMoveChatRoom.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, ChatActivity.class));
-			}
-		});
 	}
 
 	private void setupActionBar() {

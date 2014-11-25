@@ -1938,8 +1938,8 @@ containing a value of this type.
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
     
          */
-        public static final int activity_horizontal_margin=0x7f070041;
-        public static final int crop__bar_height=0x7f070040;
+        public static final int activity_horizontal_margin=0x7f070042;
+        public static final int crop__bar_height=0x7f070041;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
  The platform's desired fixed height for a dialog along the major axis
@@ -1975,26 +1975,27 @@ containing a value of this type.
         public static final int disabled_alpha_material_dark=0x7f070001;
         public static final int disabled_alpha_material_light=0x7f070000;
         public static final int outer_1dp=0x7f07002d;
-        public static final int pad_10dp=0x7f070031;
-        public static final int pad_15dp=0x7f070032;
-        public static final int pad_20dp=0x7f070033;
-        public static final int pad_2dp=0x7f07002e;
-        public static final int pad_30dp=0x7f070034;
-        public static final int pad_35dp=0x7f070035;
-        public static final int pad_5dp=0x7f07002f;
-        public static final int pad_7dp=0x7f070030;
-        public static final int pad_chat_item=0x7f070036;
-        public static final int pad_chat_item1=0x7f070037;
+        public static final int pad_10dp=0x7f070032;
+        public static final int pad_15dp=0x7f070033;
+        public static final int pad_1dp=0x7f07002e;
+        public static final int pad_20dp=0x7f070034;
+        public static final int pad_2dp=0x7f07002f;
+        public static final int pad_30dp=0x7f070035;
+        public static final int pad_35dp=0x7f070036;
+        public static final int pad_5dp=0x7f070030;
+        public static final int pad_7dp=0x7f070031;
+        public static final int pad_chat_item=0x7f070037;
+        public static final int pad_chat_item1=0x7f070038;
         public static final int pad_minus_20dp=0x7f07002b;
         public static final int pad_zero_point_1=0x7f07002c;
-        public static final int txt_12sp=0x7f070039;
-        public static final int txt_13sp=0x7f07003a;
-        public static final int txt_14sp=0x7f07003b;
-        public static final int txt_15sp=0x7f07003c;
-        public static final int txt_16sp=0x7f07003d;
-        public static final int txt_18sp=0x7f07003e;
-        public static final int txt_20sp=0x7f07003f;
-        public static final int txt_7sp=0x7f070038;
+        public static final int txt_12sp=0x7f07003a;
+        public static final int txt_13sp=0x7f07003b;
+        public static final int txt_14sp=0x7f07003c;
+        public static final int txt_15sp=0x7f07003d;
+        public static final int txt_16sp=0x7f07003e;
+        public static final int txt_18sp=0x7f07003f;
+        public static final int txt_20sp=0x7f070040;
+        public static final int txt_7sp=0x7f070039;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;
@@ -2091,20 +2092,33 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f02005b;
         public static final int ic_plusone_standard_off_client=0x7f02005c;
         public static final int ic_plusone_tall_off_client=0x7f02005d;
-        public static final int ic_timeline=0x7f02005e;
-        public static final int ic_with_off=0x7f02005f;
-        public static final int icon_with_on=0x7f020060;
-        public static final int powered_by_google_dark=0x7f020061;
-        public static final int powered_by_google_light=0x7f020062;
-        public static final int shape_checkbox_with=0x7f020063;
-        public static final int shape_circle=0x7f020064;
-        public static final int shape_round_edt=0x7f020065;
-        public static final int shape_round_linearlayout=0x7f020066;
-        public static final int splash=0x7f020067;
-        public static final int stroke_rect_maingray=0x7f020068;
-        public static final int test_chat_user1=0x7f020069;
-        public static final int test_chat_user2=0x7f02006a;
-        public static final int test_profile=0x7f02006b;
+        public static final int ic_safetyzone=0x7f02005e;
+        public static final int ic_status_bad=0x7f02005f;
+        public static final int ic_status_flat=0x7f020060;
+        public static final int ic_status_happy=0x7f020061;
+        public static final int ic_status_lovely=0x7f020062;
+        public static final int ic_status_notgood=0x7f020063;
+        public static final int ic_status_puzzled=0x7f020064;
+        public static final int ic_status_sad=0x7f020065;
+        public static final int ic_status_smile=0x7f020066;
+        public static final int ic_status_speechless=0x7f020067;
+        public static final int ic_status_surprise=0x7f020068;
+        public static final int ic_status_upset=0x7f020069;
+        public static final int ic_timeline=0x7f02006a;
+        public static final int ic_with_off=0x7f02006b;
+        public static final int icon_with_on=0x7f02006c;
+        public static final int powered_by_google_dark=0x7f02006d;
+        public static final int powered_by_google_light=0x7f02006e;
+        public static final int shape_checkbox_with=0x7f02006f;
+        public static final int shape_circle=0x7f020070;
+        public static final int shape_round_edt=0x7f020071;
+        public static final int shape_round_linearlayout_black=0x7f020072;
+        public static final int shape_round_linearlayout_white=0x7f020073;
+        public static final int splash=0x7f020074;
+        public static final int stroke_rect_maingray=0x7f020075;
+        public static final int test_chat_user1=0x7f020076;
+        public static final int test_chat_user2=0x7f020077;
+        public static final int test_profile=0x7f020078;
     }
     public static final class id {
         public static final int action_bar=0x7f090043;
@@ -2142,7 +2156,7 @@ containing a value of this type.
         public static final int contact_data_container=0x7f090053;
         public static final int contact_edt_search=0x7f090052;
         public static final int contact_progressbar_relativelayout=0x7f090055;
-        public static final int contact_toggle_apply=0x7f090075;
+        public static final int contact_toggle_apply=0x7f09007b;
         public static final int contact_txt_name=0x7f090067;
         public static final int contact_txt_phonenum=0x7f090068;
         public static final int contactimage=0x7f090066;
@@ -2154,6 +2168,11 @@ containing a value of this type.
         public static final int done_cancel_bar=0x7f090069;
         public static final int drawer_main_layout=0x7f090056;
         public static final int drawer_main_left=0x7f09005c;
+        public static final int drawer_main_left_user_btn_alarm=0x7f090071;
+        public static final int drawer_main_left_user_img_profile=0x7f09006e;
+        public static final int drawer_main_left_user_img_safetyzone=0x7f090072;
+        public static final int drawer_main_left_user_txt_join=0x7f09006f;
+        public static final int drawer_main_left_user_txt_title=0x7f09006d;
         public static final int drawer_main_right=0x7f09005d;
         public static final int dropdown=0x7f09001a;
         public static final int edit_query=0x7f090045;
@@ -2161,14 +2180,14 @@ containing a value of this type.
         public static final int expand_activities_button=0x7f090034;
         public static final int expanded_menu=0x7f09003a;
         public static final int grayscale=0x7f09002d;
-        public static final int group_linear_name=0x7f09006d;
-        public static final int group_linearlayout_list=0x7f09006f;
-        public static final int group_txt_name=0x7f09006e;
-        public static final int group_user_checkedtime=0x7f090072;
-        public static final int group_user_emoticon=0x7f090073;
-        public static final int group_user_name=0x7f090071;
-        public static final int group_user_profile=0x7f090070;
-        public static final int group_user_status=0x7f090074;
+        public static final int group_linear_name=0x7f090073;
+        public static final int group_linearlayout_list=0x7f090075;
+        public static final int group_txt_name=0x7f090074;
+        public static final int group_user_checkedtime=0x7f090078;
+        public static final int group_user_emoticon=0x7f090079;
+        public static final int group_user_name=0x7f090077;
+        public static final int group_user_profile=0x7f090076;
+        public static final int group_user_status=0x7f09007a;
         public static final int holo_dark=0x7f090021;
         public static final int holo_light=0x7f090022;
         public static final int home=0x7f090000;
@@ -2184,7 +2203,7 @@ containing a value of this type.
         public static final int main_btn_test2=0x7f09005a;
         public static final int main_content_layout=0x7f090057;
         public static final int main_img_test=0x7f090059;
-        public static final int main_toggle_timeline=0x7f090076;
+        public static final int main_toggle_timeline=0x7f09007c;
         public static final int match_parent=0x7f090028;
         public static final int message_content=0x7f090060;
         public static final int message_img_profile=0x7f09005e;
@@ -2216,6 +2235,7 @@ containing a value of this type.
         public static final int showCustom=0x7f090010;
         public static final int showHome=0x7f090011;
         public static final int showTitle=0x7f090012;
+        public static final int spinner1=0x7f090070;
         public static final int split_action_bar=0x7f090004;
         public static final int strict_sandbox=0x7f090025;
         public static final int submit_area=0x7f09004e;
@@ -2288,10 +2308,11 @@ containing a value of this type.
         public static final int crop__activity_crop=0x7f03001f;
         public static final int crop__layout_done_cancel=0x7f030020;
         public static final int drawer_main_left=0x7f030021;
-        public static final int drawer_main_right=0x7f030022;
-        public static final int main_group=0x7f030023;
-        public static final int main_group_user=0x7f030024;
-        public static final int support_simple_spinner_dropdown_item=0x7f030025;
+        public static final int drawer_main_left_user=0x7f030022;
+        public static final int drawer_main_right=0x7f030023;
+        public static final int main_group=0x7f030024;
+        public static final int main_group_user=0x7f030025;
+        public static final int support_simple_spinner_dropdown_item=0x7f030026;
     }
     public static final class menu {
         public static final int contact=0x7f0c0000;
@@ -2465,6 +2486,11 @@ containing a value of this type.
         public static final int crop__saving=0x7f0a003a;
         public static final int crop__wait=0x7f0a003b;
         public static final int decline=0x7f0a0013;
+        public static final int drawer_main_left_user_title=0x7f0a003f;
+        public static final int drawer_main_left_user_txt_alarm=0x7f0a0042;
+        public static final int drawer_main_left_user_txt_join=0x7f0a0040;
+        public static final int drawer_main_left_user_txt_safetyzone=0x7f0a0043;
+        public static final int drawer_main_left_user_txt_status=0x7f0a0041;
         public static final int plus=0x7f0a0037;
         public static final int service_name=0x7f0a0034;
         public static final int store_picture_message=0x7f0a0011;

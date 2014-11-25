@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/shape_round_linearlayout"
+        android:background="@drawable/shape_round_linearlayout_white"
         android:paddingBottom="@dimen/pad_20dp"
         android:paddingLeft="@dimen/pad_10dp"
         android:paddingRight="@dimen/pad_10dp"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/group_linear_name"
         android:layout_marginTop="@dimen/pad_minus_20dp"
-        android:background="@drawable/shape_round_linearlayout"
+        android:background="@drawable/shape_round_linearlayout_white"
         android:orientation="vertical"
         android:paddingBottom="@dimen/pad_20dp"
         android:paddingTop="@dimen/pad_30dp" >
