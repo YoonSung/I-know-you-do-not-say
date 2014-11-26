@@ -24,6 +24,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +64,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    
 	    init();
 	    setupDrawer();
+	    setupLeftDrawer();
 	    setupActionBar();
 	    setupGroupInfo();
 	    
@@ -72,19 +74,28 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    
 	}
 
-	private void init() {
-		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
-		btnAddGroup.setOnClickListener(this);
-		
-		mLeftDrawerStatusSpinner = (Spinner) findViewById(R.id.drawer_main_left_user_spinner_status);
+	private void setupLeftDrawer() {
+		// Spinner Setting
+		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
-		//mLeftDrawerStatusSpinner.setAdapter();
+		Log.e("TEst", "StatusSpinnerAdapter : "+statusSpinnerAdapter);
+		Log.e("TEst", "mLeftDrawerStatusSpinner : "+mLeftDrawerStatusSpinner);
+		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
+		
 		mLeftDrawerStatusSpinnerListener =  new TimePickerDialog.OnTimeSetListener() {
 	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 	        	//TODO
 	            Toast.makeText(MainActivity.this, "Time is=" + hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
 	        }
-	    };
+	    };		
+	}
+
+	private void init() {
+		
+		// AddGroup
+		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
+		btnAddGroup.setOnClickListener(this);
+		
 		
 		//TODO DELETE
 		//Test Start

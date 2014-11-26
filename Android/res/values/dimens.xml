@@ -1,6 +1,7 @@
 <resources>
 
     <dimen name="pad_minus_20dp">-20dp</dimen>
+    <dimen name="pad_minus_5dp">-5dp</dimen>
     <dimen name="pad_zero_point_1">0.1dp</dimen>
     <dimen name="outer_1dp">1dp</dimen>
     <dimen name="pad_1dp">1dp</dimen>
@@ -23,7 +24,6 @@
     <dimen name="txt_16sp">16sp</dimen>
     <dimen name="txt_18sp">18sp</dimen>
     <dimen name="txt_20sp">20sp</dimen>
-    
     <dimen name="crop__bar_height">48dp</dimen>
 
 </resources>

@@ -1938,7 +1938,7 @@ containing a value of this type.
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
     
          */
-        public static final int activity_horizontal_margin=0x7f070042;
+        public static final int activity_horizontal_margin=0x7f070043;
         public static final int crop__bar_height=0x7f070041;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
@@ -1987,6 +1987,7 @@ containing a value of this type.
         public static final int pad_chat_item=0x7f070037;
         public static final int pad_chat_item1=0x7f070038;
         public static final int pad_minus_20dp=0x7f07002b;
+        public static final int pad_minus_5dp=0x7f070042;
         public static final int pad_zero_point_1=0x7f07002c;
         public static final int txt_12sp=0x7f07003a;
         public static final int txt_13sp=0x7f07003b;
@@ -2093,17 +2094,17 @@ containing a value of this type.
         public static final int ic_plusone_standard_off_client=0x7f02005c;
         public static final int ic_plusone_tall_off_client=0x7f02005d;
         public static final int ic_safetyzone=0x7f02005e;
-        public static final int ic_status_bad=0x7f02005f;
-        public static final int ic_status_flat=0x7f020060;
-        public static final int ic_status_happy=0x7f020061;
-        public static final int ic_status_lovely=0x7f020062;
-        public static final int ic_status_notgood=0x7f020063;
-        public static final int ic_status_puzzled=0x7f020064;
-        public static final int ic_status_sad=0x7f020065;
-        public static final int ic_status_smile=0x7f020066;
-        public static final int ic_status_speechless=0x7f020067;
-        public static final int ic_status_surprise=0x7f020068;
-        public static final int ic_status_upset=0x7f020069;
+        public static final int ic_status_angry=0x7f02005f;
+        public static final int ic_status_bad=0x7f020060;
+        public static final int ic_status_flat=0x7f020061;
+        public static final int ic_status_happy=0x7f020062;
+        public static final int ic_status_lovely=0x7f020063;
+        public static final int ic_status_notgood=0x7f020064;
+        public static final int ic_status_puzzled=0x7f020065;
+        public static final int ic_status_sad=0x7f020066;
+        public static final int ic_status_smile=0x7f020067;
+        public static final int ic_status_speechless=0x7f020068;
+        public static final int ic_status_surprise=0x7f020069;
         public static final int ic_timeline=0x7f02006a;
         public static final int ic_with_off=0x7f02006b;
         public static final int icon_with_on=0x7f02006c;
@@ -2111,14 +2112,15 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f02006e;
         public static final int shape_checkbox_with=0x7f02006f;
         public static final int shape_circle=0x7f020070;
-        public static final int shape_round_edt=0x7f020071;
-        public static final int shape_round_linearlayout_black=0x7f020072;
-        public static final int shape_round_linearlayout_white=0x7f020073;
-        public static final int splash=0x7f020074;
-        public static final int stroke_rect_maingray=0x7f020075;
-        public static final int test_chat_user1=0x7f020076;
-        public static final int test_chat_user2=0x7f020077;
-        public static final int test_profile=0x7f020078;
+        public static final int shape_round_button=0x7f020071;
+        public static final int shape_round_edt=0x7f020072;
+        public static final int shape_round_linearlayout_black=0x7f020073;
+        public static final int shape_round_linearlayout_white=0x7f020074;
+        public static final int splash=0x7f020075;
+        public static final int stroke_rect_maingray=0x7f020076;
+        public static final int test_chat_user1=0x7f020077;
+        public static final int test_chat_user2=0x7f020078;
+        public static final int test_profile=0x7f020079;
     }
     public static final class id {
         public static final int action_bar=0x7f090043;
@@ -2496,6 +2498,17 @@ containing a value of this type.
         public static final int drawer_main_left_user_txt_status=0x7f0a0041;
         public static final int plus=0x7f0a0037;
         public static final int service_name=0x7f0a0034;
+        public static final int status_angry=0x7f0a004e;
+        public static final int status_bad=0x7f0a0044;
+        public static final int status_flat=0x7f0a0045;
+        public static final int status_happy=0x7f0a0046;
+        public static final int status_lovely=0x7f0a0047;
+        public static final int status_notgood=0x7f0a0048;
+        public static final int status_puzzled=0x7f0a0049;
+        public static final int status_sad=0x7f0a004a;
+        public static final int status_smile=0x7f0a004b;
+        public static final int status_speechless=0x7f0a004c;
+        public static final int status_surprise=0x7f0a004d;
         public static final int store_picture_message=0x7f0a0011;
         public static final int store_picture_title=0x7f0a0010;
         public static final int toggle_contact_action_right=0x7f0a0036;

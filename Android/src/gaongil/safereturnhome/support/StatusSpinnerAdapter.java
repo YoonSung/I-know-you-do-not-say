@@ -2,6 +2,7 @@ package gaongil.safereturnhome.support;
 
 import java.util.ArrayList;
 
+import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.UserStatus;
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class StatusSpinnerAdapter extends ArrayAdapter<UserStatus>{
 
@@ -36,17 +39,21 @@ public class StatusSpinnerAdapter extends ArrayAdapter<UserStatus>{
 
 	public View getCustomView(int position, View convertView, ViewGroup parent) {
 
-		View row = convertView;
+		View view = convertView;
 		
-		if (row == null) {
+		if (view == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater(); 
-			
-			row = inflater.inflate(layoutResourceId, parent, false);
+			view = inflater.inflate(layoutResourceId, parent, false);
 		}
 		
-		//get view from inflater and setData
+		UserStatus userStatus = statusList.get(position);
 		
+		ImageView spinnerRowImage = (ImageView) view.findViewById(R.id.status_list_row_img);
+		spinnerRowImage.setBackgroundResource(userStatus.getImageResourceId());
 		
-		return row;
+		TextView spinnerRowTextView = (TextView) view.findViewById(R.id.status_list_row_txt); 
+		spinnerRowTextView.setText(userStatus.getStringValue(context));
+		
+		return view;
 	}	
 }

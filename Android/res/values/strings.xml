@@ -19,5 +19,18 @@
     <string name="drawer_main_left_user_txt_status">현재상태</string>
     <string name="drawer_main_left_user_txt_alarm">귀가시간</string>
     <string name="drawer_main_left_user_txt_safetyzone">안전지역</string>
-
+	
+	<string name="status_bad">나쁨</string>
+	<string name="status_flat">무표정</string>
+	<string name="status_happy">행복함</string>
+	<string name="status_lovely">하트뿅뿅</string>
+	<string name="status_notgood">별로임</string>
+	<string name="status_puzzled">정신없음</string>
+	<string name="status_sad">슬픔</string>
+	<string name="status_smile">웃음</string>
+	<string name="status_smile">좋음</string>
+	<string name="status_speechless">고민있음</string>
+	<string name="status_surprise">놀람</string>
+	<string name="status_angry">화남</string>
+	
 </resources>
