@@ -2,7 +2,6 @@ package gaongil.safereturnhome.support;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -15,6 +14,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -23,6 +24,7 @@ import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.provider.MediaStore.Images;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -83,6 +85,7 @@ public class StaticUtils {
 	 * @throws FileNotFoundException 
 	 */
 	public static Bitmap scaleBitmap(Context context, Uri ImageUri, int newWidth, int newHeight) throws FileNotFoundException, IOException {
+
 		
 		Bitmap bitmap = Images.Media.getBitmap(context.getContentResolver(), ImageUri);
 		
@@ -102,4 +105,25 @@ public class StaticUtils {
 
 		return scaledBitmap;
 	}
+
+	public static boolean isScreenOn(Context context) {
+		PowerManager pm=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		return pm.isInteractive();
+	}
+
+	/**
+     * @return Application's version code from the {@code PackageManager}.
+     */
+    public static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (NameNotFoundException e) {
+            // should never happen
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
+
+    
 }

@@ -1,8 +1,8 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.support.Common;
 import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.PreferenceManager;
 import gaongil.safereturnhome.support.StaticUtils;
 
 import java.io.IOException;
@@ -13,7 +13,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -21,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -28,9 +28,8 @@ public class SplashScreen extends Activity {
 
 	private final String TAG = SplashScreen.class.getSimpleName();
 	
-	private Common common;
+	private PreferenceManager preferenceManager;
 	private GoogleCloudMessaging gcm;
-    private Context context;
     private String regId;
     
 	/** Check if the app is running. */
@@ -58,7 +57,7 @@ public class SplashScreen extends Activity {
         // Otherwise, prompt user to get valid Play Services APK.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
-            regId = common.getRegistrationId();
+            regId = preferenceManager.getRegistrationId();
             
             
             if (regId.isEmpty()) {
@@ -75,8 +74,7 @@ public class SplashScreen extends Activity {
 	}
 
 	private void init() {
-		context = getApplicationContext();
-        common = new Common(this);
+        preferenceManager = new PreferenceManager(this);
 	}
 	
 	/**
@@ -104,8 +102,8 @@ public class SplashScreen extends Activity {
      */
     public int getAppVersion() {
         try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
+            PackageInfo packageInfo = this.getPackageManager()
+                    .getPackageInfo(this.getPackageName(), 0);
             return packageInfo.versionCode;
         } catch (NameNotFoundException e) {
             // should never happen
@@ -148,7 +146,7 @@ public class SplashScreen extends Activity {
                 String msg = "";
                 try {
                     if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(context);
+                        gcm = GoogleCloudMessaging.getInstance(SplashScreen.this);
                     }
                     regId = gcm.register(Constant.PROJECT_ID);
                     msg = "Device registered, registration ID=" + regId;
@@ -179,24 +177,19 @@ public class SplashScreen extends Activity {
         }.execute(null, null, null);
     }
     
-	private void startSplash()
-	{
+	private void startSplash() {
 
 		new Thread(new Runnable() {
 			@Override
-			public void run()
-			{
+			public void run() {
 
-				try
-				{
+				try {
 
 					Thread.sleep(Constant.SPLASH_WAIT_TIME);
 
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
-				} finally
-				{
+				} finally {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run()
@@ -213,11 +206,9 @@ public class SplashScreen extends Activity {
 	 * If the app is still running than this method will start the Login activity
 	 * and finish the Splash.
 	 */
-	private synchronized void doFinish()
-	{
+	private synchronized void doFinish() {
 
-		if (isRunning)
-		{
+		if (isRunning) {
 			isRunning = false;
 			Intent i = new Intent(SplashScreen.this, MainActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -227,11 +218,9 @@ public class SplashScreen extends Activity {
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-	{
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-		if (keyCode == KeyEvent.KEYCODE_BACK)
-		{
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			isRunning = false;
 			finish();
 			return true;

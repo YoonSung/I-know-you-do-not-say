@@ -23,17 +23,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
 
 public class ContactsActivity extends Activity {
 	
@@ -173,7 +171,6 @@ public class ContactsActivity extends Activity {
 	
 			String phoneName = null;
 			String phoneNumber = null;
-			String phoneImage = null;
 			ContactInfo contactObject = null; 
 			
 			while (phones.moveToNext()) {
@@ -185,9 +182,6 @@ public class ContactsActivity extends Activity {
 				phoneNumber = phones.getString(phones
 								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 				
-				phoneImage = phones.getString(phones
-								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
-	
 				contactObject = new ContactInfo();
 	
 				contactObject.setName(phoneName);

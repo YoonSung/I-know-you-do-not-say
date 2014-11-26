@@ -5,7 +5,6 @@ import gaongil.safereturnhome.R;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 public enum UserStatus {
 
@@ -41,10 +40,6 @@ public enum UserStatus {
 	private int stringId;
 	private int imageResourceId;
 	
-	private String getStringFromResource(int resourceId) {
-		return Resources.getSystem().getString(resourceId);
-	}
-	
 	private UserStatus(int stringId, int resourceId) {
 		this.stringId = stringId;
 		this.imageResourceId = resourceId;
@@ -52,7 +47,6 @@ public enum UserStatus {
 	
 	public String getStringValue(Context context) {
 		return context.getResources().getString(stringId);
-		//return getStringFromResource();
 	}
 	
 	public int getImageResourceId() {
