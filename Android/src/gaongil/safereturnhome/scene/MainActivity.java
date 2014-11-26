@@ -1,21 +1,26 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.exception.saveImageFileException;
 import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.ImageUtil;
+import gaongil.safereturnhome.support.PreferenceUtil;
+import gaongil.safereturnhome.support.StaticUtils;
 import gaongil.safereturnhome.support.StatusSpinnerAdapter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import com.soundcloud.android.crop.Crop;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -33,11 +38,12 @@ import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.soundcloud.android.crop.Crop;
 
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	
@@ -56,8 +62,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	// The drawer toggle
 	private ActionBarDrawerToggle mDrawerToggle;
 
-	// Add Group Button
+	// MainContents
 	private Button btnAddGroup;
+	private PreferenceUtil preferenceUtil;
+	private ImageUtil imageUtil;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +111,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		// AddGroup
 		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
 		btnAddGroup.setOnClickListener(this);
+		preferenceUtil = new PreferenceUtil(this);
+		imageUtil = new ImageUtil(this);
 	}
 	
 	private void setupGroupInfo() {
@@ -221,7 +231,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			    alert.show();
 			    break;
 			case R.id.drawer_main_left_user_img_profile:
-				
+				// Cropped Image Next Routine - onActivityResult, beginCrop
+				Crop.pickImage(MainActivity.this);
 				break;
 				
 		} //switch end
@@ -235,7 +246,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	@Override
 	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
         if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
-        		beginCrop(result.getData());
+        	beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP) {
         	handleCrop(resultCode, result);
         }
@@ -248,7 +259,30 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-            mLeftDrawerProfileImageButton.setImageURI(Crop.getOutput(result));
+        	int profileSize = preferenceUtil.getProfileSize();
+        	Bitmap croppedImage = null;
+        	
+        	
+        	try {
+				croppedImage = StaticUtils.scaleBitmap(this, Crop.getOutput(result), profileSize, profileSize);
+			} catch (Exception e) {
+				//TODO
+				e.printStackTrace();
+			}
+        	
+			// TODO Send Image by Network. (All Device Common Size Image) 
+			// Save Proper Image
+			try {
+				imageUtil.saveProfileImage(croppedImage);
+			} catch (saveImageFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+        	//ING
+        	//TODO Extract StaticUtils Image
+            mLeftDrawerProfileImageButton.setImageBitmap(croppedImage);
+            
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }

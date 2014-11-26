@@ -2,7 +2,7 @@ package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.support.Constant;
-import gaongil.safereturnhome.support.PreferenceManager;
+import gaongil.safereturnhome.support.PreferenceUtil;
 import gaongil.safereturnhome.support.StaticUtils;
 
 import java.io.IOException;
@@ -16,9 +16,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,7 +30,7 @@ public class SplashScreen extends Activity {
 
 	private final String TAG = SplashScreen.class.getSimpleName();
 	
-	private PreferenceManager preferenceManager;
+	private PreferenceUtil preferenceManager;
 	private GoogleCloudMessaging gcm;
     private String regId;
     
@@ -59,11 +61,14 @@ public class SplashScreen extends Activity {
             gcm = GoogleCloudMessaging.getInstance(this);
             regId = preferenceManager.getRegistrationId();
             
-            
             if (regId.isEmpty()) {
                 registerInBackground();
             }
             
+            int profileImageSize = preferenceManager.getProfileSize();
+            if (profileImageSize == Integer.MIN_VALUE) {
+            	saveProfileImageWidth();
+            }
             
             isRunning = true;
             startSplash();
@@ -73,8 +78,17 @@ public class SplashScreen extends Activity {
         }
 	}
 
+	private void saveProfileImageWidth() {
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int deviceWidth = size.x;
+		
+		preferenceManager.saveProfileSize(deviceWidth / Constant.PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH);
+	}
+
 	private void init() {
-        preferenceManager = new PreferenceManager(this);
+        preferenceManager = new PreferenceUtil(this);
 	}
 	
 	/**
