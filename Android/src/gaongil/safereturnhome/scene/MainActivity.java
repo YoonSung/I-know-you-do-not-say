@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -47,6 +48,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	private View mLeftDrawerView;
 	private Spinner mLeftDrawerStatusSpinner;
 	private TimePickerDialog.OnTimeSetListener mLeftDrawerStatusSpinnerListener;
+	private ImageButton mLeftDrawerProfileImageButton;
 	
 	// Right drawer
 	private View mRightDrawerView;
@@ -62,7 +64,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
-	    init();
+	    setupMainComponent();
 	    setupDrawer();
 	    setupLeftDrawer();
 	    setupActionBar();
@@ -73,8 +75,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    //setupSensorInfo();
 	    
 	}
-
+	/************************************************************************
+	 * Setup Area Start
+	 */
 	private void setupLeftDrawer() {
+		
+		// Profile ImageButton
+		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
+		mLeftDrawerProfileImageButton.setOnClickListener(this);
+		
 		// Spinner Setting
 		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
@@ -87,82 +96,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	        	//TODO
 	            Toast.makeText(MainActivity.this, "Time is=" + hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
 	        }
-	    };		
+	    };
 	}
 
-	private void init() {
-		
+	private void setupMainComponent() {
 		// AddGroup
 		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
 		btnAddGroup.setOnClickListener(this);
-		
-		
-		//TODO DELETE
-		//Test Start
-		Button btnMoveChatRoom = (Button) findViewById(R.id.main_btn_test1);
-		btnMoveChatRoom.setOnClickListener(this);
-		
-		resultView = (ImageView) findViewById(R.id.main_img_test);
-		btnTest2 = (Button) findViewById(R.id.main_btn_test2);
-		btnTest2.setOnClickListener(this);
-		//Test end
 	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.main_btn_addgroup:
-				//TODO Modify
-				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
-				startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-				break;
-				
-			case R.id.drawer_main_left_user_spinner_status:
-				TimePickerDialog alert = new TimePickerDialog(this, mLeftDrawerStatusSpinnerListener, 0, 0, false);
-			    alert.show();
-			    break;
-			    
-			case R.id.main_btn_test1:
-				startActivity(new Intent(MainActivity.this, ChatActivity.class));
-				break;
-				
-			case R.id.main_btn_test2:
-				//Test Start YOONSUNG 2014. 11. 24
-				//TODO DELTE
-				//
-				resultView.setImageDrawable(null);
-				Crop.pickImage(MainActivity.this);
-				//Test End YOONSUNG 2014. 11. 24
-				break;
-				
-		} //switch end
-	}
-	
-	//Test Start YOONSUNG 2014. 11. 24
-	ImageView resultView;
-	Button btnTest2;
-	@Override
-	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
-        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
-        		beginCrop(result.getData());
-        } else if (requestCode == Crop.REQUEST_CROP) {
-        	handleCrop(resultCode, result);
-        }
-	}
-	private void beginCrop(Uri source) {
-        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        new Crop(source).output(outputUri).asSquare().start(this);
-    }
-
-    private void handleCrop(int resultCode, Intent result) {
-        if (resultCode == RESULT_OK) {
-            resultView.setImageURI(Crop.getOutput(result));
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-    //Test End YOONSUNG 2014. 11. 24
-
 	
 	private void setupGroupInfo() {
 		
@@ -252,6 +193,69 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mDrawerLayout.closeDrawers();
 	}
+	/*
+	 * Setup Area End
+	 ************************************************************************/
+	
+	
+	
+	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+
+			/**
+			 * Click MainView Component
+			 */
+			case R.id.main_btn_addgroup:
+				//TODO Modify
+				//startActivity(new Intent(MainActivity.this, GroupActivity.class));
+				startActivity(new Intent(MainActivity.this, ContactsActivity.class));
+				break;
+				
+			/**
+			 * Click LeftDrawer Component	
+			 */
+			case R.id.drawer_main_left_user_spinner_status:
+				TimePickerDialog alert = new TimePickerDialog(this, mLeftDrawerStatusSpinnerListener, 0, 0, false);
+			    alert.show();
+			    break;
+			case R.id.drawer_main_left_user_img_profile:
+				
+				break;
+				
+		} //switch end
+	}
+	
+	
+	
+	/************************************************************************
+	 * LeftDrawer Image Crop Start
+	 */
+	@Override
+	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+        		beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+        	handleCrop(resultCode, result);
+        }
+	}
+	
+	private void beginCrop(Uri source) {
+        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        new Crop(source).output(outputUri).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            mLeftDrawerProfileImageButton.setImageURI(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    /*
+	 * LeftDrawer Image Crop End
+	 ************************************************************************/
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -307,4 +311,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		getMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	
 }

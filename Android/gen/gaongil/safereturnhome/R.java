@@ -1939,7 +1939,7 @@ containing a value of this type.
     
          */
         public static final int activity_horizontal_margin=0x7f070043;
-        public static final int crop__bar_height=0x7f070041;
+        public static final int crop__bar_height=0x7f070042;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
  The platform's desired fixed height for a dialog along the major axis
@@ -1974,29 +1974,29 @@ containing a value of this type.
         public static final int dialog_fixed_width_minor=0x7f07000d;
         public static final int disabled_alpha_material_dark=0x7f070001;
         public static final int disabled_alpha_material_light=0x7f070000;
-        public static final int outer_1dp=0x7f07002d;
-        public static final int pad_10dp=0x7f070032;
-        public static final int pad_15dp=0x7f070033;
-        public static final int pad_1dp=0x7f07002e;
-        public static final int pad_20dp=0x7f070034;
-        public static final int pad_2dp=0x7f07002f;
-        public static final int pad_30dp=0x7f070035;
-        public static final int pad_35dp=0x7f070036;
-        public static final int pad_5dp=0x7f070030;
-        public static final int pad_7dp=0x7f070031;
-        public static final int pad_chat_item=0x7f070037;
-        public static final int pad_chat_item1=0x7f070038;
+        public static final int outer_1dp=0x7f07002e;
+        public static final int pad_10dp=0x7f070033;
+        public static final int pad_15dp=0x7f070034;
+        public static final int pad_1dp=0x7f07002f;
+        public static final int pad_20dp=0x7f070035;
+        public static final int pad_2dp=0x7f070030;
+        public static final int pad_30dp=0x7f070036;
+        public static final int pad_35dp=0x7f070037;
+        public static final int pad_5dp=0x7f070031;
+        public static final int pad_7dp=0x7f070032;
+        public static final int pad_chat_item=0x7f070038;
+        public static final int pad_chat_item1=0x7f070039;
         public static final int pad_minus_20dp=0x7f07002b;
-        public static final int pad_minus_5dp=0x7f070042;
-        public static final int pad_zero_point_1=0x7f07002c;
-        public static final int txt_12sp=0x7f07003a;
-        public static final int txt_13sp=0x7f07003b;
-        public static final int txt_14sp=0x7f07003c;
-        public static final int txt_15sp=0x7f07003d;
-        public static final int txt_16sp=0x7f07003e;
-        public static final int txt_18sp=0x7f07003f;
-        public static final int txt_20sp=0x7f070040;
-        public static final int txt_7sp=0x7f070039;
+        public static final int pad_minus_5dp=0x7f07002c;
+        public static final int pad_zero_point_1=0x7f07002d;
+        public static final int txt_12sp=0x7f07003b;
+        public static final int txt_13sp=0x7f07003c;
+        public static final int txt_14sp=0x7f07003d;
+        public static final int txt_15sp=0x7f07003e;
+        public static final int txt_16sp=0x7f07003f;
+        public static final int txt_18sp=0x7f070040;
+        public static final int txt_20sp=0x7f070041;
+        public static final int txt_7sp=0x7f07003a;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;

@@ -48,18 +48,23 @@ public class SplashScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-        context = getApplicationContext();
-        common = new Common(this);
-        
+        init();
+		checkEssentialInfomation();
+		
+	}
+
+	private void checkEssentialInfomation() {
 		// Check device for Play Services APK. If check succeeds, proceed with GCM registration.
         // Otherwise, prompt user to get valid Play Services APK.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
             regId = common.getRegistrationId();
-
+            
+            
             if (regId.isEmpty()) {
                 registerInBackground();
             }
+            
             
             isRunning = true;
             startSplash();
@@ -67,6 +72,11 @@ public class SplashScreen extends Activity {
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
+	}
+
+	private void init() {
+		context = getApplicationContext();
+        common = new Common(this);
 	}
 	
 	/**
