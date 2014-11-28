@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Safe Return Home</string>
+    <string name="app_name">WITH</string>
+    <string name="splash_txt_onelinedescription">Take my hand,\nI'll always be together</string>
     <string name="service_name">안심귀가</string>
     <string name="toggle_main_action_right">menu</string>
     <string name="toggle_contact_action_right">apply</string>
