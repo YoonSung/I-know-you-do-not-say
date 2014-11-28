@@ -26,12 +26,19 @@ public class ImageUtil {
 		File file = new File(filePath + File.separator + Constant.PROFILE_IMAGE_NAME);
 		
 		OutputStream out = null;
-			
+		
+		boolean isSuccess = true;
+		
 		try {
 			// Create File And Stream Interface
 			file.createNewFile();
 		    out = new FileOutputStream(file);
 		    
+			// Bitmap Image Compress With Sending Stream
+		    if (!image.compress(Bitmap.CompressFormat.PNG, 85, out)) {
+		    	// if save failed.
+		    	isSuccess = false;
+		    }
 		} catch (Exception e) {
 		    e.printStackTrace();
 		} finally {
@@ -40,16 +47,13 @@ public class ImageUtil {
 		    } catch (IOException e) {}
 		}
 		
-		// Bitmap Image Compress With Sending Stream
-	    if (!image.compress(Bitmap.CompressFormat.PNG, 85, out)) {
-	    	// if save failed.
-	    	throw new saveImageFileException("Save Profile Exception");
-	    }
-	    	
+		if (!isSuccess)
+			throw new saveImageFileException("Save Profile Exception");
 	}
 	
 	public Drawable getProfileImage() {
         File file = context.getFileStreamPath(Constant.PROFILE_IMAGE_NAME);
+        System.out.println("Is File Exists? : "+file.exists());
 		return Drawable.createFromPath(file.getAbsolutePath()); 
 	}
 

@@ -39,5 +39,5 @@ public class Constant {
 	public static final float DRAWER_SLIDE_WIDTH_RATE = 0.7f;
 	public static final String DATE_FORMAT = "a h:mm";
 	public static final int PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH = 4;
-	public static final String PROFILE_IMAGE_NAME = "profile.jpg";
+	public static final String PROFILE_IMAGE_NAME = "profile.png";
 }
