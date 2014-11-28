@@ -11,8 +11,6 @@ import gaongil.safereturnhome.support.StaticUtils;
 import gaongil.safereturnhome.support.StatusSpinnerAdapter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
@@ -49,6 +47,8 @@ import com.soundcloud.android.crop.Crop;
 
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	
+	private final String TAG = MainActivity.class.getSimpleName();
+
 	/// The drawer layout
 	private DrawerLayout mDrawerLayout;
 	
@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			profile = getResources().getDrawable(R.drawable.ic_default_profile);
 		}
 		
-		mLeftDrawerProfileImageButton.setImageBitmap(mImageUtil.getRoundedCornerBitmap(profile));
+		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
 		
 		// Spinner Setting
@@ -289,14 +289,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 				mImageUtil.saveProfileImage(croppedImage);
 				
 			} catch (saveImageFileException e) {
-				// TODO Auto-generated catch block
+				Log.e(TAG, e.getMessage());
 				e.printStackTrace();
 				
 			}
 			
-        	//ING
-        	//TODO Extract StaticUtils Image
-			mLeftDrawerProfileImageButton.setImageBitmap(mImageUtil.getRoundedCornerBitmap(croppedImage));
+			mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, croppedImage);
             
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
