@@ -46,14 +46,10 @@ public class Message {
         LayoutInflater li = (LayoutInflater)context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         View view = li.inflate (layoutId, null);
         
-        //TODO Get User Profile Image
-        // TestCode Start
         BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
         RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
         ImageView profile = (ImageView) view.findViewById(R.id.message_img_profile);  
         profile.setImageDrawable(new RoundedAvatarDrawable(rondedAvatarImg.getBitmap()));
-
-        // TestCode End
         
         // message set
         TextView content = (TextView) view.findViewById(R.id.message_content);

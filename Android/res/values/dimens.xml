@@ -1,7 +1,7 @@
 <resources>
 
     <dimen name="pad_minus_20dp">-20dp</dimen>
-    <dimen name="pad_minus_5dp">-5dp</dimen>
+    <dimen name="pad_minus_2dp">-2dp</dimen>
     <dimen name="pad_zero_point_1">0.1dp</dimen>
     <dimen name="outer_1dp">1dp</dimen>
     <dimen name="pad_1dp">1dp</dimen>

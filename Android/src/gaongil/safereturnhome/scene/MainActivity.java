@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -63,9 +65,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	// MainContents
-	private Button btnAddGroup;
-	private PreferenceUtil preferenceUtil;
-	private ImageUtil imageUtil;
+	private Button mBtnAddGroup;
+	private PreferenceUtil mPreferenceUtil;
+	private ImageUtil mImageUtil;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -90,13 +92,23 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		
 		// Profile ImageButton
 		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
+		int profileSize = mPreferenceUtil.getProfileSize();
+		
+		LayoutParams layoutParams = mLeftDrawerProfileImageButton.getLayoutParams();
+		layoutParams.width = profileSize;
+		layoutParams.height = profileSize;
+		
+		Drawable profile = mImageUtil.getProfileImage();
+		if (profile == null) {
+			profile = getResources().getDrawable(R.drawable.ic_default_profile);
+		}
+		
+		mLeftDrawerProfileImageButton.setImageBitmap(mImageUtil.getRoundedCornerBitmap(profile));
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
 		
 		// Spinner Setting
 		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
-		Log.e("TEst", "StatusSpinnerAdapter : "+statusSpinnerAdapter);
-		Log.e("TEst", "mLeftDrawerStatusSpinner : "+mLeftDrawerStatusSpinner);
 		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
 		
 		mLeftDrawerStatusSpinnerListener =  new TimePickerDialog.OnTimeSetListener() {
@@ -109,10 +121,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
 	private void setupMainComponent() {
 		// AddGroup
-		btnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
-		btnAddGroup.setOnClickListener(this);
-		preferenceUtil = new PreferenceUtil(this);
-		imageUtil = new ImageUtil(this);
+		mBtnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
+		mBtnAddGroup.setOnClickListener(this);
+		mPreferenceUtil = new PreferenceUtil(this);
+		mImageUtil = new ImageUtil(this);
 	}
 	
 	private void setupGroupInfo() {
@@ -259,7 +271,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-        	int profileSize = preferenceUtil.getProfileSize();
+        	int profileSize = mPreferenceUtil.getProfileSize();
         	Bitmap croppedImage = null;
         	
         	
@@ -272,16 +284,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         	
 			// TODO Send Image by Network. (All Device Common Size Image) 
 			// Save Proper Image
+        	
 			try {
-				imageUtil.saveProfileImage(croppedImage);
+				mImageUtil.saveProfileImage(croppedImage);
+				
 			} catch (saveImageFileException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
 			}
 			
         	//ING
         	//TODO Extract StaticUtils Image
-            mLeftDrawerProfileImageButton.setImageBitmap(croppedImage);
+			mLeftDrawerProfileImageButton.setImageBitmap(mImageUtil.getRoundedCornerBitmap(croppedImage));
             
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

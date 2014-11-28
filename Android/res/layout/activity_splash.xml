@@ -27,7 +27,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pad_10dp"
+        android:layout_marginTop="@dimen/pad_30dp"
+        android:textScaleX="0.9"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/splash_txt_onelinedescription"
