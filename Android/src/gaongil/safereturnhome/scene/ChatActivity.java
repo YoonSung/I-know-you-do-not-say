@@ -2,7 +2,7 @@ package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.exception.InvalidMessageException;
-import gaongil.safereturnhome.model.Message;
+import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 	private final String TAG = ChatActivity.class.getSimpleName();
 	
 	// Message List
-	private ArrayList<Message> mMessageList;
+	private ArrayList<MessageData> mMessageList;
 	
 	// Chat Custom Adapter.
 	private ChatAdapter mChatAdapter;
@@ -96,9 +96,9 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 	private void loadMessageList() {
 		
 		// TODO getDataFrom Server or Local DB
-		mMessageList = new ArrayList<Message>();
+		mMessageList = new ArrayList<MessageData>();
 		
-		mMessageList.add(new Message(
+		mMessageList.add(new MessageData(
 				1, 1, "test", new Date(),  MessageType.NORMAL, true 
 		));
 	}
@@ -111,7 +111,7 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 		inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
 		
 		//TODO getGroupId & UserId & MessageType & etc..
-		Message newMessage = new Message(
+		MessageData newMessage = new MessageData(
 				1, 
 				1, 
 				mEditText.getText().toString(), 
@@ -148,7 +148,7 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 		}
 
 		@Override
-		public Message getItem(int index) {
+		public MessageData getItem(int index) {
 			return mMessageList.get(index);
 		}
 
@@ -159,12 +159,12 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 
 		@Override
 		public View getView(int position, View view, ViewGroup viewGroup) {
-			Message message = getItem(position);
+			MessageData message = getItem(position);
 			
 			// Type check and mapping proper XML Layout
 			// Input data to layout component
 			try {
-				return message.getView(ChatActivity.this);
+				return message.getChatView(ChatActivity.this);
 				
 			} catch (InvalidMessageException e) {
 				Log.e(TAG, e.getMessage());

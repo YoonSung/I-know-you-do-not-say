@@ -2,16 +2,19 @@ package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.Group;
+import gaongil.safereturnhome.model.MessageData;
+import gaongil.safereturnhome.model.MessageType;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.ImageUtil;
 import gaongil.safereturnhome.support.PreferenceUtil;
 import gaongil.safereturnhome.support.StaticUtils;
 import gaongil.safereturnhome.support.StatusSpinnerAdapter;
+import gaongil.safereturnhome.support.TimeLineAdapter;
 import gaongil.safereturnhome.support.TimePickerDialogFragment;
-
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -41,25 +44,23 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.soundcloud.android.crop.Crop;
 
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	
-	private final String TAG = MainActivity.class.getSimpleName();
-
 	/**
 	 * The drawer layout
 	 */
 	private DrawerLayout mDrawerLayout;
-	
 	
 	/**
 	 * Left drawer
@@ -87,12 +88,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	        }
 	};
 	
-	
 	/**
 	 * Right drawer
 	 */
 	private View mRightDrawerView;
-	
+	private TimeLineAdapter mTimeLineAdapter;
+	private ListView mRightDrawerListView;
 	
 	/**
 	 * MainContents
@@ -121,7 +122,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    
 	    setupDrawer();
 	    setupLeftDrawer();
-	    
+	    setupRightDrawer();
 	    updateViewBySavedData();
 	    
 	    //TODO
@@ -184,6 +185,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		});
 	}
 
+	private void setupRightDrawer() {
+		ArrayList<MessageData> testList = new ArrayList<MessageData>() {{
+			add(new MessageData(1, 1, "test", new Date(),  MessageType.NORMAL, true ));
+		}};
+		this.mTimeLineAdapter = new TimeLineAdapter(MainActivity.this, testList);
+		
+		mRightDrawerListView = (ListView) mRightDrawerView.findViewById(R.id.drawer_main_right_listview);
+		
+		mRightDrawerListView.setAdapter(mTimeLineAdapter);
+		mRightDrawerListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+		mRightDrawerListView.setStackFromBottom(false);
+	}
+	
 	private void setupMainComponent() {
 		// AddGroup
 		mMainBtnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);

@@ -26,7 +26,7 @@ import android.widget.TextView;
 public class ContactsAdapter extends BaseAdapter {
  
     Context mContext;
-    LayoutInflater inflater;
+    LayoutInflater mInflater;
     private List<ContactInfo> mainDataList = null;
     private ArrayList<ContactInfo> arraylist;
  
@@ -34,7 +34,7 @@ public class ContactsAdapter extends BaseAdapter {
      
         mContext = context;
         this.mainDataList = mainDataList;
-        inflater = LayoutInflater.from(mContext);
+        mInflater = LayoutInflater.from(mContext);
         this.arraylist = new ArrayList<ContactInfo>();
         this.arraylist.addAll(mainDataList);
     }
@@ -64,7 +64,7 @@ public class ContactsAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.contacts_list_row, null);
+            view = mInflater.inflate(R.layout.contacts_list_row, null);
  
             holder.name = (TextView) view.findViewById(R.id.contact_txt_name);
             holder.number = (TextView) view.findViewById(R.id.contact_txt_phonenum);

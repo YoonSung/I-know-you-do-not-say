@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Message {
+public class MessageData {
 	
 	private int groupId;
 	private int writerId;
@@ -27,7 +27,7 @@ public class Message {
 	
 	private SimpleDateFormat writtenTimeFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
 	
-	public Message(int groupId, int writerId, String content, Date date,
+	public MessageData(int groupId, int writerId, String content, Date date,
 			MessageType type, boolean isReceived) {
 		this.groupId = groupId;
 		this.writerId = writerId;
@@ -38,7 +38,7 @@ public class Message {
 	}
 	
 	//getImageResourceId
-	public View getView(Context context) throws InvalidMessageException {
+	public View getChatView(Context context) throws InvalidMessageException {
 		if (this.type == null)
 			throw new InvalidMessageException();
 		
@@ -64,6 +64,11 @@ public class Message {
         messageBubble.setBackgroundResource(this.type.getResourceId(this.isReceived));
         
 		return view;
+	}
+	
+	public void getTimeLineView(Context mContext) throws InvalidMessageException {
+		if (this.type == null)
+			throw new InvalidMessageException();
 	}
 	
 	public int getGroupId() {
