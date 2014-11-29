@@ -45,8 +45,13 @@ public class MessageData {
 		int layoutId = isReceived ? R.layout.chat_message_rcv : R.layout.chat_message_sent;
         View view = layoutInflater.inflate (layoutId, null);
         
+        //Test Image Load Start
+        //TODO connect MessageData Resource
+        //TODO getRoundedImage Method is to be static
         BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
         RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
+        //Test Image Load End
+        
         ImageView profile = (ImageView) view.findViewById(R.id.message_img_profile);  
         profile.setImageDrawable(new RoundedAvatarDrawable(rondedAvatarImg.getBitmap()));
         
@@ -55,8 +60,8 @@ public class MessageData {
         content.setText(this.content);
         
         // writtenTime set
-        TextView date = (TextView) view.findViewById(R.id.message_time);
-        date.setText(writtenTimeFormat.format(this.date));
+        TextView receivedTime = (TextView) view.findViewById(R.id.message_time);
+        receivedTime.setText(writtenTimeFormat.format(this.date));
         
         // bubbleImage set
         LinearLayout messageBubble = (LinearLayout) view.findViewById(R.id.message_linearlayout);
@@ -65,9 +70,30 @@ public class MessageData {
 		return view;
 	}
 	
-	public void getTimeLineView(Context mContext, LayoutInflater layoutInflater) throws InvalidMessageException {
+	public void getTimeLineView(Context context, LayoutInflater layoutInflater) throws InvalidMessageException {
 		if (this.type == null)
 			throw new InvalidMessageException();
+		
+		View view = layoutInflater.inflate (R.layout.timeline_list_row, null);
+		
+        //Test Image Load Start
+        //TODO connect MessageData Resource
+        //TODO getRoundedImage Method is to be static
+        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
+        RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
+        //Test Image Load End
+        
+        
+        ImageView profile = (ImageView) view.findViewById(R.id.drawer_main_right_img_profile);  
+        profile.setImageDrawable(new RoundedAvatarDrawable(rondedAvatarImg.getBitmap()));
+        
+        // message set
+        TextView message = (TextView) view.findViewById(R.id.drawer_main_right_txt_message);
+        message.setText(this.content);
+        
+        // writtenTime set
+        TextView receivedTime = (TextView) view.findViewById(R.id.drawer_main_right_txt_receivedtime);
+        receivedTime.setText(writtenTimeFormat.format(this.date));
 	}
 	
 	public int getGroupId() {
