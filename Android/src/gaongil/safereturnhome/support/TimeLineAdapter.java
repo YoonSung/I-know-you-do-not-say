@@ -1,5 +1,4 @@
 package gaongil.safereturnhome.support;
-import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.exception.InvalidMessageException;
 import gaongil.safereturnhome.model.MessageData;
 

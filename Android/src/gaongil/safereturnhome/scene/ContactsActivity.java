@@ -17,7 +17,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -124,32 +123,6 @@ public class ContactsActivity extends Activity {
 		mLinearLayout = (LinearLayout) findViewById(R.id.contact_data_container);
 		
 		addContactsInList();
-	}
-
-	private void getSelectedContacts() {
-		StringBuffer sb = new StringBuffer();
-
-		for (ContactInfo bean : this.mPhoneList) {
-			if (bean.isSelected()) {
-				sb.append(bean.getName());
-				sb.append(" : ");
-				sb.append(bean.getNumber()+"\n\n");
-			}
-		}
-
-		String s = sb.toString().trim();
-
-		if (TextUtils.isEmpty(s)) {
-			Toast.makeText(mContext, "Select atleast one Contact",
-					Toast.LENGTH_SHORT).show();
-			
-		} else {
-			s = s.substring(0, s.length() - 1);
-			Toast.makeText(mContext, "Selected Contacts : " + s,
-					Toast.LENGTH_SHORT).show();
-
-		}
-
 	}
 
 	private void addContactsInList() {

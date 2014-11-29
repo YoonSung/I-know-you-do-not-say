@@ -18,17 +18,14 @@ public class CropImageView extends ImageViewTouchBase {
     private float lastY;
     private int motionEdge;
 
-    @SuppressWarnings("UnusedDeclaration")
     public CropImageView(Context context) {
         super(context);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public CropImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public CropImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }

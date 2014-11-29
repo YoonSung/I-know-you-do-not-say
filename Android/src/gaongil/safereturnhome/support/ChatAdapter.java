@@ -2,7 +2,6 @@ package gaongil.safereturnhome.support;
 
 import gaongil.safereturnhome.exception.InvalidMessageException;
 import gaongil.safereturnhome.model.MessageData;
-import gaongil.safereturnhome.scene.ChatActivity;
 
 import java.util.List;
 

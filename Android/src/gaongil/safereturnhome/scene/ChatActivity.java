@@ -1,7 +1,6 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.exception.InvalidMessageException;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
 import gaongil.safereturnhome.support.ChatAdapter;
@@ -12,13 +11,10 @@ import java.util.Date;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -47,8 +43,6 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 	/*
 	 * Forground Check
 	 *************************************************************************/
-	
-	private final String TAG = ChatActivity.class.getSimpleName();
 	
 	// Message List
 	private ArrayList<MessageData> mMessageList;
