@@ -62,6 +62,14 @@ public class PreferenceUtil extends Activity{
     	return readIntPreference(Constant.PREFERENCE_KEY_ALARM_MINUTE);
     }
     
+    public void storeUserStatusEnumPosition(int enumPosition) {
+    	savePreference(Constant.PREFERENCE_KEY_STATUS_ENUM_POSITION, enumPosition);
+	}
+    
+    public int getUserStatusEnumPosition() {
+    	return readIntPreference(Constant.PREFERENCE_KEY_STATUS_ENUM_POSITION);
+    }
+    
     /************************************************************************************************************************
 	 *	Private PreferenceUtil Methods 
 	 */

@@ -47,6 +47,7 @@ public class StatusSpinnerAdapter extends ArrayAdapter<UserStatus>{
 		}
 		
 		UserStatus userStatus = statusList.get(position);
+		view.setId(position);
 		
 		ImageView spinnerRowImage = (ImageView) view.findViewById(R.id.status_list_row_img);
 		spinnerRowImage.setBackgroundResource(userStatus.getImageResourceId());

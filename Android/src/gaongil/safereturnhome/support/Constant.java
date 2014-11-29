@@ -10,6 +10,7 @@ public class Constant {
 	public static final String PREFERENCE_KEY_PROFILE_SIZE = "profileSize";
 	public static final String PREFERENCE_KEY_ALARM_HOUR = "alarmHour";
 	public static final String PREFERENCE_KEY_ALARM_MINUTE = "alarmMinute";
+	public static final String PREFERENCE_KEY_STATUS_ENUM_POSITION = "statusEnumPosition";
 	
 	/********************************************************************************
 	 * 										Network Key

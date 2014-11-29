@@ -41,6 +41,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -67,7 +69,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	 */
 	private View mLeftDrawerView;
 	private Spinner mLeftDrawerStatusSpinner;
-	private TimePickerDialog.OnTimeSetListener mLeftDrawerStatusSpinnerListener;
 	private ImageButton mLeftDrawerProfileImageButton;
 	private Button mLeftDrawerAlarmButton;
 	//TimePickerDialog
@@ -173,20 +174,33 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
 		
-		
-		
 		/**
 		 * Spinner Setting
 		 */
 		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
 		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
-		mLeftDrawerStatusSpinnerListener =  new TimePickerDialog.OnTimeSetListener() {
-	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-	        	//TODO
-	            Toast.makeText(MainActivity.this, "Time is=" + hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
-	        }
-	    };
+		//apply Last saved status.
+		mLeftDrawerStatusSpinner.setSelection(mPreferenceUtil.getUserStatusEnumPosition());
+		
+		mLeftDrawerStatusSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			
+			private boolean isInitializedCall = true;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (isInitializedCall) {
+					isInitializedCall = false;
+					return;
+				}
+				
+				//check if status same previous status, did not update anithing especially network things
+				mPreferenceUtil.storeUserStatusEnumPosition(view.getId());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {}
+		});
 	}
 
 	private void setupMainComponent() {
@@ -316,7 +330,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			 * Click LeftDrawer Component	
 			 */
 			case R.id.drawer_main_left_user_spinner_status:
-				TimePickerDialog alert = new TimePickerDialog(this, mLeftDrawerStatusSpinnerListener, 0, 0, false);
+				TimePickerDialog alert = new TimePickerDialog(this, null, 0, 0, false);
 			    alert.show();
 			    break;
 			case R.id.drawer_main_left_user_img_profile:
