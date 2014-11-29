@@ -115,28 +115,30 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
+	    setupActionBar();
 	    setupCommonData();
 	    setupMainComponent();
+	    
 	    setupDrawer();
-	    setupActionBar();
-	    setupGroupInfo();
 	    setupLeftDrawer();
-	    //setupUserInfo();
+	    
+	    updateViewBySavedData();
 	    
 	    //TODO
 	    //setupSensorInfo();
 	    
 	}
 	
+	/************************************************************************
+	 * Setup Area Start
+	 */
 	private void setupCommonData() {
 		mPreferenceUtil = new PreferenceUtil(this);
 		mImageUtil = new ImageUtil(this);
 		mProfileSize = mPreferenceUtil.getProfileSize();
+		mFragmentManager = getSupportFragmentManager();
 	}
 	
-	/************************************************************************
-	 * Setup Area Start
-	 */
 	private void setupLeftDrawer() {
 		
 		/**
@@ -145,21 +147,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mLeftDrawerAlarmButton = (Button) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_btn_alarm);
 		mLeftDrawerAlarmButton.setOnClickListener(this);
 		mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
-		// Getting fragment manger for this activity
-		mFragmentManager = getSupportFragmentManager();
-		updateAlarmView(mPreferenceUtil.getAlarmHour(), mPreferenceUtil.getAlarmMinute());
+		
 		
 		/**
 		 * Profile ImageButton
 		 */
 		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
-		LayoutParams profileLayoutParam = mLeftDrawerProfileImageButton.getLayoutParams();
-		profileLayoutParam.width = mProfileSize;
-		profileLayoutParam.height = mProfileSize;
-		
-		Drawable profile = mImageUtil.getProfileImage();
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
-		updateProfileImage(profile);
+		
 		
 		/**
 		 * Spinner Setting
@@ -167,10 +162,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
 		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
-		
-		//apply Last saved status.
-		updateStatusView(mPreferenceUtil.getUserStatusEnumPosition());
-		
 		mLeftDrawerStatusSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			
 			private boolean isInitializedCall = true;
@@ -210,19 +201,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		
 	}
 	
-	private void setupGroupInfo() {
-		
-		//TODO GetData From DB.
-		//TODO DELETE Initialize Declation. Test GroupData
-		ArrayList<Group> groupList = new ArrayList<Group>();
-		
-		//If Group is Null, Create View for adding new group 
-		if (groupList.size() == 0) {
-			
-		}
-		
-	}
-
 	private void setupActionBar() {
 		ActionBar mActionBar = getActionBar();
 		if (mActionBar == null)
@@ -298,15 +276,50 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mDrawerLayout.closeDrawers();
 	}
-	
 	/*
 	 * Setup Area End
 	 ************************************************************************/
 	
+	
+	
 	/************************************************************************
 	 * Update View Area Start
 	 */
-
+	private void updateViewBySavedData() {
+		
+		/*
+		 * Alarm
+		 */
+		updateAlarmView(mPreferenceUtil.getAlarmHour(), mPreferenceUtil.getAlarmMinute());
+		
+		/*
+		 * Profile
+		 */
+		LayoutParams profileLayoutParam = mLeftDrawerProfileImageButton.getLayoutParams();
+		profileLayoutParam.width = mProfileSize;
+		profileLayoutParam.height = mProfileSize;
+		Drawable profile = mImageUtil.getProfileImage();
+		updateProfileImage(profile);
+		
+		/*
+		 * Status
+		 */
+		updateStatusView(mPreferenceUtil.getUserStatusEnumPosition());
+		
+		
+		/*
+		 * Group
+		 */
+		//TODO GetData From DB.
+		//TODO DELETE Initialize Declation. Test GroupData
+		ArrayList<Group> groupList = new ArrayList<Group>();
+		
+		//If Group is Null, Create View for adding new group 
+		if (groupList.size() == 0) {
+			
+		}
+	}
+	
 	private void updateProfileImage(Drawable profile) {
 		
 		if (profile == null) {
@@ -352,10 +365,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         mLeftDrawerAlarmButton.setText(displayTime);
         mMainTextViewAlarmTime.setText(displayTime);
 	}
-	
 	/*
 	 * Update View Area End
 	 ************************************************************************/
+	
+	
 	
 	/************************************************************************
 	 * LeftDrawer Image Crop Start
@@ -396,6 +410,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
     /*
 	 * LeftDrawer Image Crop End
 	 ************************************************************************/
+    
+    
+    
 
     @Override
 	public void onClick(View v) {
