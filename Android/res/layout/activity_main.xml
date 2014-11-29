@@ -12,33 +12,17 @@
         <LinearLayout
             android:id="@+id/main_content_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/main_color_blue"
             android:orientation="vertical"
             android:padding="@dimen/pad_15dp" >
-
-            <Button
-                android:id="@+id/main_btn_test1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Go to Chat Room"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/main_img_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_logo" />
-
-            <Button
-                android:id="@+id/main_btn_test2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CropImage"
-                android:textStyle="bold" />
+			
+            <include layout="@layout/main_user" />
 
             <include layout="@layout/main_group" />
+
             <include layout="@layout/main_group" />
+
             <include layout="@layout/main_group" />
 
             <Button

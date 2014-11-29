@@ -43,8 +43,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -108,17 +110,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	
 	
 	/**
-	 * The drawer toggle
-	 */
-	private ActionBarDrawerToggle mDrawerToggle;
-
-	
-	/**
 	 * MainContents
 	 */
-	private Button mBtnAddGroup;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private Button mMainBtnAddGroup;
 	private PreferenceUtil mPreferenceUtil;
 	private ImageUtil mImageUtil;
+	private ImageView mMainUserImage;
+	private TextView mMainTextViewCurrentStatus, mMainTextViewAlarmTime;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -130,12 +129,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    setupLeftDrawer();
 	    setupActionBar();
 	    setupGroupInfo();
+	    setupUserInfo();
 	    
 	    //TODO
-	    //setupUserInformation();
 	    //setupSensorInfo();
 	    
 	}
+	
 	/************************************************************************
 	 * Setup Area Start
 	 */
@@ -191,8 +191,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
 	private void setupMainComponent() {
 		// AddGroup
-		mBtnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
-		mBtnAddGroup.setOnClickListener(this);
+		mMainBtnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
+		mMainBtnAddGroup.setOnClickListener(this);
 		mPreferenceUtil = new PreferenceUtil(this);
 		mImageUtil = new ImageUtil(this);
 	}
@@ -284,6 +284,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mDrawerLayout.closeDrawers();
+	}
+	
+	private void setupUserInfo() {
+		mMainUserImage = (ImageView) findViewById(R.id.main_user_img_profile);
+		mMainTextViewCurrentStatus = (TextView) findViewById(R.id.main_user_txt_currentstatus);
+		mMainTextViewAlarmTime = (TextView) findViewById(R.id.main_user_txt_returnhome_time);
+
 	}
 	/*
 	 * Setup Area End
