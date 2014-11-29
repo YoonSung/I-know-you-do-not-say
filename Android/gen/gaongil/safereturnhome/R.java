@@ -2215,10 +2215,10 @@ containing a value of this type.
         public static final int main_btn_addgroup=0x7f090058;
         public static final int main_content_layout=0x7f090057;
         public static final int main_toggle_timeline=0x7f090081;
+        public static final int main_user_img_emoticon=0x7f09007c;
         public static final int main_user_img_profile=0x7f09007a;
-        public static final int main_user_img_status=0x7f09007d;
         public static final int main_user_txt_currentstatus=0x7f09007b;
-        public static final int main_user_txt_returnhome_time=0x7f09007c;
+        public static final int main_user_txt_returnhome_time=0x7f09007d;
         public static final int match_parent=0x7f090028;
         public static final int message_content=0x7f09005d;
         public static final int message_img_profile=0x7f09005b;

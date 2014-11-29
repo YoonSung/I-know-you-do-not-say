@@ -1,7 +1,6 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.exception.saveImageFileException;
 import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.Constant;
@@ -33,7 +32,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,7 +47,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
@@ -83,23 +80,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	        	int hour = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_HOUR);
 	        	int minute = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_MINUTE);
 	        	
-	        	/**
-	        	 * Save New Alarm Time
-	        	 */
+
+	        	// Save New Alarm Time
 	        	mPreferenceUtil.storeAlarmTime(hour, minute);
-	        	
-	        	/**
-	        	 * Change Button Text
-	        	 */
-	        	String timezone = Constant.TIME_ZONE_AM;
-                if (hour > 12) {
-                	timezone = Constant.TIME_ZONE_PM;
-                	hour -= 12;
-                }
-	        	
-                String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
-                mLeftDrawerAlarmButton.setText(displayTime);
-                
+	        	updateAlarmView(hour, minute);
 	        }
 	};
 	
@@ -115,39 +99,45 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	 */
 	private ActionBarDrawerToggle mDrawerToggle;
 	private Button mMainBtnAddGroup;
-	private PreferenceUtil mPreferenceUtil;
-	private ImageUtil mImageUtil;
-	private ImageView mMainUserImage;
+	private ImageView mMainUserProfileImage, mMainUserEmoticonImage;
 	private TextView mMainTextViewCurrentStatus, mMainTextViewAlarmTime;
+	
+	/**
+	 * Common Data 
+	 */
+	private int mProfileSize;
+	private ImageUtil mImageUtil;
+	private PreferenceUtil mPreferenceUtil;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
+	    setupCommonData();
 	    setupMainComponent();
 	    setupDrawer();
-	    setupLeftDrawer();
 	    setupActionBar();
 	    setupGroupInfo();
-	    setupUserInfo();
+	    setupLeftDrawer();
+	    //setupUserInfo();
 	    
 	    //TODO
 	    //setupSensorInfo();
 	    
 	}
 	
+	private void setupCommonData() {
+		mPreferenceUtil = new PreferenceUtil(this);
+		mImageUtil = new ImageUtil(this);
+		mProfileSize = mPreferenceUtil.getProfileSize();
+	}
+	
 	/************************************************************************
 	 * Setup Area Start
 	 */
 	private void setupLeftDrawer() {
-		
-		/**
-		 * Profile ImageButton
-		 */
-		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
-		int profileSize = mPreferenceUtil.getProfileSize();
-		
 		
 		/**
 		 * Alarm Setting
@@ -157,22 +147,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
 		// Getting fragment manger for this activity
 		mFragmentManager = getSupportFragmentManager();
-		
+		updateAlarmView(mPreferenceUtil.getAlarmHour(), mPreferenceUtil.getAlarmMinute());
 		
 		/**
-		 * Set ImageView Size Programmically
+		 * Profile ImageButton
 		 */
-		LayoutParams layoutParams = mLeftDrawerProfileImageButton.getLayoutParams();
-		layoutParams.width = profileSize;
-		layoutParams.height = profileSize;
+		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
+		LayoutParams profileLayoutParam = mLeftDrawerProfileImageButton.getLayoutParams();
+		profileLayoutParam.width = mProfileSize;
+		profileLayoutParam.height = mProfileSize;
+		
 		Drawable profile = mImageUtil.getProfileImage();
-		
-		if (profile != null) {
-			profile = getResources().getDrawable(R.drawable.ic_default_profile);
-			mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
-		}
-		
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
+		updateProfileImage(profile);
 		
 		/**
 		 * Spinner Setting
@@ -180,8 +167,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
 		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
+		
 		//apply Last saved status.
-		mLeftDrawerStatusSpinner.setSelection(mPreferenceUtil.getUserStatusEnumPosition());
+		updateStatusView(mPreferenceUtil.getUserStatusEnumPosition());
 		
 		mLeftDrawerStatusSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			
@@ -194,8 +182,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 					return;
 				}
 				
+				int enumPosition = view.getId();
 				//check if status same previous status, did not update anithing especially network things
-				mPreferenceUtil.storeUserStatusEnumPosition(view.getId());
+				mPreferenceUtil.storeUserStatusEnumPosition(position);
+				updateStatusView(enumPosition);
 			}
 
 			@Override
@@ -207,8 +197,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		// AddGroup
 		mMainBtnAddGroup = (Button) findViewById(R.id.main_btn_addgroup);
 		mMainBtnAddGroup.setOnClickListener(this);
-		mPreferenceUtil = new PreferenceUtil(this);
-		mImageUtil = new ImageUtil(this);
+		
+		// UserStatus
+		mMainUserProfileImage = (ImageView) findViewById(R.id.main_user_img_profile);
+		LayoutParams profileLayoutParam = mMainUserProfileImage.getLayoutParams();
+		profileLayoutParam.width = mProfileSize;
+		profileLayoutParam.height = mProfileSize;
+		
+		mMainTextViewCurrentStatus = (TextView) findViewById(R.id.main_user_txt_currentstatus);
+		mMainTextViewAlarmTime = (TextView) findViewById(R.id.main_user_txt_returnhome_time);
+		mMainUserEmoticonImage = (ImageView) findViewById(R.id.main_user_img_emoticon);
+		
 	}
 	
 	private void setupGroupInfo() {
@@ -300,20 +299,105 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mDrawerLayout.closeDrawers();
 	}
 	
-	private void setupUserInfo() {
-		mMainUserImage = (ImageView) findViewById(R.id.main_user_img_profile);
-		mMainTextViewCurrentStatus = (TextView) findViewById(R.id.main_user_txt_currentstatus);
-		mMainTextViewAlarmTime = (TextView) findViewById(R.id.main_user_txt_returnhome_time);
-
-	}
 	/*
 	 * Setup Area End
 	 ************************************************************************/
 	
+	/************************************************************************
+	 * Update View Area Start
+	 */
+
+	private void updateProfileImage(Drawable profile) {
+		
+		if (profile == null) {
+			return;
+		}
+		
+		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
+		mImageUtil.setCircleImageToTargetView(mMainUserProfileImage, profile);
+	}
 	
+	private void updateProfileImageView(Bitmap profile) {
+		
+		if (profile == null) {
+			return;
+		}
+		
+		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
+		mImageUtil.setCircleImageToTargetView(mMainUserProfileImage, profile);
+	}
 	
+	private void updateStatusView(int position) {
+		mLeftDrawerStatusSpinner.setSelection(position);
+		UserStatus userStatus = UserStatus.getList().get(position);
+		
+		//update text
+		mMainTextViewCurrentStatus.setText(userStatus.getStringValue(MainActivity.this));
+		
+		//update emoticon
+		mMainUserEmoticonImage.setImageDrawable(getResources().getDrawable(userStatus.getImageResourceId()));
+	}
 	
+	private void updateAlarmView(int hour, int minute) {
+		/**
+    	 * Change Button Text
+    	 */
+    	String timezone = Constant.TIME_ZONE_AM;
+        if (hour > 12) {
+        	timezone = Constant.TIME_ZONE_PM;
+        	hour -= 12;
+        }
+    	
+        String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
+        mLeftDrawerAlarmButton.setText(displayTime);
+        mMainTextViewAlarmTime.setText(displayTime);
+	}
+	
+	/*
+	 * Update View Area End
+	 ************************************************************************/
+	
+	/************************************************************************
+	 * LeftDrawer Image Crop Start
+	 */
 	@Override
+	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+        	beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+        	handleCrop(resultCode, result);
+        }
+	}
+	
+	private void beginCrop(Uri source) {
+        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        new Crop(source).output(outputUri).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+        	Bitmap croppedImage = null;
+        	
+        	try {
+				croppedImage = StaticUtils.scaleBitmap(this, Crop.getOutput(result), mProfileSize, mProfileSize);
+			} catch (Exception e) {
+				//TODO
+				e.printStackTrace();
+			}
+        	
+			// TODO Send Image by Network. (All Device Common Size Image) 
+			// Save Proper Image
+        	updateProfileImageView(croppedImage);
+        	
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    /*
+	 * LeftDrawer Image Crop End
+	 ************************************************************************/
+
+    @Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 
@@ -361,59 +445,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		ft.add(mTimePickerDialogFragment, Constant.TIME_PICKER);
 		ft.commit();
 	}
-	
-	/************************************************************************
-	 * LeftDrawer Image Crop Start
-	 */
-	@Override
-	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
-        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
-        	beginCrop(result.getData());
-        } else if (requestCode == Crop.REQUEST_CROP) {
-        	handleCrop(resultCode, result);
-        }
-	}
-	
-	private void beginCrop(Uri source) {
-        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        new Crop(source).output(outputUri).asSquare().start(this);
-    }
-
-    private void handleCrop(int resultCode, Intent result) {
-        if (resultCode == RESULT_OK) {
-        	int profileSize = mPreferenceUtil.getProfileSize();
-        	Bitmap croppedImage = null;
-        	
-        	
-        	try {
-				croppedImage = StaticUtils.scaleBitmap(this, Crop.getOutput(result), profileSize, profileSize);
-			} catch (Exception e) {
-				//TODO
-				e.printStackTrace();
-			}
-        	
-			// TODO Send Image by Network. (All Device Common Size Image) 
-			// Save Proper Image
-        	
-			try {
-				mImageUtil.saveProfileImage(croppedImage);
-				
-			} catch (saveImageFileException e) {
-				Log.e(TAG, e.getMessage());
-				e.printStackTrace();
-				
-			}
-			
-			mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, croppedImage);
-            
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-    /*
-	 * LeftDrawer Image Crop End
-	 ************************************************************************/
-
+    
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
