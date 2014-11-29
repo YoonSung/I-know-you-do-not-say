@@ -186,9 +186,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	}
 
 	private void setupRightDrawer() {
-		ArrayList<MessageData> testList = new ArrayList<MessageData>() {{
-			add(new MessageData(1, 1, "test", new Date(),  MessageType.NORMAL, true ));
-		}};
+		ArrayList<MessageData> testList = new ArrayList<MessageData>();
+		testList.add(new MessageData(1, 1, "test", new Date(),  MessageType.NORMAL, true ));
+		
 		this.mTimeLineAdapter = new TimeLineAdapter(MainActivity.this, testList);
 		
 		mRightDrawerListView = (ListView) mRightDrawerView.findViewById(R.id.drawer_main_right_listview);

@@ -40,11 +40,9 @@ public class TimeLineAdapter extends BaseAdapter {
     }
  
     public View getView(final int position, View view, ViewGroup parent) {
-    	
     	MessageData message = getItem(position);
-    	
     	try {
-			message.getTimeLineView(mContext, mLayoutInflater);
+			return message.getTimeLineView(mContext, mLayoutInflater);
 		} catch (InvalidMessageException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

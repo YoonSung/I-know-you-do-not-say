@@ -21,7 +21,6 @@
             android:text="@string/drawer_main_right_txt_timeline_title" />
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -33,7 +32,7 @@
     <ListView
         android:id="@+id/drawer_main_right_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent" >
     </ListView>
 
 </LinearLayout>

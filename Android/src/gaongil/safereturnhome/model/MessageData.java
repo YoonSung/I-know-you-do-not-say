@@ -48,7 +48,7 @@ public class MessageData {
         //Test Image Load Start
         //TODO connect MessageData Resource
         //TODO getRoundedImage Method is to be static
-        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
+        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_chat_user1);
         RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
         //Test Image Load End
         
@@ -70,16 +70,15 @@ public class MessageData {
 		return view;
 	}
 	
-	public void getTimeLineView(Context context, LayoutInflater layoutInflater) throws InvalidMessageException {
+	public View getTimeLineView(Context context, LayoutInflater layoutInflater) throws InvalidMessageException {
 		if (this.type == null)
 			throw new InvalidMessageException();
-		
 		View view = layoutInflater.inflate (R.layout.timeline_list_row, null);
 		
         //Test Image Load Start
         //TODO connect MessageData Resource
         //TODO getRoundedImage Method is to be static
-        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
+        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_chat_user1);
         RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
         //Test Image Load End
         
@@ -94,6 +93,8 @@ public class MessageData {
         // writtenTime set
         TextView receivedTime = (TextView) view.findViewById(R.id.drawer_main_right_txt_receivedtime);
         receivedTime.setText(writtenTimeFormat.format(this.date));
+        
+        return view;
 	}
 	
 	public int getGroupId() {
