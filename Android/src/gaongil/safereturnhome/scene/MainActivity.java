@@ -9,6 +9,7 @@ import gaongil.safereturnhome.support.ImageUtil;
 import gaongil.safereturnhome.support.PreferenceUtil;
 import gaongil.safereturnhome.support.StaticUtils;
 import gaongil.safereturnhome.support.StatusSpinnerAdapter;
+import gaongil.safereturnhome.support.TimePickerDialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +25,12 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -49,22 +54,72 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	
 	private final String TAG = MainActivity.class.getSimpleName();
 
-	/// The drawer layout
+	/**
+	 * The drawer layout
+	 */
 	private DrawerLayout mDrawerLayout;
 	
-	// Left drawer
+	
+	/**
+	 * Left drawer
+	 */
 	private View mLeftDrawerView;
 	private Spinner mLeftDrawerStatusSpinner;
 	private TimePickerDialog.OnTimeSetListener mLeftDrawerStatusSpinnerListener;
 	private ImageButton mLeftDrawerProfileImageButton;
+	private Button mLeftDrawerAlarmButton;
+	//TimePickerDialog
+	private TimePickerDialogFragment mTimePickerDialogFragment;
+	private FragmentManager mFragmentManager; 
+	// This handles the message send from TimePickerDialogFragment on setting Time
+	Handler mTimePickerDialogHandler = new Handler(){
+	        @Override
+	        public void handleMessage(Message message){   
+	        	Bundle bundleFromTimePickerFragment = message.getData();
+	        	
+	        	int hour = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_HOUR);
+	        	int minute = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_MINUTE);
+	        	
+	        	/**
+	        	 * Save New Alarm Time
+	        	 */
+	        	mPreferenceUtil.storeAlarmTime(hour, minute);
+	        	
+	        	/**
+	        	 * Change Button Text
+	        	 */
+	        	String timezone = Constant.TIME_ZONE_AM;
+                if (hour > 12) {
+                	timezone = Constant.TIME_ZONE_PM;
+                	hour -= 12;
+                }
+	        	
+                mLeftDrawerAlarmButton.setText(
+                	timezone
+                	+ " "
+                	+ hour 
+                	+ Constant.TIME_SEPERATOR 
+                	+ minute
+                );
+	        }
+	};
 	
-	// Right drawer
+	
+	/**
+	 * Right drawer
+	 */
 	private View mRightDrawerView;
 	
-	// The drawer toggle
+	
+	/**
+	 * The drawer toggle
+	 */
 	private ActionBarDrawerToggle mDrawerToggle;
 
-	// MainContents
+	
+	/**
+	 * MainContents
+	 */
 	private Button mBtnAddGroup;
 	private PreferenceUtil mPreferenceUtil;
 	private ImageUtil mImageUtil;
@@ -90,27 +145,44 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	 */
 	private void setupLeftDrawer() {
 		
-		// Profile ImageButton
+		/**
+		 * Profile ImageButton
+		 */
 		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
 		int profileSize = mPreferenceUtil.getProfileSize();
 		
+		
+		/**
+		 * Alarm Setting
+		 */
+		mLeftDrawerAlarmButton = (Button) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_btn_alarm);
+		mLeftDrawerAlarmButton.setOnClickListener(this);
+		mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
+		// Getting fragment manger for this activity
+		mFragmentManager = getSupportFragmentManager();
+		
+		
+		/**
+		 * Set ImageView Size Programmically
+		 */
 		LayoutParams layoutParams = mLeftDrawerProfileImageButton.getLayoutParams();
 		layoutParams.width = profileSize;
 		layoutParams.height = profileSize;
-		
 		Drawable profile = mImageUtil.getProfileImage();
 		if (profile == null) {
 			profile = getResources().getDrawable(R.drawable.ic_default_profile);
 		}
-		
 		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
 		
-		// Spinner Setting
+		
+		
+		/**
+		 * Spinner Setting
+		 */
 		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
 		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
 		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
-		
 		mLeftDrawerStatusSpinnerListener =  new TimePickerDialog.OnTimeSetListener() {
 	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 	        	//TODO
@@ -246,11 +318,30 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 				// Cropped Image Next Routine - onActivityResult, beginCrop
 				Crop.pickImage(MainActivity.this);
 				break;
-				
+			case R.id.drawer_main_left_user_btn_alarm:
+				showTimePicker();
+				break;
 		} //switch end
 	}
 	
-	
+	private void showTimePicker() {
+		Bundle bundleToTimePickerDialogFragment = new Bundle();
+		bundleToTimePickerDialogFragment.putInt(
+				Constant.BUNDLE_KEY_TIMEPICKER_HOUR, 
+				mPreferenceUtil.getAlarmHour()
+		);
+		bundleToTimePickerDialogFragment.putInt(
+				Constant.BUNDLE_KEY_TIMEPICKER_MINUTE, 
+				mPreferenceUtil.getAlarmMinute()
+		);
+		
+		mTimePickerDialogFragment.setArguments(bundleToTimePickerDialogFragment);
+		
+		FragmentTransaction ft = mFragmentManager.beginTransaction();
+		// Adding the fragment object to the fragment transaction
+		ft.add(mTimePickerDialogFragment, Constant.TIME_PICKER);
+		ft.commit();
+	}
 	
 	/************************************************************************
 	 * LeftDrawer Image Crop Start

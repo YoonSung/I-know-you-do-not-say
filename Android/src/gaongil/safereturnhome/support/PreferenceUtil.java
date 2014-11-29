@@ -41,13 +41,26 @@ public class PreferenceUtil extends Activity{
         return readStringPreference(Constant.PREFERENCE_KEY_REG_ID);
     }
 
-	public void saveProfileSize(int profileWidth) {
+	public void storeProfileSize(int profileWidth) {
 		savePreference(Constant.PREFERENCE_KEY_PROFILE_SIZE, profileWidth);
 	}
     
     public int getProfileSize() {
 		return readIntPreference(Constant.PREFERENCE_KEY_PROFILE_SIZE);
 	}
+    
+    public void storeAlarmTime(int hour, int minute) {
+    	savePreference(Constant.PREFERENCE_KEY_ALARM_HOUR, hour);
+    	savePreference(Constant.PREFERENCE_KEY_ALARM_MINUTE, hour);
+    }
+    
+    public int getAlarmHour() {
+    	return readIntPreference(Constant.PREFERENCE_KEY_ALARM_HOUR);
+    }
+    
+    public int getAlarmMinute() {
+    	return readIntPreference(Constant.PREFERENCE_KEY_ALARM_MINUTE);
+    }
     
     /************************************************************************************************************************
 	 *	Private PreferenceUtil Methods 
@@ -62,30 +75,17 @@ public class PreferenceUtil extends Activity{
 		editor.commit();
 	}
 	
-	private void savePreference(String key, float value) {
-		editor.putFloat(key, value);
-		editor.commit();
-	}
-
 	private void savePreference(String key, boolean value) {
 		editor.putBoolean(key, value);
 		editor.commit();
 	}
 
-	private boolean readBooleanPreference(String key) {
-		return spf.getBoolean(key, false);
-	}
-	
 	private String readStringPreference(String key) {
 		return spf.getString(key, null);
 	}
 
-	private float readFloatPreference(String key) {
-		return spf.getFloat(key, Float.MIN_VALUE);
-	}
-	
 	private int readIntPreference(String key) {
-		return spf.getInt(key, Integer.MIN_VALUE);
+		return spf.getInt(key, 0);
 	}
 
 	//TODO

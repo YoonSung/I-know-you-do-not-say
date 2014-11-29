@@ -84,7 +84,7 @@ public class SplashScreen extends Activity {
 		display.getSize(size);
 		int deviceWidth = size.x;
 		
-		preferenceManager.saveProfileSize(deviceWidth / Constant.PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH);
+		preferenceManager.storeProfileSize(deviceWidth / Constant.PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH);
 	}
 
 	private void init() {

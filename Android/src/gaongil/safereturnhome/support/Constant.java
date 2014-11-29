@@ -8,6 +8,8 @@ public class Constant {
 	public static final String PREFERENCE_KEY_REG_ID = "registrationId";
 	public static final String PREFERENCE_KEY_APP_VERSION = "appVersion";
 	public static final String PREFERENCE_KEY_PROFILE_SIZE = "profileSize";
+	public static final String PREFERENCE_KEY_ALARM_HOUR = "alarmHour";
+	public static final String PREFERENCE_KEY_ALARM_MINUTE = "alarmMinute";
 	
 	/********************************************************************************
 	 * 										Network Key
@@ -40,4 +42,11 @@ public class Constant {
 	public static final String DATE_FORMAT = "a h:mm";
 	public static final int PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH = 4;
 	public static final String PROFILE_IMAGE_NAME = "profile.png";
+	
+	public static final String BUNDLE_KEY_TIMEPICKER_HOUR = "timepickerHour";
+	public static final String BUNDLE_KEY_TIMEPICKER_MINUTE = "timepickerMinute";
+	public static final String TIME_ZONE_AM = "AM";
+	public static final String TIME_ZONE_PM = "PM";
+	public static final String TIME_PICKER = "timePicker";
+	public static final String TIME_SEPERATOR = ":";
 }

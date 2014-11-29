@@ -107,6 +107,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/pad_zero_point_1"
+                    android:text="@string/drawer_main_left_user_btn_alarm_default"
                     android:layout_weight="5"
                     android:background="@drawable/shape_round_button" />
             </LinearLayout>

@@ -20,7 +20,8 @@
     <string name="drawer_main_left_user_txt_status">현재상태</string>
     <string name="drawer_main_left_user_txt_alarm">귀가시간</string>
     <string name="drawer_main_left_user_txt_safetyzone">안전지역</string>
-	
+	<string name="drawer_main_left_user_btn_alarm_default">미설정</string>
+    
 	<string name="status_bad">나쁨</string>
 	<string name="status_flat">무표정</string>
 	<string name="status_happy">행복함</string>
