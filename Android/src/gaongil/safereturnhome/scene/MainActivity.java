@@ -94,13 +94,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
                 	hour -= 12;
                 }
 	        	
-                mLeftDrawerAlarmButton.setText(
-                	timezone
-                	+ " "
-                	+ hour 
-                	+ Constant.TIME_SEPERATOR 
-                	+ minute
-                );
+                String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
+                mLeftDrawerAlarmButton.setText(displayTime);
+                
 	        }
 	};
 	

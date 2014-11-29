@@ -48,5 +48,4 @@ public class Constant {
 	public static final String TIME_ZONE_AM = "AM";
 	public static final String TIME_ZONE_PM = "PM";
 	public static final String TIME_PICKER = "timePicker";
-	public static final String TIME_SEPERATOR = ":";
 }

@@ -51,7 +51,7 @@ public class PreferenceUtil extends Activity{
     
     public void storeAlarmTime(int hour, int minute) {
     	savePreference(Constant.PREFERENCE_KEY_ALARM_HOUR, hour);
-    	savePreference(Constant.PREFERENCE_KEY_ALARM_MINUTE, hour);
+    	savePreference(Constant.PREFERENCE_KEY_ALARM_MINUTE, minute);
     }
     
     public int getAlarmHour() {
