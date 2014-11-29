@@ -3,10 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#404040"
+    android:orientation="vertical"
     tools:context="gaongil.safereturnhome.scene.MainActivity" >
 
-    <include layout="@layout/drawer_main_left_user" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/drawer_main_left_user" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/drawer_seperator" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/drawer_main_left_with" />
 
 </LinearLayout>
