@@ -165,10 +165,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		layoutParams.width = profileSize;
 		layoutParams.height = profileSize;
 		Drawable profile = mImageUtil.getProfileImage();
-		if (profile == null) {
+		
+		if (profile != null) {
 			profile = getResources().getDrawable(R.drawable.ic_default_profile);
+			mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
 		}
-		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
+		
 		mLeftDrawerProfileImageButton.setOnClickListener(this);
 		
 		

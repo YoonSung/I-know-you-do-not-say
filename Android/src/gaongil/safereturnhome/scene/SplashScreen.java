@@ -66,7 +66,7 @@ public class SplashScreen extends Activity {
             }
             
             int profileImageSize = preferenceManager.getProfileSize();
-            if (profileImageSize == Integer.MIN_VALUE) {
+            if (profileImageSize == 0) {
             	saveProfileImageWidth();
             }
             
