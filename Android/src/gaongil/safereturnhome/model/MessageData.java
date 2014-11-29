@@ -38,13 +38,12 @@ public class MessageData {
 	}
 	
 	//getImageResourceId
-	public View getChatView(Context context) throws InvalidMessageException {
+	public View getChatView(Context context, LayoutInflater layoutInflater) throws InvalidMessageException {
 		if (this.type == null)
 			throw new InvalidMessageException();
 		
 		int layoutId = isReceived ? R.layout.chat_message_rcv : R.layout.chat_message_sent;
-        LayoutInflater li = (LayoutInflater)context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View view = li.inflate (layoutId, null);
+        View view = layoutInflater.inflate (layoutId, null);
         
         BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_profile);
         RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
@@ -66,7 +65,7 @@ public class MessageData {
 		return view;
 	}
 	
-	public void getTimeLineView(Context mContext) throws InvalidMessageException {
+	public void getTimeLineView(Context mContext, LayoutInflater layoutInflater) throws InvalidMessageException {
 		if (this.type == null)
 			throw new InvalidMessageException();
 	}

@@ -14,14 +14,14 @@ import android.widget.BaseAdapter;
 public class TimeLineAdapter extends BaseAdapter {
  
     Context mContext;
-    LayoutInflater mInflater;
+    LayoutInflater mLayoutInflater;
     private List<MessageData> mMessageList = null;
  
     public TimeLineAdapter(Context context, List<MessageData> messageDataList) {
      
         mContext = context;
         this.mMessageList = messageDataList;
-        mInflater = LayoutInflater.from(mContext);
+        mLayoutInflater = LayoutInflater.from(context);
     }
  
     @Override
@@ -44,7 +44,7 @@ public class TimeLineAdapter extends BaseAdapter {
     	MessageData message = getItem(position);
     	
     	try {
-			message.getTimeLineView(mContext);
+			message.getTimeLineView(mContext, mLayoutInflater);
 		} catch (InvalidMessageException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,6 +4,7 @@ import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.exception.InvalidMessageException;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
+import gaongil.safereturnhome.support.ChatAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +77,7 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 	private void init() {
 		 // Chatting ListView Setting
 	    ListView list = (ListView)findViewById(R.id.chat_list);
-	    mChatAdapter = new ChatAdapter();
+	    mChatAdapter = new ChatAdapter(ChatActivity.this, mMessageList);
 	    
 	    list.setAdapter(mChatAdapter);
 	    list.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -136,45 +137,4 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 			break;
 		}
 	}
-
-	/************************************************************************
-	 * Custom ChatAdapter
-	 */
-	private class ChatAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return mMessageList.size();
-		}
-
-		@Override
-		public MessageData getItem(int index) {
-			return mMessageList.get(index);
-		}
-
-		@Override
-		public long getItemId(int index) {
-			return index;
-		}
-
-		@Override
-		public View getView(int position, View view, ViewGroup viewGroup) {
-			MessageData message = getItem(position);
-			
-			// Type check and mapping proper XML Layout
-			// Input data to layout component
-			try {
-				return message.getChatView(ChatActivity.this);
-				
-			} catch (InvalidMessageException e) {
-				Log.e(TAG, e.getMessage());
-				e.printStackTrace();
-				
-				return null;
-			}
-		}
-	}
-	/*
-	 * Custom ChatAdapter
-	 ************************************************************************/
 }
