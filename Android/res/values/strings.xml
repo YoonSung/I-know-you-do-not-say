@@ -32,7 +32,13 @@
 	<string name="drawer_main_left_with_txt_manual">같이하는 방법 알아보기</string>
 	<string name="drawer_main_right_txt_timeline_title">Time Line</string>
 	
-	<string name="drawer_chat_left_returnhome_currentlocation">현위치</string>
+	<string name="drawer_chat_left_txt_returnhome_currentlocation">현위치</string>
+	<string name="drawer_chat_right_txt_returnhome_friends">나와 함께하는 친구들</string>
+	<string name="drawer_chat_right_txt_returnhome_ask_friends">친구들 조르기</string>
+	<string name="drawer_chat_right_txt_request_call">전화 </string>
+	<string name="drawer_chat_right_txt_request_walktogether">동행</string>
+	<string name="drawer_chat_right_txt_request_info">주변정보</string>
+	<string name="drawer_chat_right_txt_request_poking">콕찔러보기</string>
 	
 	
 	<string name="group_txt_title">그룹추가</string>

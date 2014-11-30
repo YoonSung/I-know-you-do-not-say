@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/pad_10dp"
             android:layout_marginTop="@dimen/pad_10dp"
-            android:text="@string/drawer_chat_left_returnhome_currentlocation"
+            android:text="@string/drawer_chat_left_txt_returnhome_currentlocation"
             android:textColor="@color/black"
             android:textSize="@dimen/txt_20sp"
             android:textStyle="bold" />
