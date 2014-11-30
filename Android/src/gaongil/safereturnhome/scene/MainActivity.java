@@ -12,39 +12,30 @@ import gaongil.safereturnhome.support.StaticUtils;
 import gaongil.safereturnhome.support.StatusSpinnerAdapter;
 import gaongil.safereturnhome.support.TimeLineAdapter;
 import gaongil.safereturnhome.support.TimePickerDialogFragment;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.TranslateAnimation;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,9 +44,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.soundcloud.android.crop.Crop;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends CustomActivity implements OnClickListener{
 	
 	/**
 	 * The drawer layout
@@ -116,7 +108,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
-	    setupActionBar();
+	    super.setupActionBar();
 	    setupCommonData();
 	    setupMainComponent();
 	    
@@ -140,7 +132,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mFragmentManager = getSupportFragmentManager();
 	}
 	
-	private void setupLeftDrawer() {
+	@Override
+	protected void setupLeftDrawer() {
 		
 		/**
 		 * Alarm Setting
@@ -185,7 +178,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		});
 	}
 
-	private void setupRightDrawer() {
+	@Override
+	protected void setupRightDrawer() {
 		ArrayList<MessageData> testList = new ArrayList<MessageData>();
 		testList.add(new MessageData(1, 1, "test", new Date(),  MessageType.NORMAL, true ));
 		
@@ -215,37 +209,24 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		
 	}
 	
-	private void setupActionBar() {
-		ActionBar mActionBar = getActionBar();
-		if (mActionBar == null)
-			return;
-		
-		//mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		mActionBar.setDisplayShowTitleEnabled(false);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setLogo(R.drawable.ic_menu);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
-		
-		//Its default system menu graphical icon
-		//mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setHomeButtonEnabled(true);
-	}
-
-	private void setupDrawer() {
-		
+	@Override
+	protected void setupDrawer() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_main_layout);
-		
 		mLeftDrawerView = (View) findViewById(R.id.drawer_main_left);
 		mRightDrawerView = (View) findViewById(R.id.drawer_main_right);
-		
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
-		
 		LinearLayout mainContentLayout = (LinearLayout) findViewById(R.id.main_content_layout);
 		
-		mDrawerToggle = StaticUtils.getActionBarDrawerToggle(this, mDrawerLayout, mLeftDrawerView, mRightDrawerView, mainContentLayout, R.drawable.ic_menu);
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		mDrawerLayout.closeDrawers();
+		mDrawerToggle = super.getActionBarDrawerToggle(
+				this, 
+				mDrawerLayout, 
+				mLeftDrawerView, 
+				mRightDrawerView, 
+				mainContentLayout, 
+				R.drawable.ic_menu,
+				R.menu.main
+		);
+		
+		super.setDrawerLayoutOptions(mDrawerLayout, mDrawerToggle);
 	}
 	/*
 	 * Setup Area End
@@ -436,59 +417,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	}
     
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
-	}
-	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggle
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onRightDrawerToggleSelected(MenuItem item) {
+		if (mDrawerLayout.isDrawerOpen(mRightDrawerView)) {
+			mDrawerLayout.closeDrawer(mRightDrawerView);
+		} else {
+			mDrawerLayout.openDrawer(mRightDrawerView);
+		}
 		
-		//Left Drawer Toggle Clicked
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-			
-		//Right Drawer Toggle Clicked
-		} else if (item.getItemId() == R.id.main_toggle_timeline) {
-			if (mDrawerLayout.isDrawerOpen(mRightDrawerView)) {
-				mDrawerLayout.closeDrawer(mRightDrawerView);
-			} else {
-				mDrawerLayout.openDrawer(mRightDrawerView);
-			}
-			
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-				getSupportFragmentManager().popBackStackImmediate();
-			}
-			else
-				finish();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		getMenuInflater().inflate(R.menu.main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
 	
 }
