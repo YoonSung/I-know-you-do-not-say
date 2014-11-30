@@ -35,6 +35,14 @@
 	
 	<string name="group_txt_title">그룹추가</string>
 	<string name="group_txt_groupname">그룹명</string>
+	<string name="group_txt_groupmember">그룹원</string>
+	<string name="group_txt_share">공유설정</string>
+	<string name="group_txt_share_location">위치정보</string>
+	<string name="group_txt_share_sensor">센서정보</string>
+	<string name="group_txt_share_on">ON</string>
+	<string name="group_txt_share_off">OFF</string>
+	<string name="group_btn_create">생성</string>
+	<string name="group_btn_cancle">취소</string>
 	
 	<string name="status_bad">나쁨</string>
 	<string name="status_flat">무표정</string>

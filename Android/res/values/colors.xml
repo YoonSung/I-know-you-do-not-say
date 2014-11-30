@@ -12,6 +12,9 @@
     <color name="main_color_gray">#acacac</color>
     <color name="main_text_color">#3F7582</color>
     <color name="main_color_lightgray">#d9d7d7</color>
+    <color name="main_color_red">#BC3700</color>
+    <color name="main_color_lightred">#F06164</color>
+        
     <color name="text_gray">#42454D</color>
     <color name="chat_cozy">#f3ede8</color>
     <color name="drawer_background">#404040</color>
