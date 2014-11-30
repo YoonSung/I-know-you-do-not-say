@@ -1722,26 +1722,26 @@ containing a value of this type.
         public static final int abc_config_showMenuShortcutsWhenKeyboardPresent=0x7f050003;
     }
     public static final class color {
-        public static final int abc_background_cache_hint_selector_material_dark=0x7f06005b;
-        public static final int abc_background_cache_hint_selector_material_light=0x7f06005c;
+        public static final int abc_background_cache_hint_selector_material_dark=0x7f06005c;
+        public static final int abc_background_cache_hint_selector_material_light=0x7f06005d;
         public static final int abc_input_method_navigation_guard=0x7f060003;
-        public static final int abc_primary_text_disable_only_material_dark=0x7f06005d;
-        public static final int abc_primary_text_disable_only_material_light=0x7f06005e;
-        public static final int abc_primary_text_material_dark=0x7f06005f;
-        public static final int abc_primary_text_material_light=0x7f060060;
-        public static final int abc_search_url_text=0x7f060061;
+        public static final int abc_primary_text_disable_only_material_dark=0x7f06005e;
+        public static final int abc_primary_text_disable_only_material_light=0x7f06005f;
+        public static final int abc_primary_text_material_dark=0x7f060060;
+        public static final int abc_primary_text_material_light=0x7f060061;
+        public static final int abc_search_url_text=0x7f060062;
         public static final int abc_search_url_text_normal=0x7f060000;
         public static final int abc_search_url_text_pressed=0x7f060002;
         public static final int abc_search_url_text_selected=0x7f060001;
-        public static final int abc_secondary_text_material_dark=0x7f060062;
-        public static final int abc_secondary_text_material_light=0x7f060063;
+        public static final int abc_secondary_text_material_dark=0x7f060063;
+        public static final int abc_secondary_text_material_light=0x7f060064;
         public static final int accent_material_dark=0x7f06000f;
         public static final int accent_material_light=0x7f06000e;
         public static final int background_floating_material_dark=0x7f060006;
         public static final int background_floating_material_light=0x7f060007;
         public static final int background_material_dark=0x7f060004;
         public static final int background_material_light=0x7f060005;
-        public static final int black=0x7f06004a;
+        public static final int black=0x7f06004b;
         /**  White 50% 
          */
         public static final int bright_foreground_disabled_material_dark=0x7f060016;
@@ -1754,7 +1754,7 @@ containing a value of this type.
         public static final int bright_foreground_material_light=0x7f060015;
         public static final int button_material_dark=0x7f060010;
         public static final int button_material_light=0x7f060011;
-        public static final int chat_cozy=0x7f060053;
+        public static final int chat_cozy=0x7f060054;
         public static final int common_action_bar_splitter=0x7f06003a;
         /**  Sign-in Button Colors 
          */
@@ -1767,19 +1767,19 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f060037;
         public static final int common_signin_btn_light_text_focused=0x7f060038;
         public static final int common_signin_btn_light_text_pressed=0x7f060036;
-        public static final int common_signin_btn_text_dark=0x7f060064;
-        public static final int common_signin_btn_text_light=0x7f060065;
-        public static final int crop__button_bar=0x7f060057;
-        public static final int crop__button_text=0x7f060058;
-        public static final int crop__selector_focused=0x7f06005a;
-        public static final int crop__selector_pressed=0x7f060059;
-        public static final int crop_highlight=0x7f060056;
+        public static final int common_signin_btn_text_dark=0x7f060065;
+        public static final int common_signin_btn_text_light=0x7f060066;
+        public static final int crop__button_bar=0x7f060058;
+        public static final int crop__button_text=0x7f060059;
+        public static final int crop__selector_focused=0x7f06005b;
+        public static final int crop__selector_pressed=0x7f06005a;
+        public static final int crop_highlight=0x7f060057;
         public static final int dim_foreground_disabled_material_dark=0x7f06001c;
         public static final int dim_foreground_disabled_material_light=0x7f06001d;
         public static final int dim_foreground_material_dark=0x7f06001a;
         public static final int dim_foreground_material_light=0x7f06001b;
-        public static final int drawer_background=0x7f060054;
-        public static final int drawer_seperator=0x7f060055;
+        public static final int drawer_background=0x7f060055;
+        public static final int drawer_seperator=0x7f060056;
         /**  TODO: This is 40% alpha on the default accent color. 
          */
         public static final int highlighted_text_material_dark=0x7f060020;
@@ -1790,11 +1790,11 @@ containing a value of this type.
         public static final int hint_foreground_material_light=0x7f06001f;
         public static final int link_text_material_dark=0x7f060022;
         public static final int link_text_material_light=0x7f060023;
-        public static final int main_color_blue=0x7f06004d;
-        public static final int main_color_gray=0x7f06004f;
-        public static final int main_color_lightblue=0x7f06004e;
-        public static final int main_color_lightgray=0x7f060051;
-        public static final int main_text_color=0x7f060050;
+        public static final int main_color_blue=0x7f06004e;
+        public static final int main_color_gray=0x7f060050;
+        public static final int main_color_lightblue=0x7f06004f;
+        public static final int main_color_lightgray=0x7f060052;
+        public static final int main_text_color=0x7f060051;
         public static final int material_blue_grey_800=0x7f06002e;
         public static final int material_blue_grey_900=0x7f06002f;
         public static final int material_blue_grey_950=0x7f060030;
@@ -1818,11 +1818,11 @@ containing a value of this type.
         public static final int secondary_text_default_material_light=0x7f060025;
         public static final int secondary_text_disabled_material_dark=0x7f06002b;
         public static final int secondary_text_disabled_material_light=0x7f060029;
-        public static final int skin_light=0x7f06004c;
+        public static final int skin_light=0x7f06004d;
         public static final int switch_thumb_normal_material_dark=0x7f060012;
         public static final int switch_thumb_normal_material_light=0x7f060013;
-        public static final int text_gray=0x7f060052;
-        public static final int transparent=0x7f06004b;
+        public static final int text_gray=0x7f060053;
+        public static final int transparent=0x7f06004c;
         public static final int wallet_bright_foreground_disabled_holo_light=0x7f060040;
         /** 
          Wallet colors to support consistent Wallet fragment holo dark UI in client application
@@ -1841,10 +1841,11 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f060042;
         public static final int wallet_holo_blue_light=0x7f060046;
         public static final int wallet_link_text_light=0x7f060047;
-        public static final int wallet_primary_text_holo_light=0x7f060066;
-        public static final int wallet_secondary_text_holo_dark=0x7f060067;
-        public static final int white=0x7f060049;
+        public static final int wallet_primary_text_holo_light=0x7f060067;
+        public static final int wallet_secondary_text_holo_dark=0x7f060068;
+        public static final int white=0x7f06004a;
         public static final int white_smoke=0x7f060048;
+        public static final int yellow=0x7f060049;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -2123,14 +2124,16 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020072;
         public static final int shape_checkbox_with=0x7f020073;
         public static final int shape_circle=0x7f020074;
-        public static final int shape_round_button=0x7f020075;
-        public static final int shape_round_edt=0x7f020076;
-        public static final int shape_round_linearlayout_black=0x7f020077;
-        public static final int shape_round_linearlayout_white=0x7f020078;
-        public static final int stroke_rect_maingray=0x7f020079;
-        public static final int test_chat_user1=0x7f02007a;
-        public static final int test_chat_user2=0x7f02007b;
-        public static final int test_profile=0x7f02007c;
+        public static final int shape_edittext=0x7f020075;
+        public static final int shape_round_button=0x7f020076;
+        public static final int shape_round_edt=0x7f020077;
+        public static final int shape_round_linearlayout_black=0x7f020078;
+        public static final int shape_round_linearlayout_white=0x7f020079;
+        public static final int shape_round_linearlayout_yellow=0x7f02007a;
+        public static final int stroke_rect_maingray=0x7f02007b;
+        public static final int test_chat_user1=0x7f02007c;
+        public static final int test_chat_user2=0x7f02007d;
+        public static final int test_profile=0x7f02007e;
     }
     public static final class id {
         public static final int action_bar=0x7f090043;
@@ -2320,24 +2323,25 @@ containing a value of this type.
         public static final int abc_simple_dropdown_hint=0x7f030016;
         public static final int activity_chat=0x7f030017;
         public static final int activity_contacts=0x7f030018;
-        public static final int activity_main=0x7f030019;
-        public static final int activity_splash=0x7f03001a;
-        public static final int chat_message_rcv=0x7f03001b;
-        public static final int chat_message_sent=0x7f03001c;
-        public static final int compose_view=0x7f03001d;
-        public static final int contacts_list_row=0x7f03001e;
-        public static final int crop__activity_crop=0x7f03001f;
-        public static final int crop__layout_done_cancel=0x7f030020;
-        public static final int drawer_main_left=0x7f030021;
-        public static final int drawer_main_left_user=0x7f030022;
-        public static final int drawer_main_left_with=0x7f030023;
-        public static final int drawer_main_right=0x7f030024;
-        public static final int main_group=0x7f030025;
-        public static final int main_group_user=0x7f030026;
-        public static final int main_user=0x7f030027;
-        public static final int status_list_row=0x7f030028;
-        public static final int support_simple_spinner_dropdown_item=0x7f030029;
-        public static final int timeline_list_row=0x7f03002a;
+        public static final int activity_group=0x7f030019;
+        public static final int activity_main=0x7f03001a;
+        public static final int activity_splash=0x7f03001b;
+        public static final int chat_message_rcv=0x7f03001c;
+        public static final int chat_message_sent=0x7f03001d;
+        public static final int compose_view=0x7f03001e;
+        public static final int contacts_list_row=0x7f03001f;
+        public static final int crop__activity_crop=0x7f030020;
+        public static final int crop__layout_done_cancel=0x7f030021;
+        public static final int drawer_main_left=0x7f030022;
+        public static final int drawer_main_left_user=0x7f030023;
+        public static final int drawer_main_left_with=0x7f030024;
+        public static final int drawer_main_right=0x7f030025;
+        public static final int main_group=0x7f030026;
+        public static final int main_group_user=0x7f030027;
+        public static final int main_user=0x7f030028;
+        public static final int status_list_row=0x7f030029;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002a;
+        public static final int timeline_list_row=0x7f03002b;
     }
     public static final class menu {
         public static final int contact=0x7f0c0000;
@@ -2522,22 +2526,24 @@ containing a value of this type.
         public static final int drawer_main_left_with_txt_propose=0x7f0a0049;
         public static final int drawer_main_left_with_txt_share=0x7f0a004a;
         public static final int drawer_main_right_txt_timeline_title=0x7f0a004c;
+        public static final int group_txt_groupname=0x7f0a004e;
+        public static final int group_txt_title=0x7f0a004d;
         public static final int main_user_txt_currentstatus=0x7f0a0040;
         public static final int main_user_txt_returnhome_time=0x7f0a0041;
         public static final int plus=0x7f0a0038;
         public static final int service_name=0x7f0a0035;
         public static final int splash_txt_onelinedescription=0x7f0a0034;
-        public static final int status_angry=0x7f0a0057;
-        public static final int status_bad=0x7f0a004d;
-        public static final int status_flat=0x7f0a004e;
-        public static final int status_happy=0x7f0a004f;
-        public static final int status_lovely=0x7f0a0050;
-        public static final int status_notgood=0x7f0a0051;
-        public static final int status_puzzled=0x7f0a0052;
-        public static final int status_sad=0x7f0a0053;
-        public static final int status_smile=0x7f0a0054;
-        public static final int status_speechless=0x7f0a0055;
-        public static final int status_surprise=0x7f0a0056;
+        public static final int status_angry=0x7f0a0059;
+        public static final int status_bad=0x7f0a004f;
+        public static final int status_flat=0x7f0a0050;
+        public static final int status_happy=0x7f0a0051;
+        public static final int status_lovely=0x7f0a0052;
+        public static final int status_notgood=0x7f0a0053;
+        public static final int status_puzzled=0x7f0a0054;
+        public static final int status_sad=0x7f0a0055;
+        public static final int status_smile=0x7f0a0056;
+        public static final int status_speechless=0x7f0a0057;
+        public static final int status_surprise=0x7f0a0058;
         public static final int store_picture_message=0x7f0a0011;
         public static final int store_picture_title=0x7f0a0010;
         public static final int toggle_contact_action_right=0x7f0a0037;

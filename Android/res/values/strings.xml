@@ -33,6 +33,9 @@
 	
 	<string name="drawer_main_right_txt_timeline_title">Time Line</string>
 	
+	<string name="group_txt_title">그룹추가</string>
+	<string name="group_txt_groupname">그룹명</string>
+	
 	<string name="status_bad">나쁨</string>
 	<string name="status_flat">무표정</string>
 	<string name="status_happy">행복함</string>
