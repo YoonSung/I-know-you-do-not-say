@@ -30,8 +30,10 @@
 	<string name="drawer_main_left_with_txt_propose">함께 만들기</string>
 	<string name="drawer_main_left_with_txt_share">친구들과 함께하기</string>
 	<string name="drawer_main_left_with_txt_manual">같이하는 방법 알아보기</string>
-	
 	<string name="drawer_main_right_txt_timeline_title">Time Line</string>
+	
+	<string name="drawer_chat_left_returnhome_currentlocation">현위치</string>
+	
 	
 	<string name="group_txt_title">그룹추가</string>
 	<string name="group_txt_groupname">그룹명</string>
