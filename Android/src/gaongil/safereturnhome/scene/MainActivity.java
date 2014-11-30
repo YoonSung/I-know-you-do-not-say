@@ -241,52 +241,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
 		
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_menu, 0, 0) {
-			
-			//It's for lastTranslate Saved Variation
-			private float lastTranslate = 0.0f;
-			LinearLayout mainContentLayout = (LinearLayout) findViewById(R.id.main_content_layout);
-			
-			@Override
-			public void onDrawerClosed(View view) {
-			}
-
-			@Override
-			public void onDrawerOpened(View drawerView) {
-			}
-			
-			@SuppressLint("NewApi")
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-				
-				//Its Drawer action Conflict Prevent Code
-				if (drawerView == mLeftDrawerView) {
-					mDrawerLayout.closeDrawer(mRightDrawerView);
-				} else {
-					mDrawerLayout.closeDrawer(mLeftDrawerView);
-				}
-				
-				if (drawerView.getId() == R.id.drawer_main_right) {
-					//if rightDrawer Action, Opposite Direction Set
-					slideOffset *= -1;
-				}
-				
-                float moveFactor = (mDrawerLayout.getWidth() * Constant.DRAWER_SLIDE_WIDTH_RATE* slideOffset);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
-                {
-                    mainContentLayout.setTranslationX(moveFactor);
-                }
-                else
-                {
-                    TranslateAnimation anim = new TranslateAnimation(lastTranslate, moveFactor, 0.0f, 0.0f);
-                    anim.setFillAfter(true);
-                    mainContentLayout.startAnimation(anim);
-
-                    lastTranslate = moveFactor;
-                }
-            }
-		};
+		LinearLayout mainContentLayout = (LinearLayout) findViewById(R.id.main_content_layout);
+		
+		mDrawerToggle = StaticUtils.getActionBarDrawerToggle(this, mDrawerLayout, mLeftDrawerView, mRightDrawerView, mainContentLayout, R.drawable.ic_menu);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mDrawerLayout.closeDrawers();
 	}
@@ -425,7 +382,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	 * LeftDrawer Image Crop End
 	 ************************************************************************/
     
-    
+    public void tempEventHandler(View v) {
+    	startActivity(new Intent(MainActivity.this, ChatActivity.class));
+    }
     
 
     @Override
