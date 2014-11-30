@@ -8,11 +8,14 @@ import gaongil.safereturnhome.support.ChatAdapter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.app.ActionBar;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ChatActivity extends CustomActivity implements OnClickListener {
 	
@@ -85,12 +89,52 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 	    loadMessageList();
 	    init();
 	    
-	    super.setupActionBar(R.drawable.ic_location);
-	    
+	    setupActionBar("test");
 	    setupDrawer();
 	    setupLeftDrawer();
 	    setupRightDrawer();
 	}
+
+	private void setupActionBar(String groupName) {
+		super.setupActionBar(R.drawable.ic_location);
+		centerActionBarTitle(groupName);
+	}
+	
+	private void centerActionBarTitle(String groupName) {
+
+		ActionBar actionBar = getActionBar();
+		if (actionBar == null)
+			return;
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(groupName);
+		
+        int titleId = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
+            titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+        }
+        else
+        {
+            // This is the id is from your app's generated R class when ActionBarActivity is used 
+            // for SupportActionBar
+            titleId = R.id.action_bar_title;
+        }
+
+        // Final check for non-zero invalid id
+        if (titleId > 0)
+        {
+            TextView titleTextView = (TextView) findViewById(titleId);
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+            // Fetch layout parameters of titleTextView (LinearLayout.LayoutParams : Info from HierarchyViewer)
+            LinearLayout.LayoutParams txvPars = (android.widget.LinearLayout.LayoutParams) titleTextView.getLayoutParams();
+            txvPars.gravity = Gravity.CENTER_HORIZONTAL;
+            txvPars.width = metrics.widthPixels;
+            titleTextView.setLayoutParams(txvPars);
+
+            titleTextView.setGravity(Gravity.CENTER);
+        }
+    }
 
 	private void init() {
 		 // Chatting ListView Setting
