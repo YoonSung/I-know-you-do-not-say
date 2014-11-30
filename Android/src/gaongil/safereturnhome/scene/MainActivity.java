@@ -438,7 +438,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			case R.id.main_btn_addgroup:
 				//TODO Modify
 				startActivity(new Intent(MainActivity.this, GroupActivity.class));
-				//startActivity(new Intent(MainActivity.this, ContactsActivity.class));
 				break;
 				
 			/**
