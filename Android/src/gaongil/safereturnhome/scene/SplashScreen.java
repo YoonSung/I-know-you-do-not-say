@@ -1,11 +1,14 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.db.DatabaseHelper;
+import gaongil.safereturnhome.model.User;
 import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.PreferenceUtil;
 import gaongil.safereturnhome.support.StaticUtils;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,8 @@ import android.view.KeyEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 public class SplashScreen extends Activity {
 
 	private final String TAG = SplashScreen.class.getSimpleName();
@@ -49,10 +54,52 @@ public class SplashScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		test();
         init();
 		checkEssentialInfomation();
 		
 	}
+
+	/**
+	 * Test start
+	 */
+	private DatabaseHelper databaseHelper = null;
+
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	    if (databaseHelper != null) {
+	        OpenHelperManager.releaseHelper();
+	        databaseHelper = null;
+	    }
+	}
+
+	private DatabaseHelper getHelper() {
+	    if (databaseHelper == null) {
+	        databaseHelper =
+	            OpenHelperManager.getHelper(this, DatabaseHelper.class);
+	    }
+	    return databaseHelper;
+	}
+	
+	private void test() {
+		try {
+			RuntimeExceptionDao<User, Integer> userDao = getHelper().getUserDao();
+			int createResult = userDao.create(new User("testName", "testImage", "testNickname"));
+			System.out.println("createResult : "+createResult);
+			List<User> userList = userDao.queryForAll();
+			
+			for (User user : userList) {
+				System.out.println(user.toString());
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Test End
+	 */
 
 	private void checkEssentialInfomation() {
 		// Check device for Play Services APK. If check succeeds, proceed with GCM registration.

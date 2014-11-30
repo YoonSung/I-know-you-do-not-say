@@ -16,16 +16,38 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable
 public class MessageData {
 	
-	private int groupId;
+	@DatabaseField(generatedId=true)
+	private int id;
+	
+	@DatabaseField
 	private int writerId;
+	
+	@DatabaseField
+	private int groupId;
+	
+	@DatabaseField
 	private String content;
+	
+	@DatabaseField(dataType=DataType.DATE)
 	private Date date;
+	
+	@DatabaseField(dataType=DataType.ENUM_INTEGER)
 	private MessageType type;
+	
+	@DatabaseField
 	private boolean isReceived;
 	
 	private SimpleDateFormat writtenTimeFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
+	
+	//It's for ORMLite
+	public MessageData() {}
 	
 	public MessageData(int groupId, int writerId, String content, Date date,
 			MessageType type, boolean isReceived) {
