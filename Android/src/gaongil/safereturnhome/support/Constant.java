@@ -55,5 +55,5 @@ public class Constant {
 	public static final String TIME_ZONE_PM = "PM";
 	public static final String TIME_PICKER = "timePicker";
 	public static final int REQUEST_CODE_GROUPTOCONTACT = 1;
-	public static final String TEXT_SEPERATOR_COMMA = ",";
+	public static final String TEXT_SEPERATOR_COMMA = ", ";
 }
