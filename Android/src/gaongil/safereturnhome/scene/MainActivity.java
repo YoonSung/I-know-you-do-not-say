@@ -108,7 +108,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 	    
-	    super.setupActionBar();
+	    super.setupActionBar(R.drawable.ic_menu);
 	    setupCommonData();
 	    setupMainComponent();
 	    
@@ -418,13 +418,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
     
 	@Override
 	public boolean onRightDrawerToggleSelected(MenuItem item) {
-		if (mDrawerLayout.isDrawerOpen(mRightDrawerView)) {
-			mDrawerLayout.closeDrawer(mRightDrawerView);
-		} else {
-			mDrawerLayout.openDrawer(mRightDrawerView);
-		}
-		
-		return true;
+		return super.defaultRightDrawerToggleSelected();
 	}
 	
 }

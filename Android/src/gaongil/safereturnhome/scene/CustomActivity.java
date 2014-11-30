@@ -25,13 +25,15 @@ public abstract class CustomActivity extends FragmentActivity{
 	
 	private ActionBarDrawerToggle leftDrawerToggle;
 	private int rightDrawerToggleDrawableId;
+	private DrawerLayout mDrawerLayout;
+	private View mRightDrawerView;
 
 	protected abstract boolean onRightDrawerToggleSelected(MenuItem item);
 	protected abstract void setupDrawer();
 	protected abstract void setupLeftDrawer();
 	protected abstract void setupRightDrawer();
 	
-	protected void setupActionBar() {
+	protected void setupActionBar(int leftDrawerToggleDrawableId) {
 		ActionBar actionBar = getActionBar();
 		if (actionBar == null)
 			return;
@@ -39,7 +41,7 @@ public abstract class CustomActivity extends FragmentActivity{
 		//mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setLogo(R.drawable.ic_menu);
+		actionBar.setLogo(leftDrawerToggleDrawableId);
 		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
 		
 		//Its default system menu graphical icon
@@ -47,6 +49,7 @@ public abstract class CustomActivity extends FragmentActivity{
 		actionBar.setHomeButtonEnabled(true);
 	}
 	
+	//TODO DELETE drawableId
 	protected ActionBarDrawerToggle getActionBarDrawerToggle(
 																	final Activity activity, 
 																	final DrawerLayout mDrawerLayout,
@@ -84,7 +87,7 @@ public abstract class CustomActivity extends FragmentActivity{
 					mDrawerLayout.closeDrawer(mLeftDrawerView);
 				}
 
-				if (drawerView.getId() == R.id.drawer_main_right) {
+				if (drawerView == mRightDrawerView) {
 					// if rightDrawer Action, Opposite Direction Set
 					slideOffset *= -1;
 				}
@@ -106,8 +109,10 @@ public abstract class CustomActivity extends FragmentActivity{
 		}; //new ActionBarDrawerToggle
 		
 		
-		//saveToggle in Parent Because OptionItemSelected or etc actions
+		//saveData in Parent Because OptionItemSelected or etc actions
+		this.mDrawerLayout = mDrawerLayout;
 		this.leftDrawerToggle = actionBarDrawerToggle;
+		this.mRightDrawerView = mRightDrawerView;
 		
 		return actionBarDrawerToggle;
 	}
@@ -149,6 +154,16 @@ public abstract class CustomActivity extends FragmentActivity{
 		}
 
 		//return super.onOptionsItemSelected(item);		
+	}
+	
+	public boolean defaultRightDrawerToggleSelected() {
+		if (mDrawerLayout.isDrawerOpen(mRightDrawerView)) {
+			mDrawerLayout.closeDrawer(mRightDrawerView);
+		} else {
+			mDrawerLayout.openDrawer(mRightDrawerView);
+		}
+		
+		return true;
 	}
 	
 	@Override

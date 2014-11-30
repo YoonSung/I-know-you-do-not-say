@@ -10,16 +10,20 @@ import java.util.Date;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class ChatActivity extends FragmentActivity implements OnClickListener {
+public class ChatActivity extends CustomActivity implements OnClickListener {
 	
 	/************************************************************************
 	 * Forground Check
@@ -44,28 +48,48 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 	 * Forground Check
 	 *************************************************************************/
 	
+	/**
+	 * MainContents
+	 */
 	// Message List
 	private ArrayList<MessageData> mMessageList;
-	
 	// Chat Custom Adapter.
 	private ChatAdapter mChatAdapter;
-	
 	// EditText to compose the messages
 	private EditText mEditText;
-	
 	// Button to submit new message
 	private Button mBtnSend;
-	
 	// Control Keyboard Panel
 	private InputMethodManager inputMethodManager;
+	private ActionBarDrawerToggle mDrawerToggle;
+	
+	/**
+	 * The drawer layout
+	 */
+	private DrawerLayout mDrawerLayout;
+
+	/**
+	 * Left drawer
+	 */
+	private View mLeftDrawerView;
+
+	/**
+	 * Right drawer
+	 */
+	private View mRightDrawerView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_chat);
-	    
 	    loadMessageList();
 	    init();
+	    
+	    super.setupActionBar(R.drawable.ic_location);
+	    
+	    setupDrawer();
+	    setupLeftDrawer();
+	    setupRightDrawer();
 	}
 
 	private void init() {
@@ -130,5 +154,43 @@ public class ChatActivity extends FragmentActivity implements OnClickListener {
 			sendMessage();
 			break;
 		}
+	}
+
+	@Override
+	protected boolean onRightDrawerToggleSelected(MenuItem item) {
+		return super.defaultRightDrawerToggleSelected();
+	}
+
+	@Override
+	protected void setupDrawer() {
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_chat_layout);
+		mLeftDrawerView = (View) findViewById(R.id.drawer_chat_left);
+		mRightDrawerView = (View) findViewById(R.id.drawer_chat_right);
+		LinearLayout mainContentLayout = (LinearLayout) findViewById(R.id.chat_content_layout);
+		
+		mDrawerToggle = super.getActionBarDrawerToggle(
+				this, 
+				mDrawerLayout, 
+				mLeftDrawerView, 
+				mRightDrawerView, 
+				mainContentLayout, 
+				R.drawable.ic_location,
+				R.menu.chat
+		);
+		
+		super.setDrawerLayoutOptions(mDrawerLayout, mDrawerToggle);
+		
+	}
+
+	@Override
+	protected void setupLeftDrawer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setupRightDrawer() {
+		// TODO Auto-generated method stub
+		
 	}
 }
