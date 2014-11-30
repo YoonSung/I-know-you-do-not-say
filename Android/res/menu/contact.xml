@@ -2,7 +2,7 @@
 
 	<item
         android:id="@+id/contact_toggle_apply"
-        android:icon="@drawable/ic_timeline"
+        android:icon="@drawable/ic_apply"
         android:showAsAction="always"
         android:title="@string/toggle_contact_action_right"
         />

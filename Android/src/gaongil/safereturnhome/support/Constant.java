@@ -23,6 +23,11 @@ public class Constant {
 	public static final String NETWORK_URL_REGISTER_ID = "/user";
 	
 	/********************************************************************************
+	 * 										Intent Key
+	 *********************************************************************************/
+	public static final String INTENT_GROUP_SELECTED_CONTACTLIST = "selectedContactList";
+	
+	/********************************************************************************
 	 * 										Constant
 	 *********************************************************************************/
 	public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -49,4 +54,6 @@ public class Constant {
 	public static final String TIME_ZONE_AM = "AM";
 	public static final String TIME_ZONE_PM = "PM";
 	public static final String TIME_PICKER = "timePicker";
+	public static final int REQUEST_CODE_GROUPTOCONTACT = 1;
+	public static final String TEXT_SEPERATOR_COMMA = ",";
 }

@@ -2,6 +2,7 @@ package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.ContactInfo;
+import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.ContactsAdapter;
 
 import java.util.ArrayList;
@@ -12,11 +13,13 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -85,7 +88,11 @@ public class ContactsActivity extends Activity {
 	        case R.id.contact_toggle_apply:
 	        	// TODO Save Database and reaction to user
 	        	// getSelectedContacts();
-	        	Toast.makeText(this, "apply!", Toast.LENGTH_SHORT).show();
+	        	Intent intent = new Intent();
+	        	intent.putParcelableArrayListExtra(Constant.INTENT_GROUP_SELECTED_CONTACTLIST, getSelectedContacts());
+	        	setResult(RESULT_OK, intent);
+	        	
+	        	this.finish();
 	        	return true;
 	    }
 	    
@@ -118,11 +125,13 @@ public class ContactsActivity extends Activity {
 
 	private void init() {
 		mContext = this;
+		
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.contact_progressbar_relativelayout);
 		mEdtSearch = (EditText) findViewById(R.id.contact_edt_search);
 		mLinearLayout = (LinearLayout) findViewById(R.id.contact_data_container);
 		
 		addContactsInList();
+		
 	}
 
 	private void addContactsInList() {
@@ -155,11 +164,7 @@ public class ContactsActivity extends Activity {
 				phoneNumber = phones.getString(phones
 								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 				
-				contactObject = new ContactInfo();
-	
-				contactObject.setName(phoneName);
-				contactObject.setNumber(phoneNumber);
-	
+				contactObject = new ContactInfo(phoneName, phoneNumber);
 				mPhoneList.add(contactObject);
 	
 			}
@@ -195,15 +200,16 @@ public class ContactsActivity extends Activity {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	
 					CheckBox checkBox = (CheckBox) view.findViewById(R.id.contact_checkbox);
-					ContactInfo bean = mPhoneList.get(position);
+					ContactInfo selectedContactInfo = mPhoneList.get(position);
 					
-					if (bean.isSelected()) {
-						bean.setSelected(false);
+					if (selectedContactInfo.isSelected()) {
+						selectedContactInfo.setSelected(false);
 						checkBox.setChecked(false);
 						
 					} else {
-						bean.setSelected(true);
+						selectedContactInfo.setSelected(true);
 						checkBox.setChecked(true);
+						System.out.println("selectedContactInfo : "+selectedContactInfo.toString());
 					}
 	
 				}
@@ -218,6 +224,19 @@ public class ContactsActivity extends Activity {
 		hideProgressbar();
 	}
 
+	private ArrayList<ContactInfo> getSelectedContacts() {
+		
+		ArrayList<ContactInfo> selectedList = new ArrayList<ContactInfo>();
+		
+		for (ContactInfo contactInfo : this.mPhoneList) {
+			if (contactInfo.isSelected())
+				selectedList.add(contactInfo);
+		}
+
+		return selectedList;
+	}
+
+	
 	private void showProgressBar() {
 		runOnUiThread(new Runnable() {
 			@Override
