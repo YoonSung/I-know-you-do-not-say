@@ -26,6 +26,11 @@ public abstract class CustomActivity extends FragmentActivity{
 	private ActionBarDrawerToggle leftDrawerToggle;
 	private int rightDrawerToggleDrawableId;
 
+	protected abstract boolean onRightDrawerToggleSelected(MenuItem item);
+	protected abstract void setupDrawer();
+	protected abstract void setupLeftDrawer();
+	protected abstract void setupRightDrawer();
+	
 	protected void setupActionBar() {
 		ActionBar actionBar = getActionBar();
 		if (actionBar == null)
@@ -131,11 +136,6 @@ public abstract class CustomActivity extends FragmentActivity{
 		getMenuInflater().inflate(rightDrawerToggleDrawableId, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
-	protected abstract boolean onRightDrawerToggleSelected(MenuItem item);
-	protected abstract void setupDrawer();
-	protected abstract void setupLeftDrawer();
-	protected abstract void setupRightDrawer();
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
