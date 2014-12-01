@@ -89,12 +89,38 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 	    loadMessageList();
 	    init();
 	    
-	    setupActionBar("test");
+	    setupActionBar("BF");
 	    setupDrawer();
+	    
+	    
+	    //TODO Complete Code
 	    setupLeftDrawer();
 	    setupRightDrawer();
+	    
+	    //TODO DELETE
+	    //Test Start
+	    setupTest();
+	  //TODO DELETE
+	    //Test End
 	}
 
+	//TODO DELETE
+    //Test Start
+	private void setupTest() {
+		mMessageList.add(new MessageData(0, 0, "[귀가시작] 집까지 같이해 주세요.위치정보, 센서정보 공유가 시작되었습니다.\n", new Date(1,1,1, 20, 51),  MessageType.ANNOUNCE, true));
+		mMessageList.add(new MessageData(0, 0, "[충격 위협감지] 갑작스러운\n 충격이 감지되었습니다.\n위치 : 성남시 분당구 삼평동 봇들공원\n !무슨일인지 확인해주세요!", new Date(1,1,1, 21, 03),  MessageType.URGENT, true));
+		mMessageList.add(new MessageData(0, 1, "무슨일이야??", new Date(1,1,1, 21, 03),  MessageType.NORMAL, false));
+		mMessageList.add(new MessageData(0, 4, "내가 전화해볼게", new Date(1,1,1, 21, 04),  MessageType.ANNOUNCE, false));
+		mMessageList.add(new MessageData(0, 0, "아.. 괜찮아! 딴데보다가 살짝 넘어졌어ㅠ", new Date(1, 1, 1, 21, 04),  MessageType.NORMAL, true ));
+		mMessageList.add(new MessageData(0, 3, "으이구.. 괜찮아?\n데릴러 나갈게", new Date(1, 1, 1, 21, 04),  MessageType.NORMAL, false));
+		mMessageList.add(new MessageData(0, 0, "응응! 고마워어ㅠㅠㅠ", new Date(1, 1, 1, 21, 05),  MessageType.NORMAL, true ));
+		
+		mChatAdapter.notifyDataSetChanged();
+
+	}
+	//TODO DELETE
+    //Test End
+	
 	private void setupActionBar(String groupName) {
 		super.setupActionBar(R.drawable.ic_location);
 		centerActionBarTitle(groupName);

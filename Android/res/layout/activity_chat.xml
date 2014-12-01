@@ -23,11 +23,9 @@
             android:layout_weight="1"
             android:background="@color/white_smoke"
             android:divider="@color/transparent"
-            android:dividerHeight="0dp"
-            android:fastScrollEnabled="true"
-            android:paddingBottom="@dimen/pad_10dp"
-            android:paddingTop="@dimen/pad_10dp"
-            tools:listitem="@layout/chat_message_rcv" >
+            android:dividerHeight="20.0sp"
+            android:listSelector="@android:color/transparent"
+            android:fastScrollEnabled="true" >
         </ListView>
 
         <include

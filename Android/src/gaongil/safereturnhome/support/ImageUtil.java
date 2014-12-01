@@ -21,9 +21,9 @@ public class ImageUtil {
 		this.context = context;
 	}
 
-	public void saveProfileImage(Bitmap image) throws saveImageFileException {
+	public void saveProfileImage(Bitmap image, String imageName) throws saveImageFileException {
 		String filePath = context.getApplicationContext().getFilesDir().getPath();
-		File file = new File(filePath + File.separator + Constant.PROFILE_IMAGE_NAME);
+		File file = new File(filePath + File.separator + imageName + Constant.IMAGE_EXTENSION);
 		
 		OutputStream out = null;
 		
@@ -51,8 +51,14 @@ public class ImageUtil {
 			throw new saveImageFileException("Save Profile Exception");
 	}
 	
-	public Drawable getProfileImage() {
-        File file = context.getFileStreamPath(Constant.PROFILE_IMAGE_NAME);
+	public Drawable getProfileImage(String imageName) {
+        File file = context.getFileStreamPath(imageName+Constant.IMAGE_EXTENSION);
+        System.out.println("Is File Exists? : "+file.exists());
+		return Drawable.createFromPath(file.getAbsolutePath()); 
+	}
+	
+	public static Drawable getProfileImage(Context context, String imageName) {
+        File file = context.getFileStreamPath(imageName+Constant.IMAGE_EXTENSION);
         System.out.println("Is File Exists? : "+file.exists());
 		return Drawable.createFromPath(file.getAbsolutePath()); 
 	}

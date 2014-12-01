@@ -1,9 +1,12 @@
 package gaongil.safereturnhome.scene;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.db.DatabaseHelper;
+import gaongil.safereturnhome.exception.saveImageFileException;
 import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
+import gaongil.safereturnhome.model.User;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.ImageUtil;
@@ -14,8 +17,13 @@ import gaongil.safereturnhome.support.TimeLineAdapter;
 import gaongil.safereturnhome.support.TimePickerDialogFragment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -25,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore.Images;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,10 +50,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.soundcloud.android.crop.Crop;
 
 public class MainActivity extends CustomActivity implements OnClickListener{
@@ -120,6 +132,10 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	    //TODO
 	    //setupSensorInfo();
 	    
+	    //TODO DELETE
+	    //Test Start
+	    setupTestGroup();
+	    //Test End
 	}
 	
 	/************************************************************************
@@ -180,8 +196,15 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 
 	@Override
 	protected void setupRightDrawer() {
+		//TODO DELETE
+		//Test Start
 		ArrayList<MessageData> testList = new ArrayList<MessageData>();
-		testList.add(new MessageData(1, 1, "test", new Date(),  MessageType.NORMAL, true ));
+		testList.add(new MessageData(0, 3, "경로를 벗어났습니다. 관심을 가져주세요", new Date(1,1,1, 21, 02),  MessageType.WARN, true ));
+		testList.add(new MessageData(0, 1, "충격이 감지되었습니다 !!", new Date(1,1,1, 20, 51),  MessageType.URGENT, true ));
+		testList.add(new MessageData(0, 4, "(집)으로 귀가를 시작했습니다.", new Date(1,1,1, 18, 30),  MessageType.ANNOUNCE, true ));
+		testList.add(new MessageData(0, 2, "상태가 (외로움) 으로 변경되었습니다.", new Date(1, 1, 1, 17, 11),  MessageType.NORMAL, true ));
+		testList.add(new MessageData(0, 4, "이제 슬슬 집으로 가봐야겠다~ 다들 오늘 몇시에 들어와?.", new Date(1, 1, 1, 16, 55),  MessageType.NORMAL, true ));
+		//Test End
 		
 		this.mTimeLineAdapter = new TimeLineAdapter(MainActivity.this, testList);
 		
@@ -250,7 +273,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 		LayoutParams profileLayoutParam = mLeftDrawerProfileImageButton.getLayoutParams();
 		profileLayoutParam.width = mProfileSize;
 		profileLayoutParam.height = mProfileSize;
-		Drawable profile = mImageUtil.getProfileImage();
+		Drawable profile = mImageUtil.getProfileImage(Constant.PROFILE_IMAGE_NAME);
 		updateProfileImage(profile);
 		
 		/*
@@ -341,11 +364,15 @@ public class MainActivity extends CustomActivity implements OnClickListener{
     }
 
     private void handleCrop(int resultCode, Intent result) {
+    	System.out.println("handleCrop Called");
+    	System.out.println("resultCode : "+resultCode);
+    	
         if (resultCode == RESULT_OK) {
         	Bitmap croppedImage = null;
         	
         	try {
 				croppedImage = StaticUtils.scaleBitmap(this, Crop.getOutput(result), mProfileSize, mProfileSize);
+				System.out.println("croppedImage : "+croppedImage);
 			} catch (Exception e) {
 				//TODO
 				e.printStackTrace();
@@ -353,6 +380,18 @@ public class MainActivity extends CustomActivity implements OnClickListener{
         	
 			// TODO Send Image by Network. (All Device Common Size Image) 
 			// Save Proper Image
+
+        	//TODO DELETE
+        	//Test Start
+        	try {
+				mImageUtil.saveProfileImage(croppedImage, ""+getGenerateUserId());
+				//mImageUtil.saveProfileImage(croppedImage, Constant.PROFILE_IMAGE_NAME);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	//TODO DELETE
+        	//Test End
+        	
         	updateProfileImageView(croppedImage);
         	
         } else if (resultCode == Crop.RESULT_ERROR) {
@@ -396,6 +435,125 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 				break;
 		} //switch end
 	}
+    
+    /**
+     * TODO DELETE
+	 * Test start
+	 */
+    private void setupTestGroup() {
+    	
+    	int[] testUserIdList = new int[]{
+    			R.id.main_group_testuser_1,
+    			R.id.main_group_testuser_2,
+    			R.id.main_group_testuser_3,
+    			R.id.main_group_testuser_4,
+    			R.id.main_group_testuser_5
+    	};
+    	
+    	RuntimeExceptionDao<User, Integer> userDao;
+		try {
+			userDao = getHelper().getUserDao();
+			List<User> userList = userDao.queryForAll();
+
+			RelativeLayout groupLayout = (RelativeLayout) findViewById(R.id.main_group_testgroup);
+			LinearLayout userLayout =  null;
+			
+			for (int i = 0; i < testUserIdList.length; i++) {
+				
+				userLayout = (LinearLayout) findViewById(testUserIdList[i]);
+				
+				User testUser = userList.get(i);
+				
+				ImageView userImage = (ImageView) userLayout.findViewById(R.id.group_user_profile);
+				
+				//TODO add _ in prefix
+				Drawable drawable = mImageUtil.getProfileImage(""+testUser.getId());
+				userImage.setImageDrawable(drawable);
+				
+				TextView userName = (TextView) userLayout.findViewById(R.id.group_user_name);
+				userName.setText(testUser.getName());
+				
+				TextView lastCheckedTime = (TextView) userLayout.findViewById(R.id.group_user_checkedtime);
+				lastCheckedTime.setText("확인 "+new Random().nextInt(60)+"분 이전");
+				
+				ArrayList<UserStatus> statusList = UserStatus.getList();
+				
+				ImageView emoticon = (ImageView) userLayout.findViewById(R.id.group_user_emoticon);
+				emoticon.setImageResource(statusList.get(i).getImageResourceId());
+				
+				//not safe
+				if (i == 2 || i == 4) {
+					TextView textView = (TextView) userLayout.findViewById(R.id.group_user_status);
+					textView.setText("UNSAFE");
+					
+					LinearLayout linearLayout = (LinearLayout) userLayout.findViewById(R.id.group_user_linearlayout_statuscolor);
+					linearLayout.setBackgroundColor(getResources().getColor(R.color.main_color_lightred));
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    
+	private DatabaseHelper databaseHelper = null;
+
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	    if (databaseHelper != null) {
+	        OpenHelperManager.releaseHelper();
+	        databaseHelper = null;
+	    }
+	}
+
+	private DatabaseHelper getHelper() {
+	    if (databaseHelper == null) {
+	        databaseHelper =
+	            OpenHelperManager.getHelper(this, DatabaseHelper.class);
+	    }
+	    return databaseHelper;
+	}
+	
+	private int getGenerateUserId() {
+		int generateImageNum = 1;
+		
+		try {
+			RuntimeExceptionDao<User, Integer> userDao = getHelper().getUserDao();
+			List<User> userList = userDao.queryForAll();
+			
+			String[] generateNames = new String[]{"정윤성", "문교수", "김효개", "최카멕", "갓동찬", "정윤성"};
+			
+			if (userList.size() > 0) {
+				User lastUser = userList.get(userList.size()-1);
+				generateImageNum = lastUser.getId() + 1;
+			}
+
+			String generateName = generateNames[generateImageNum];
+			
+			int createResult = userDao.create(new User(generateName , generateImageNum+Constant.IMAGE_EXTENSION, "testNickname"));
+			Toast.makeText(
+					MainActivity.this, 
+					"CreateResult : "
+					+(createResult == 1)
+					+"\nGeneratedImageName : "
+					+ generateName
+					+"\nGeneratedImageNum : "
+					+ generateImageNum, 
+					Toast.LENGTH_LONG
+			).show();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return generateImageNum;
+	}
+	/**
+	 * TODO DELETE
+	 * Test End
+	 */
 	
 	private void showTimePicker() {
 		Bundle bundleToTimePickerDialogFragment = new Bundle();

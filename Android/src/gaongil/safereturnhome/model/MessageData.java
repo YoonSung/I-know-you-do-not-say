@@ -3,13 +3,16 @@ package gaongil.safereturnhome.model;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.exception.InvalidMessageException;
 import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.ImageUtil;
 import gaongil.safereturnhome.support.RoundedAvatarDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,12 +68,14 @@ public class MessageData {
 			throw new InvalidMessageException();
 		
 		int layoutId = isReceived ? R.layout.chat_message_rcv : R.layout.chat_message_sent;
-        View view = layoutInflater.inflate (layoutId, null);
-        
-        //Test Image Load Start
-        //TODO connect MessageData Resource
-        //TODO getRoundedImage Method is to be static
-        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_chat_user1);
+		View view = layoutInflater.inflate (layoutId, null);
+		
+		String imageName =  isReceived ? Constant.PROFILE_IMAGE_NAME : writerId + "";
+		System.out.println("imageName : "+imageName);
+		Drawable profileDrawable = ImageUtil.getProfileImage(context, imageName);
+		System.out.println("profileDrawable : "+profileDrawable);
+        BitmapDrawable bImage = (BitmapDrawable) profileDrawable;
+        System.out.println("bImage : "+bImage);
         RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
         //Test Image Load End
         
@@ -80,6 +85,8 @@ public class MessageData {
         // message set
         TextView content = (TextView) view.findViewById(R.id.message_content);
         content.setText(this.content);
+        content.setTextColor(context.getResources().getColor(this.type.getColorResourceId()));
+        content.setTypeface(null, Typeface.BOLD);
         
         // writtenTime set
         TextView receivedTime = (TextView) view.findViewById(R.id.message_time);
@@ -87,7 +94,7 @@ public class MessageData {
         
         // bubbleImage set
         LinearLayout messageBubble = (LinearLayout) view.findViewById(R.id.message_linearlayout);
-        messageBubble.setBackgroundResource(this.type.getResourceId(this.isReceived));
+        messageBubble.setBackgroundResource(this.type.getBubbleResourceId(this.isReceived));
         
 		return view;
 	}
@@ -100,17 +107,24 @@ public class MessageData {
         //Test Image Load Start
         //TODO connect MessageData Resource
         //TODO getRoundedImage Method is to be static
-        BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_chat_user1);
-        RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
+        //BitmapDrawable bImage = (BitmapDrawable) context.getResources().getDrawable(R.drawable.test_chat_user1);
+        //RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
         //Test Image Load End
         
-        
+		//TODO DELETE
+		//Test Start
+		BitmapDrawable bImage = (BitmapDrawable) ImageUtil.getProfileImage(context, ""+writerId);
+		RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bImage.getBitmap());
+		//TODO DELETE
+		//Test End
+		
         ImageView profile = (ImageView) view.findViewById(R.id.drawer_main_right_img_profile);  
         profile.setImageDrawable(new RoundedAvatarDrawable(rondedAvatarImg.getBitmap()));
         
         // message set
         TextView message = (TextView) view.findViewById(R.id.drawer_main_right_txt_message);
         message.setText(this.content);
+        message.setTextColor(context.getResources().getColor(this.type.getColorResourceId()));
         
         // writtenTime set
         TextView receivedTime = (TextView) view.findViewById(R.id.drawer_main_right_txt_receivedtime);

@@ -3,27 +3,26 @@
     android:id="@+id/drawer_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+	android:background="@color/main_color_blue"
     tools:context="gaongil.safereturnhome.scene.MainActivity" >
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/main_content_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/main_color_blue"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/pad_15dp" >
 			
             <include layout="@layout/main_user" />
 
-            <include layout="@layout/main_group" />
-
-            <include layout="@layout/main_group" />
-
-            <include layout="@layout/main_group" />
+            <include
+                android:id="@+id/main_group_testgroup" 
+                layout="@layout/main_group" 
+                />
 
             <Button
                 android:id="@+id/main_btn_addgroup"

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pad_15dp"
-        android:text="@string/app_name"
+        android:text="@string/app_name_en"
         android:textColor="@color/white"
         android:textSize="@dimen/txt_30sp"
         android:textStyle="bold" />

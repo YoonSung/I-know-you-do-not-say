@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textSize="@dimen/txt_18sp"
-            android:text="PM 01:30" />
+            android:text="PM 11:47" />
     </LinearLayout>
 
     <ListView

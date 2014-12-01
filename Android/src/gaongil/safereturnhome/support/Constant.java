@@ -47,7 +47,7 @@ public class Constant {
 	public static final float DRAWER_SLIDE_WIDTH_RATE = 0.7f;
 	public static final String DATE_FORMAT = "a h:mm";
 	public static final int PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH = 4;
-	public static final String PROFILE_IMAGE_NAME = "profile.png";
+	public static final String PROFILE_IMAGE_NAME = "profile";
 	
 	public static final String BUNDLE_KEY_TIMEPICKER_HOUR = "timepickerHour";
 	public static final String BUNDLE_KEY_TIMEPICKER_MINUTE = "timepickerMinute";
@@ -56,4 +56,5 @@ public class Constant {
 	public static final String TIME_PICKER = "timePicker";
 	public static final int REQUEST_CODE_GROUPTOCONTACT = 1;
 	public static final String TEXT_SEPERATOR_COMMA = ", ";
+	public static final String IMAGE_EXTENSION = ".png";
 }

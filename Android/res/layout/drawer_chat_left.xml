@@ -38,6 +38,13 @@
         android:layout_height="1dp"
         android:background="@color/drawer_seperator" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:scaleType="fitStart"
+        android:src="@drawable/test_map" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
