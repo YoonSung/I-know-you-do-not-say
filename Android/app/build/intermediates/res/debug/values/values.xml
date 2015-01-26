@@ -41,13 +41,14 @@
     <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
     <color name="common_signin_btn_light_text_focused">#FF737373</color>
     <color name="common_signin_btn_light_text_pressed">@android:color/white</color>
-    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/0.9.10/res/values/values.xml -->
     <eat-comment/>
     <color name="crop__button_bar">#f3f3f3</color>
     <color name="crop__button_text">#666666</color>
     <color name="crop__selector_focused">#77000000</color>
     <color name="crop__selector_pressed">#1a000000</color>
-    <color name="crop_highlight">#f3f3f3</color>
+    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
     <color name="drawer_background">#404040</color>
     <color name="drawer_seperator">#393939</color>
     <color name="main_color_blue">#3792CF</color>
@@ -112,9 +113,11 @@
     <dimen name="abs__dropdownitem_text_padding_right">8dip</dimen>
     <dimen name="abs__search_view_preferred_width">320dip</dimen>
     <dimen name="abs__search_view_text_min_width">160dip</dimen>
-    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/0.9.10/res/values/values.xml -->
     <eat-comment/>
     <dimen name="crop__bar_height">48dp</dimen>
+    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
     <dimen name="drawer_main_left_user_menu_minHeight">150dp</dimen>
     <dimen name="drawer_main_left_user_minHeight">230dp</dimen>
     <dimen name="drawer_main_left_with_minHeight">220dp</dimen>
@@ -280,7 +283,7 @@
     <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>
-    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/0.9.10/res/values/values.xml -->
     <eat-comment/>
     <style name="Crop"/>
     <style name="Crop.ActionButton">
@@ -294,8 +297,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingRight">20dp</item>
- <!-- Offsets left drawable -->
+        <item name="android:paddingRight">20dp</item> <!-- Offsets left drawable -->
         <item name="android:drawablePadding">8dp</item>
         <item name="android:textColor">@color/crop__button_text</item>
         <item name="android:textStyle">bold</item>
@@ -317,11 +319,6 @@
         <item name="android:showDividers" ns1:ignore="NewApi">middle</item>
         <item name="android:dividerPadding" ns1:ignore="NewApi">12dp</item>
         <item name="android:background">@color/crop__button_bar</item>
-    </style>
-    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/theme.xml -->
-    <eat-comment/>
-    <style name="CustomTheme" parent="android:Theme.DeviceDefault" ns1:ignore="NewApi">
-        <item name="cropImageStyle">@style/Widget.CropImageView</item>
     </style>
     <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/values/values.xml -->
     <eat-comment/>
@@ -700,15 +697,6 @@
     <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Widget"/>
-    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/values/theme.xml -->
-    <eat-comment/>
-    <style name="Widget.CropImageView" parent="android:Widget">
-        <item name="showThirds">true</item>
-        <item name="showHandles">always</item>
-        <item name="highlightColor">@color/crop_highlight</item>
-    </style>
-    <!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/values/values.xml -->
-    <eat-comment/>
     <style name="Widget.Sherlock.ActionBar" parent="Sherlock.__Widget.ActionBar">
         <item name="titleTextStyle">@style/TextAppearance.Sherlock.Widget.ActionBar.Title</item>
         <item name="subtitleTextStyle">@style/TextAppearance.Sherlock.Widget.ActionBar.Subtitle</item>
