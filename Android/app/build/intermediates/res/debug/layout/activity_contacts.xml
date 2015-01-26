@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+ 
+    <EditText
+        android:id="@+id/contact_edt_search"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:hint="@string/contact_edt_searchhint"
+        android:textSize="@dimen/txt_18sp" />
+ 
+    <LinearLayout
+        android:id="@+id/contact_data_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/contact_btn_ok"
+        android:layout_below="@+id/contact_edt_search"
+        android:background="@color/white"
+        android:gravity="center|top"
+        android:orientation="vertical" />
+ 
+    <RelativeLayout
+        android:id="@+id/contact_progressbar_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55000000"
+        android:clickable="true"
+        android:visibility="gone" >
+ 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+ 
+</RelativeLayout><!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/layout/activity_contacts.xml -->
