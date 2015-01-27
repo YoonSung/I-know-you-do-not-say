@@ -14,10 +14,10 @@ public final class R {
 		public static final int showThirds = 0x7f01000b;
 	}
 	public static final class color {
-		public static final int crop__button_bar = 0x7f060012;
-		public static final int crop__button_text = 0x7f060013;
-		public static final int crop__selector_focused = 0x7f060014;
-		public static final int crop__selector_pressed = 0x7f060015;
+		public static final int crop__button_bar = 0x7f060013;
+		public static final int crop__button_text = 0x7f060014;
+		public static final int crop__selector_focused = 0x7f060015;
+		public static final int crop__selector_pressed = 0x7f060016;
 	}
 	public static final class dimen {
 		public static final int crop__bar_height = 0x7f07000d;

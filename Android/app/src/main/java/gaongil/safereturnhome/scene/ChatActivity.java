@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 
 public class ChatActivity extends CustomActivity implements OnClickListener {
 	
@@ -85,6 +86,7 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_chat);
 	    loadMessageList();

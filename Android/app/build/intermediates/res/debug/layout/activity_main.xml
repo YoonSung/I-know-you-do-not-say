@@ -3,7 +3,7 @@
     android:id="@+id/drawer_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:background="@color/main_color_blue"
+    android:background="@color/main_color_blue"
     tools:context="gaongil.safereturnhome.scene.MainActivity" >
 
     <ScrollView
@@ -14,14 +14,15 @@
             android:id="@+id/main_content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
             android:orientation="vertical"
             android:padding="@dimen/pad_15dp" >
-			
+
             <include layout="@layout/main_user" />
 
             <include
-                android:id="@+id/main_group_testgroup" 
-                layout="@layout/main_group" 
+                android:id="@+id/main_group_testgroup"
+                layout="@layout/main_group"
                 />
 
             <Button
@@ -52,4 +53,5 @@
         android:layout_gravity="end"
         layout="@layout/drawer_main_right" />
 
-</android.support.v4.widget.DrawerLayout><!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/layout/activity_main.xml -->
+</android.support.v4.widget.DrawerLayout>
+<!-- From: file:/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/src/main/res/layout/activity_main.xml -->

@@ -55,6 +55,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.soundcloud.android.crop.Crop;
@@ -117,6 +118,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 
@@ -156,7 +158,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 		 */
 		mLeftDrawerAlarmButton = (Button) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_btn_alarm);
 		mLeftDrawerAlarmButton.setOnClickListener(this);
-		mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
+        mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
 		
 		
 		/**
