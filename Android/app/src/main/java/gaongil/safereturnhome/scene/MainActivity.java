@@ -2,23 +2,21 @@ package gaongil.safereturnhome.scene;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,14 +64,18 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-        this.requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        //this.requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
 
+        setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.main_toolbar));
+
+        System.out.println("main activity actionbar : " + getSupportActionBar());
         super.setupActionBar(R.drawable.ic_menu);
 	    setupCommonData();
 	    setupMainComponent();
-	    
+
 	    setupDrawer();
 	    setupLeftDrawer();
 	    setupRightDrawer();
@@ -162,7 +164,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 				mLeftDrawerView, 
 				mRightDrawerView, 
 				mainContentLayout, 
-				R.drawable.ic_menu,
+				R.id.main_toolbar,
 				R.menu.main
 		);
 		

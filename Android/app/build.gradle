@@ -20,10 +20,11 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.+'
+    //http://twigstechtips.blogspot.kr/2014/02/android-switching-your-app-project-from.html
     compile 'com.google.android.gms:play-services:+'
 
-    // actionbar
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.android.support:appcompat-v7:21.0.+'
+
 
     //'com.soundcloud.android:android-crop:0.9.10'
     compile 'com.soundcloud.android:android-crop:0.9.10@aar'

@@ -51,11 +51,11 @@
         <dex dex="/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/ormlite-android-4.48-fb46848601618cf49040cab9baa9c94514a14af4.jar" />
     </item>
     <item
-        jar="/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/classes.jar"
+        jar="/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="af64527b748983a75de9c0756e9768b56b240a49">
-        <dex dex="/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/classes-3388f47184944caabf2dbf9eeae0e6ac55d8fbe9.jar" />
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/classes-e8fa232d14e70de5d25b527181b67443bb91216a.jar" />
     </item>
 
 </items>

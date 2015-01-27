@@ -4,6 +4,6 @@
 /Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/ormlite-android-4.48-fb46848601618cf49040cab9baa9c94514a14af4.jar
 /Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-36e3ad9eb5033b1b0b929429652ec64d2ebff3e0.jar
 /Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/ormlite-core-4.48-8cefbc3b3617c73f5b8f79e9c72ad30d5a1b070c.jar
-/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/classes-3388f47184944caabf2dbf9eeae0e6ac55d8fbe9.jar
+/Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/classes-e8fa232d14e70de5d25b527181b67443bb91216a.jar
 /Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/classes-c913f277a95180a56cc4e2975895426cb9ba6a30.jar
 /Volumes/storage/project/Service/I-know-you-do-not-say/Android/app/build/intermediates/pre-dexed/debug/classes-3a6078fd9c890d3b428965f27efa02eee5307f19.jar

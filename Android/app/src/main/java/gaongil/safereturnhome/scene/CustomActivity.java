@@ -2,32 +2,34 @@ package gaongil.safereturnhome.scene;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.support.Constant;
 
-public abstract class CustomActivity extends SherlockFragmentActivity {
+public abstract class CustomActivity extends ActionBarActivity {
 
     private ActionBarDrawerToggle leftDrawerToggle;
     private int rightDrawerToggleDrawableId;
     private DrawerLayout mDrawerLayout;
     private View mRightDrawerView, mLeftDrawerView;
+    private Toolbar mToolbar;
 
     protected abstract boolean onRightDrawerToggleSelected(MenuItem item);
 
@@ -39,13 +41,15 @@ public abstract class CustomActivity extends SherlockFragmentActivity {
 
     protected void setupActionBar(int leftDrawerToggleDrawableId) {
         ActionBar actionBar = getSupportActionBar();
+        System.out.println("actionBar : " + actionBar);
+
         if (actionBar == null)
             return;
 
         //mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setLogo(leftDrawerToggleDrawableId);
+        //actionBar.setLogo(leftDrawerToggleDrawableId);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.actionbar_background)));
 
         //Its default system menu graphical icon
@@ -60,28 +64,45 @@ public abstract class CustomActivity extends SherlockFragmentActivity {
             final View mLeftDrawerView,
             final View mRightDrawerView,
             final LinearLayout mainContentLayout,
-            final int drawerToggleDrawableId,
+            final int toolbarId,
             final int rightDrawerToggleDrawableId) {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
+
+        mToolbar = (Toolbar) activity.findViewById(toolbarId);
+        //set toolbar
+        //setSupportActionBar((Toolbar) activity.findViewById(toolbarId));
+
+        //test start
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                System.out.println("test");
+                return false;
+            }
+        });
+        //test end
+
+
         this.rightDrawerToggleDrawableId = rightDrawerToggleDrawableId;
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(activity, mDrawerLayout,
-                drawerToggleDrawableId, 0, 0) {
+                0, 0) {
 
             // It's for lastTranslate Saved Variation
             private float lastTranslate = 0.0f;
 
             @Override
             public void onDrawerClosed(View view) {
+                syncState();
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                syncState();
             }
 
-            @SuppressLint("NewApi")
             public void onDrawerSlide(View drawerView, float slideOffset) {
 
                 // Its Drawer action Conflict Prevent Code
@@ -109,7 +130,10 @@ public abstract class CustomActivity extends SherlockFragmentActivity {
 
                     lastTranslate = moveFactor;
                 }
+                super.onDrawerSlide(drawerView, slideOffset);
+
             } //onDrawerSlide
+
         }; //new ActionBarDrawerToggle
 
 
@@ -142,7 +166,7 @@ public abstract class CustomActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(rightDrawerToggleDrawableId, menu);
+        getMenuInflater().inflate(rightDrawerToggleDrawableId, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -157,7 +181,7 @@ public abstract class CustomActivity extends SherlockFragmentActivity {
             return onLeftDrawerToggleSelected(item);
             //return true;
 
-        //Right Drawer Toggle Clicked
+            //Right Drawer Toggle Clicked
         } else {
             return onRightDrawerToggleSelected(item);
         }

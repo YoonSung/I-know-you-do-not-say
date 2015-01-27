@@ -1,22 +1,17 @@
 package gaongil.safereturnhome.scene;
 
-import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.model.MessageData;
-import gaongil.safereturnhome.model.MessageType;
-import gaongil.safereturnhome.support.ChatAdapter;
-
-import java.util.ArrayList;
-import java.util.Date;
-
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -25,9 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
+import java.util.ArrayList;
+import java.util.Date;
+
+import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.model.MessageData;
+import gaongil.safereturnhome.model.MessageType;
+import gaongil.safereturnhome.support.ChatAdapter;
 
 public class ChatActivity extends CustomActivity implements OnClickListener {
 	
