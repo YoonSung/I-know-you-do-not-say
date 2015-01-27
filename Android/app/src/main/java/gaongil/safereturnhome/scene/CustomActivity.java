@@ -74,6 +74,7 @@ public abstract class CustomActivity extends ActionBarActivity {
         //set toolbar
         //setSupportActionBar((Toolbar) activity.findViewById(toolbarId));
 
+        /*
         //test start
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -83,7 +84,7 @@ public abstract class CustomActivity extends ActionBarActivity {
             }
         });
         //test end
-
+        */
 
         this.rightDrawerToggleDrawableId = rightDrawerToggleDrawableId;
 
