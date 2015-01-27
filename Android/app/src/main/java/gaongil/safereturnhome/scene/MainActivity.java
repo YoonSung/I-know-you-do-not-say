@@ -1,40 +1,9 @@
 package gaongil.safereturnhome.scene;
 
-import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.db.DatabaseHelper;
-import gaongil.safereturnhome.exception.saveImageFileException;
-import gaongil.safereturnhome.model.Group;
-import gaongil.safereturnhome.model.MessageData;
-import gaongil.safereturnhome.model.MessageType;
-import gaongil.safereturnhome.model.User;
-import gaongil.safereturnhome.model.UserStatus;
-import gaongil.safereturnhome.support.Constant;
-import gaongil.safereturnhome.support.ImageUtil;
-import gaongil.safereturnhome.support.PreferenceUtil;
-import gaongil.safereturnhome.support.StaticUtils;
-import gaongil.safereturnhome.support.StatusSpinnerAdapter;
-import gaongil.safereturnhome.support.TimeLineAdapter;
-import gaongil.safereturnhome.support.TimePickerDialogFragment;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
-import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore.Images;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -42,23 +11,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.soundcloud.android.crop.Crop;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.fragment.MainLeftDrawerFragment;
+import gaongil.safereturnhome.model.MessageData;
+import gaongil.safereturnhome.model.MessageType;
+import gaongil.safereturnhome.support.ImageUtil;
+import gaongil.safereturnhome.support.PreferenceUtil;
+import gaongil.safereturnhome.support.TimeLineAdapter;
 
 public class MainActivity extends CustomActivity implements OnClickListener{
 	
@@ -66,33 +37,10 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	 * The drawer layout
 	 */
 	private DrawerLayout mDrawerLayout;
-	
-	/**
-	 * Left drawer
-	 */
-	private View mLeftDrawerView;
-	private Spinner mLeftDrawerStatusSpinner;
-	private ImageButton mLeftDrawerProfileImageButton;
-	private Button mLeftDrawerAlarmButton;
-	//TimePickerDialog
-	private TimePickerDialogFragment mTimePickerDialogFragment;
-	private FragmentManager mFragmentManager; 
-	// This handles the message send from TimePickerDialogFragment on setting Time
-	Handler mTimePickerDialogHandler = new Handler(){
-	        @Override
-	        public void handleMessage(Message message){   
-	        	Bundle bundleFromTimePickerFragment = message.getData();
-	        	
-	        	int hour = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_HOUR);
-	        	int minute = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_MINUTE);
-	        	
+    private View mLeftDrawerView;
 
-	        	// Save New Alarm Time
-	        	mPreferenceUtil.storeAlarmTime(hour, minute);
-	        	updateAlarmView(hour, minute);
-	        }
-	};
-	
+    private FragmentManager mFragmentManager;
+
 	/**
 	 * Right drawer
 	 */
@@ -129,7 +77,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	    setupDrawer();
 	    setupLeftDrawer();
 	    setupRightDrawer();
-	    updateViewBySavedData();
+
 	    
 	    //TODO
 	    //setupSensorInfo();
@@ -152,48 +100,15 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	
 	@Override
 	protected void setupLeftDrawer() {
-		
-		/**
-		 * Alarm Setting
-		 */
-		mLeftDrawerAlarmButton = (Button) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_btn_alarm);
-		mLeftDrawerAlarmButton.setOnClickListener(this);
-        mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
-		
-		
-		/**
-		 * Profile ImageButton
-		 */
-		mLeftDrawerProfileImageButton = (ImageButton) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_img_profile);
-		mLeftDrawerProfileImageButton.setOnClickListener(this);
-		
-		
-		/**
-		 * Spinner Setting
-		 */
-		mLeftDrawerStatusSpinner = (Spinner) mLeftDrawerView.findViewById(R.id.drawer_main_left_user_spinner_status);
-		StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this, R.layout.status_list_row, UserStatus.getList());
-		mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
-		mLeftDrawerStatusSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			
-			private boolean isInitializedCall = true;
+        MainLeftDrawerFragment leftDrawerFragment = new MainLeftDrawerFragment();
+        leftDrawerFragment.setData(mPreferenceUtil, mImageUtil);
 
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (isInitializedCall) {
-					isInitializedCall = false;
-					return;
-				}
-				
-				int enumPosition = view.getId();
-				//check if status same previous status, did not update anithing especially network things
-				mPreferenceUtil.storeUserStatusEnumPosition(position);
-				updateStatusView(enumPosition);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {}
-		});
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        System.out.println("test");
+        fragmentTransaction.replace(R.id.drawer_main_left, leftDrawerFragment);
+        System.out.println("test2");
+        fragmentTransaction.commit();
+        System.out.println("test3");
 	}
 
 	@Override
@@ -259,151 +174,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	
 	
 	
-	/************************************************************************
-	 * Update View Area Start
-	 */
-	private void updateViewBySavedData() {
-		
-		/*
-		 * Alarm
-		 */
-		updateAlarmView(mPreferenceUtil.getAlarmHour(), mPreferenceUtil.getAlarmMinute());
-		
-		/*
-		 * Profile
-		 */
-		LayoutParams profileLayoutParam = mLeftDrawerProfileImageButton.getLayoutParams();
-		profileLayoutParam.width = mProfileSize;
-		profileLayoutParam.height = mProfileSize;
-		Drawable profile = mImageUtil.getProfileImage(Constant.PROFILE_IMAGE_NAME);
-		updateProfileImage(profile);
-		
-		/*
-		 * Status
-		 */
-		updateStatusView(mPreferenceUtil.getUserStatusEnumPosition());
-		
-		
-		/*
-		 * Group
-		 */
-		//TODO GetData From DB.
-		//TODO DELETE Initialize Declation. Test GroupData
-		ArrayList<Group> groupList = new ArrayList<Group>();
-		
-		//If Group is Null, Create View for adding new group 
-		if (groupList.size() == 0) {
-			
-		}
-	}
-	
-	private void updateProfileImage(Drawable profile) {
-		
-		if (profile == null) {
-			return;
-		}
-		
-		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
-		mImageUtil.setCircleImageToTargetView(mMainUserProfileImage, profile);
-	}
-	
-	private void updateProfileImageView(Bitmap profile) {
-		
-		if (profile == null) {
-			return;
-		}
-		
-		mImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
-		mImageUtil.setCircleImageToTargetView(mMainUserProfileImage, profile);
-	}
-	
-	private void updateStatusView(int position) {
-		mLeftDrawerStatusSpinner.setSelection(position);
-		UserStatus userStatus = UserStatus.getList().get(position);
-		
-		//update text
-		mMainTextViewCurrentStatus.setText(userStatus.getStringValue(MainActivity.this));
-		
-		//update emoticon
-		mMainUserEmoticonImage.setImageDrawable(getResources().getDrawable(userStatus.getImageResourceId()));
-	}
-	
-	private void updateAlarmView(int hour, int minute) {
-		/**
-    	 * Change Button Text
-    	 */
-    	String timezone = Constant.TIME_ZONE_AM;
-        if (hour > 12) {
-        	timezone = Constant.TIME_ZONE_PM;
-        	hour -= 12;
-        }
-    	
-        String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
-        mLeftDrawerAlarmButton.setText(displayTime);
-        mMainTextViewAlarmTime.setText(displayTime);
-	}
-	/*
-	 * Update View Area End
-	 ************************************************************************/
-	
-	
-	
-	/************************************************************************
-	 * LeftDrawer Image Crop Start
-	 */
-	@Override
-	protected void onActivityResult(int requestCode	, int resultCode, Intent result) {
-        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
-        	beginCrop(result.getData());
-        } else if (requestCode == Crop.REQUEST_CROP) {
-        	handleCrop(resultCode, result);
-        }
-	}
-	
-	private void beginCrop(Uri source) {
-        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        new Crop(source).output(outputUri).asSquare().start(this);
-    }
 
-    private void handleCrop(int resultCode, Intent result) {
-    	System.out.println("handleCrop Called");
-    	System.out.println("resultCode : "+resultCode);
-    	
-        if (resultCode == RESULT_OK) {
-        	Bitmap croppedImage = null;
-        	
-        	try {
-				croppedImage = StaticUtils.scaleBitmap(this, Crop.getOutput(result), mProfileSize, mProfileSize);
-				System.out.println("croppedImage : "+croppedImage);
-			} catch (Exception e) {
-				//TODO
-				e.printStackTrace();
-			}
-        	
-			// TODO Send Image by Network. (All Device Common Size Image) 
-			// Save Proper Image
-
-        	//TODO DELETE
-        	//Test Start
-        	try {
-				//mImageUtil.saveProfileImage(croppedImage, ""+getGenerateUserId());
-				mImageUtil.saveProfileImage(croppedImage, Constant.PROFILE_IMAGE_NAME);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-        	//TODO DELETE
-        	//Test End
-        	
-        	updateProfileImageView(croppedImage);
-        	
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-    /*
-	 * LeftDrawer Image Crop End
-	 ************************************************************************/
-    
     public void tempEventHandler(View v) {
     	startActivity(new Intent(MainActivity.this, ChatActivity.class));
     }
@@ -420,41 +191,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 				//TODO Modify
 				startActivity(new Intent(MainActivity.this, GroupActivity.class));
 				break;
-				
-			/**
-			 * Click LeftDrawer Component	
-			 */
-			case R.id.drawer_main_left_user_spinner_status:
-				TimePickerDialog alert = new TimePickerDialog(this, null, 0, 0, false);
-			    alert.show();
-			    break;
-			case R.id.drawer_main_left_user_img_profile:
-				// Cropped Image Next Routine - onActivityResult, beginCrop
-				Crop.pickImage(MainActivity.this);
-				break;
-			case R.id.drawer_main_left_user_btn_alarm:
-				showTimePicker();
-				break;
 		} //switch end
-	}
-    
-	private void showTimePicker() {
-		Bundle bundleToTimePickerDialogFragment = new Bundle();
-		bundleToTimePickerDialogFragment.putInt(
-				Constant.BUNDLE_KEY_TIMEPICKER_HOUR, 
-				mPreferenceUtil.getAlarmHour()
-		);
-		bundleToTimePickerDialogFragment.putInt(
-				Constant.BUNDLE_KEY_TIMEPICKER_MINUTE, 
-				mPreferenceUtil.getAlarmMinute()
-		);
-		
-		mTimePickerDialogFragment.setArguments(bundleToTimePickerDialogFragment);
-		
-		FragmentTransaction ft = mFragmentManager.beginTransaction();
-		// Adding the fragment object to the fragment transaction
-		ft.add(mTimePickerDialogFragment, Constant.TIME_PICKER);
-		ft.commit();
 	}
     
 	@Override
