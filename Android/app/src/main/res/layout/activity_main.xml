@@ -76,12 +76,13 @@
         </FrameLayout>
     </FrameLayout>
 
-    <LinearLayout
+    <include
         android:id="@+id/drawer_main_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="start" />
+        android:layout_gravity="start"
+        layout="@layout/drawer_main_left"/>
 
     <include
         android:id="@+id/drawer_main_right"

@@ -3,8 +3,11 @@ package gaongil.safereturnhome.scene;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -23,11 +26,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.adapter.ChatAdapter;
+import gaongil.safereturnhome.fragment.ChatLeftDrawerFragment;
+import gaongil.safereturnhome.fragment.ChatRightDrawerFragment;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
-import gaongil.safereturnhome.adapter.ChatAdapter;
+import gaongil.safereturnhome.support.DrawableListener;
 
-public class ChatActivity extends CustomActivity implements OnClickListener {
+public class ChatActivity extends ActionBarActivity implements OnClickListener {
 	
 	/************************************************************************
 	 * Forground Check
@@ -66,11 +72,13 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 	// Control Keyboard Panel
 	private InputMethodManager inputMethodManager;
 	private ActionBarDrawerToggle mDrawerToggle;
-	
+
+
 	/**
 	 * The drawer layout
 	 */
 	private DrawerLayout mDrawerLayout;
+    private FragmentManager mFragmentManager;
 
 	/**
 	 * Left drawer
@@ -92,11 +100,6 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 	    
 	    setupActionBar("BF");
 	    setupDrawer();
-	    
-	    
-	    //TODO Complete Code
-	    setupLeftDrawer();
-	    setupRightDrawer();
 	    
 	    //TODO DELETE
 	    //Test Start
@@ -227,32 +230,30 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 	}
 
 	protected void setupDrawer() {
+
+        mFragmentManager = getSupportFragmentManager();
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_chat_layout);
 		mLeftDrawerView = (View) findViewById(R.id.drawer_chat_left);
 		mRightDrawerView = (View) findViewById(R.id.drawer_chat_right);
 		LinearLayout mainContentLayout = (LinearLayout) findViewById(R.id.chat_content_layout);
-		
-		mDrawerToggle = super.getActionBarDrawerToggle(
-				this, 
-				mDrawerLayout, 
-				mLeftDrawerView, 
-				mRightDrawerView, 
-				mainContentLayout,
-                R.id.chat_toolbar,
-				R.drawable.ic_location,
-				R.menu.chat
-		);
-		
-		super.setDrawerLayoutOptions(mDrawerLayout, mDrawerToggle);
-	}
 
-	protected void setupLeftDrawer() {
-		// TODO Auto-generated method stub
-		
-	}
+        DrawerLayout.DrawerListener drawerListener = new DrawableListener(findViewById(R.id.main_content_layout), mDrawerLayout, mLeftDrawerView, mRightDrawerView);
 
-	protected void setupRightDrawer() {
-		// TODO Auto-generated method stub
-		
-	}
+        mDrawerLayout.setDrawerListener(drawerListener);
+
+        //left fragment
+        ChatLeftDrawerFragment leftDrawerFragment = new ChatLeftDrawerFragment();
+
+        //right fragment
+        ChatRightDrawerFragment rightDrawerFragment = new ChatRightDrawerFragment();
+
+        //fragment transaction
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.drawer_chat_left, leftDrawerFragment);
+        fragmentTransaction.replace(R.id.drawer_chat_right, rightDrawerFragment);
+
+        fragmentTransaction.commit();
+    }
 }

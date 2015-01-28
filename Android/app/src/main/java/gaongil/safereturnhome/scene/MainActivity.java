@@ -77,7 +77,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         mPreferenceUtil = new PreferenceUtil(this);
         mImageUtil = new ImageUtil(this);
         mProfileSize = mPreferenceUtil.getProfileSize();
-        mFragmentManager = getSupportFragmentManager();
     }
 
     private void setupMainComponent() {
@@ -98,6 +97,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     }
 
     protected void setupDrawer() {
+
+        mFragmentManager = getSupportFragmentManager();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_main_layout);
         mLeftDrawerView = (View) findViewById(R.id.drawer_main_left);
         mRightDrawerView = (View) findViewById(R.id.drawer_main_right);
