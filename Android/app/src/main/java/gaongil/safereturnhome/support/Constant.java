@@ -7,6 +7,7 @@ public class Constant {
 	 *********************************************************************************/
 	public static final String PREFERENCE_KEY_REG_ID = "registrationId";
 	public static final String PREFERENCE_KEY_APP_VERSION = "appVersion";
+    public static final String PREFERENCE_KEY_DEVICE_WIDTH = "deviceWidth";
 	public static final String PREFERENCE_KEY_PROFILE_SIZE = "profileSize";
 	public static final String PREFERENCE_KEY_ALARM_HOUR = "alarmHour";
 	public static final String PREFERENCE_KEY_ALARM_MINUTE = "alarmMinute";
@@ -44,7 +45,7 @@ public class Constant {
 	//private static final String ROOT_PATH = "http://localhost:8080";
 	public static final String MESSAGE_PLAY_SERVICES_ERROR = "This device is not supported.";
 	public static final int  SPLASH_WAIT_TIME = 1000;
-	public static final float DRAWER_SLIDE_WIDTH_RATE = 0.7f;
+	public static final float DRAWER_SLIDE_WIDTH_RATE = 0.8f;
 	public static final String DATE_FORMAT = "a h:mm";
 	public static final int PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH = 4;
 	public static final String PROFILE_IMAGE_NAME = "profile";

@@ -18,6 +18,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -29,14 +30,14 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class SplashScreen extends Activity {
 
 	private final String TAG = SplashScreen.class.getSimpleName();
-	
+
 	private PreferenceUtil preferenceManager;
 	private GoogleCloudMessaging gcm;
     private String regId;
-    
+
 	/** Check if the app is running. */
 	private boolean isRunning;
-    
+
 	// You need to do the Play Services APK check here too.
 	@Override
 	protected void onResume() {
@@ -51,7 +52,7 @@ public class SplashScreen extends Activity {
 		setContentView(R.layout.activity_splash);
         init();
 		checkEssentialInfomation();
-		
+
 	}
 
 	private void checkEssentialInfomation() {
@@ -60,19 +61,19 @@ public class SplashScreen extends Activity {
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
             regId = preferenceManager.getRegistrationId();
-            
+
             if (regId.isEmpty()) {
                 registerInBackground();
             }
-            
+
             int profileImageSize = preferenceManager.getProfileSize();
             if (profileImageSize == 0) {
             	saveProfileImageWidth();
             }
-            
+
             isRunning = true;
             startSplash();
-            
+
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
@@ -80,17 +81,25 @@ public class SplashScreen extends Activity {
 
 	private void saveProfileImageWidth() {
 		Display display = getWindowManager().getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		int deviceWidth = size.x;
-		
+
+        int deviceWidth;
+
+        if (Build.VERSION.SDK_INT>Build.VERSION_CODES.HONEYCOMB){
+            Point size = new Point();
+            display.getSize(size);
+            deviceWidth = size.x;
+        }
+        else{
+            deviceWidth = display.getWidth();
+        }
+
 		preferenceManager.storeProfileSize(deviceWidth / Constant.PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH);
 	}
 
 	private void init() {
         preferenceManager = new PreferenceUtil(this);
 	}
-	
+
 	/**
 	 * Check the device to make sure it has the Google Play Services APK. If
 	 * it doesn't, display a dialog that allows users to download the APK from
@@ -110,7 +119,7 @@ public class SplashScreen extends Activity {
 	    }
 	    return true;
 	}
-	
+
 	/**
      * @return Application's version code from the {@code PackageManager}.
      */
@@ -124,9 +133,9 @@ public class SplashScreen extends Activity {
             throw new RuntimeException("Could not get package name: " + e);
         }
     }
-    
-    
-    
+
+
+
     /**
      * Sends the registration ID to your server over HTTP, so it can use GCM/HTTP or CCS to send
      * messages to your app. Not needed for this demo since the device sends upstream messages
@@ -137,17 +146,17 @@ public class SplashScreen extends Activity {
     	// 서버로 유저 고유값인 registrationID 를 전달한다.
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair(Constant.NETWORK_PARAM_KEY_REGID, registerationId));
-		
+
     	String response = null;
 		try {
 			//response = StaticUtils.postRequest(Constant.NETWORK_URL_REGISTER_ID, nameValuePairs);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-		
+		}
+
     	Log.i(TAG, "responseString = "+response);
     }
-    
+
     /**
      * Registers the application with GCM servers asynchronously.
      * Stores the registration ID and the app versionCode in the application's
@@ -164,15 +173,15 @@ public class SplashScreen extends Activity {
                     }
                     regId = gcm.register(Constant.PROJECT_ID);
                     msg = "Device registered, registration ID=" + regId;
-                    
+
                     //TODO 네트워크 통신, 휴대전화번호에 해당하는 데이터가 존재할 경우, 해당 regId를 반환
-                    
+
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
                     sendRegistrationIdToBackend(regId);
 
                     // Persist the regID - no need to register again.
-                    
+
                     //TODO DELETE
                     //common.storeRegistrationId(regId);
                 } catch (IOException ex) {
@@ -186,11 +195,11 @@ public class SplashScreen extends Activity {
 
             @Override
             protected void onPostExecute(String msg) {
-            	
+
             }
         }.execute(null, null, null);
     }
-    
+
 	private void startSplash() {
 
 		new Thread(new Runnable() {
@@ -215,7 +224,7 @@ public class SplashScreen extends Activity {
 			}
 		}).start();
 	}
-	
+
 	/**
 	 * If the app is still running than this method will start the Login activity
 	 * and finish the Splash.
@@ -230,7 +239,7 @@ public class SplashScreen extends Activity {
 			finish();
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
