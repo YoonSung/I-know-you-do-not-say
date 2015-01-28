@@ -71,8 +71,6 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.main_toolbar));
 
-        System.out.println("main activity actionbar : " + getSupportActionBar());
-        super.setupActionBar(R.drawable.ic_menu);
 	    setupCommonData();
 	    setupMainComponent();
 
@@ -163,8 +161,9 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 				mDrawerLayout, 
 				mLeftDrawerView, 
 				mRightDrawerView, 
-				mainContentLayout, 
+				mainContentLayout,
 				R.id.main_toolbar,
+                0,
 				R.menu.main
 		);
 		

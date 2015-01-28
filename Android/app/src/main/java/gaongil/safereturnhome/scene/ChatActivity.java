@@ -3,9 +3,9 @@ package gaongil.safereturnhome.scene;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -49,7 +49,7 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 		super.onPause();
 		ChatActivity.VISIBILITY = false;
 	}
-	/*
+	/**
 	 * Forground Check
 	 *************************************************************************/
 	
@@ -124,7 +124,6 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
     //Test End
 	
 	private void setupActionBar(String groupName) {
-		super.setupActionBar(R.drawable.ic_location);
 		centerActionBarTitle(groupName);
 	}
 	
@@ -245,13 +244,13 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 				mDrawerLayout, 
 				mLeftDrawerView, 
 				mRightDrawerView, 
-				mainContentLayout, 
+				mainContentLayout,
+                R.id.chat_toolbar,
 				R.drawable.ic_location,
 				R.menu.chat
 		);
 		
 		super.setDrawerLayoutOptions(mDrawerLayout, mDrawerToggle);
-		
 	}
 
 	@Override

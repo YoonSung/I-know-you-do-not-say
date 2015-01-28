@@ -1,17 +1,15 @@
 package gaongil.safereturnhome.scene;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -39,25 +37,30 @@ public abstract class CustomActivity extends ActionBarActivity {
 
     protected abstract void setupRightDrawer();
 
-    protected void setupActionBar(int leftDrawerToggleDrawableId) {
+    private void setupActionBar(Toolbar toolbar, int leftDrawerToggleDrawableId) {
+        setSupportActionBar(toolbar);
+
+        //actionbar set
         ActionBar actionBar = getSupportActionBar();
-        System.out.println("actionBar : " + actionBar);
 
-        if (actionBar == null)
+        if (actionBar == null) {
             return;
+        }
 
-        //mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayUseLogoEnabled(true);
-        //actionBar.setLogo(leftDrawerToggleDrawableId);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.actionbar_background)));
 
         //Its default system menu graphical icon
         //actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
+        //toolbar set --- it is not working. (bug)
+        if (leftDrawerToggleDrawableId != 0) {
+            toolbar.setNavigationIcon(leftDrawerToggleDrawableId);
+        }
+        toolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.actionbar_background)));
     }
 
-    //TODO DELETE drawableId
     protected ActionBarDrawerToggle getActionBarDrawerToggle(
             final Activity activity,
             final DrawerLayout mDrawerLayout,
@@ -65,31 +68,12 @@ public abstract class CustomActivity extends ActionBarActivity {
             final View mRightDrawerView,
             final LinearLayout mainContentLayout,
             final int toolbarId,
+            final int leftDrawerToggleDrawableId,
             final int rightDrawerToggleDrawableId) {
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-                GravityCompat.START);
 
+        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mToolbar = (Toolbar) activity.findViewById(toolbarId);
-        //set toolbar
-        //setSupportActionBar((Toolbar) activity.findViewById(toolbarId));
-
-        /*
-        //test start
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                System.out.println("test");
-                return false;
-            }
-        });
-        //test end
-        */
-
-        this.rightDrawerToggleDrawableId = rightDrawerToggleDrawableId;
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(activity, mDrawerLayout,
-                0, 0) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(activity, mDrawerLayout,0, 0) {
 
             // It's for lastTranslate Saved Variation
             private float lastTranslate = 0.0f;
@@ -138,13 +122,20 @@ public abstract class CustomActivity extends ActionBarActivity {
         }; //new ActionBarDrawerToggle
 
 
+        this.mToolbar = (Toolbar) activity.findViewById(toolbarId);
+        this.rightDrawerToggleDrawableId = rightDrawerToggleDrawableId;
+
         //saveData in Parent Because OptionItemSelected or etc actions
         this.mDrawerLayout = mDrawerLayout;
         this.leftDrawerToggle = actionBarDrawerToggle;
         this.mRightDrawerView = mRightDrawerView;
         this.mLeftDrawerView = mLeftDrawerView;
 
+        setupActionBar(mToolbar, leftDrawerToggleDrawableId);
+
+
         return actionBarDrawerToggle;
+
     }
 
     protected void setDrawerLayoutOptions(DrawerLayout mDrawerLayout, ActionBarDrawerToggle mDrawerToggle) {
@@ -173,8 +164,6 @@ public abstract class CustomActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        System.out.println("Menu Clicked!!!");
-        System.out.println(item.getItemId() == android.R.id.home);
 
         //Left Drawer Toggle Clicked
         //if (leftDrawerToggle.onOptionsItemSelected(item)) {

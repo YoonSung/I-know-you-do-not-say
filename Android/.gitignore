@@ -30,3 +30,4 @@ Thumbs.db
 .idea/workspace.xml
 .gradle/*
 build/
+app/build/*
