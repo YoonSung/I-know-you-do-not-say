@@ -2,34 +2,24 @@ package gaongil.safereturnhome.scene;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.fragment.MainLeftDrawerFragment;
-import gaongil.safereturnhome.model.MessageData;
-import gaongil.safereturnhome.model.MessageType;
+import gaongil.safereturnhome.fragment.MainRightDrawerFragment;
 import gaongil.safereturnhome.support.ImageUtil;
 import gaongil.safereturnhome.support.PreferenceUtil;
-import gaongil.safereturnhome.support.TimeLineAdapter;
 
 public class MainActivity extends CustomActivity implements OnClickListener{
 	
@@ -44,9 +34,7 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	/**
 	 * Right drawer
 	 */
-	private View mRightDrawerView;
-	private TimeLineAdapter mTimeLineAdapter;
-	private ListView mRightDrawerListView;
+    private View mRightDrawerView;
 	
 	/**
 	 * MainContents
@@ -110,23 +98,10 @@ public class MainActivity extends CustomActivity implements OnClickListener{
 	}
 
 	protected void setupRightDrawer() {
-		//TODO DELETE
-		//Test Start
-		ArrayList<MessageData> testList = new ArrayList<MessageData>();
-		testList.add(new MessageData(0, 3, "경로를 벗어났습니다. 관심을 가져주세요", new Date(1,1,1, 21, 02),  MessageType.WARN, true ));
-		testList.add(new MessageData(0, 1, "충격이 감지되었습니다 !!", new Date(1,1,1, 20, 51),  MessageType.URGENT, true ));
-		testList.add(new MessageData(0, 4, "(집)으로 귀가를 시작했습니다.", new Date(1,1,1, 18, 30),  MessageType.ANNOUNCE, true ));
-		testList.add(new MessageData(0, 2, "상태가 (외로움) 으로 변경되었습니다.", new Date(1, 1, 1, 17, 11),  MessageType.NORMAL, true ));
-		testList.add(new MessageData(0, 4, "이제 슬슬 집으로 가봐야겠다~ 다들 오늘 몇시에 들어와?.", new Date(1, 1, 1, 16, 55),  MessageType.NORMAL, true ));
-		//Test End
-		
-		this.mTimeLineAdapter = new TimeLineAdapter(MainActivity.this, testList);
-		
-		mRightDrawerListView = (ListView) mRightDrawerView.findViewById(R.id.drawer_main_right_listview);
-		
-		mRightDrawerListView.setAdapter(mTimeLineAdapter);
-		mRightDrawerListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-		mRightDrawerListView.setStackFromBottom(false);
+        MainRightDrawerFragment rightDrawerFragment = new MainRightDrawerFragment();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.drawer_main_right, rightDrawerFragment);
+        fragmentTransaction.commit();
 	}
 	
 	private void setupMainComponent() {
