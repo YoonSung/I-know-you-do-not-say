@@ -21,21 +21,13 @@ import android.widget.LinearLayout;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.support.Constant;
 
-public abstract class CustomActivity extends ActionBarActivity {
+public class CustomActivity extends ActionBarActivity {
 
     private ActionBarDrawerToggle leftDrawerToggle;
     private int rightDrawerToggleDrawableId;
     private DrawerLayout mDrawerLayout;
     private View mRightDrawerView, mLeftDrawerView;
     private Toolbar mToolbar;
-
-    protected abstract boolean onRightDrawerToggleSelected(MenuItem item);
-
-    protected abstract void setupDrawer();
-
-    protected abstract void setupLeftDrawer();
-
-    protected abstract void setupRightDrawer();
 
     private void setupActionBar(Toolbar toolbar, int leftDrawerToggleDrawableId) {
         setSupportActionBar(toolbar);
@@ -144,6 +136,7 @@ public abstract class CustomActivity extends ActionBarActivity {
         mDrawerLayout.closeDrawers();
     }
 
+    /*
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -168,18 +161,18 @@ public abstract class CustomActivity extends ActionBarActivity {
         //Left Drawer Toggle Clicked
         //if (leftDrawerToggle.onOptionsItemSelected(item)) {
         if (item.getItemId() == android.R.id.home) {
-            return onLeftDrawerToggleSelected(item);
+            return onLeftDrawerToggleSelected();
             //return true;
 
             //Right Drawer Toggle Clicked
         } else {
-            return onRightDrawerToggleSelected(item);
+            return onRightDrawerToggleSelected();
         }
 
         //return super.onOptionsItemSelected(item);
     }
-
-    private boolean onLeftDrawerToggleSelected(MenuItem item) {
+*/
+    private boolean onLeftDrawerToggleSelected() {
         if (mDrawerLayout.isDrawerOpen(mLeftDrawerView)) {
             mDrawerLayout.closeDrawer(mLeftDrawerView);
         } else {
@@ -189,7 +182,7 @@ public abstract class CustomActivity extends ActionBarActivity {
         return true;
     }
 
-    public boolean defaultRightDrawerToggleSelected() {
+    public boolean onRightDrawerToggleSelected() {
         if (mDrawerLayout.isDrawerOpen(mRightDrawerView)) {
             mDrawerLayout.closeDrawer(mRightDrawerView);
         } else {
@@ -198,7 +191,7 @@ public abstract class CustomActivity extends ActionBarActivity {
 
         return true;
     }
-
+/*
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -212,4 +205,5 @@ public abstract class CustomActivity extends ActionBarActivity {
         // Pass any configuration change to the drawer toggle
         leftDrawerToggle.onConfigurationChanged(newConfig);
     }
+    */
 }

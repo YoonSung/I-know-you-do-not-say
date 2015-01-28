@@ -227,12 +227,6 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 		}
 	}
 
-	@Override
-	protected boolean onRightDrawerToggleSelected(MenuItem item) {
-		return super.defaultRightDrawerToggleSelected();
-	}
-
-	@Override
 	protected void setupDrawer() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_chat_layout);
 		mLeftDrawerView = (View) findViewById(R.id.drawer_chat_left);
@@ -253,13 +247,11 @@ public class ChatActivity extends CustomActivity implements OnClickListener {
 		super.setDrawerLayoutOptions(mDrawerLayout, mDrawerToggle);
 	}
 
-	@Override
 	protected void setupLeftDrawer() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	protected void setupRightDrawer() {
 		// TODO Auto-generated method stub
 		

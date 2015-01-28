@@ -45,6 +45,7 @@
         </activity>
         <activity
             android:name=".scene.MainActivity"
+            android:label="@null"
             android:screenOrientation="portrait" />
         <activity
             android:name=".scene.ChatActivity"
