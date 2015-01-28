@@ -3,7 +3,7 @@
     android:id="@+id/drawer_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color_blue">
+    android:background="@color/main_color">
 
     <FrameLayout
         android:id="@+id/main_content_layout"

@@ -12,7 +12,7 @@
         android:id="@+id/group_user_linearlayout_statuscolor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/main_color_lightblue"
+        android:background="@color/main_color_assist"
         android:orientation="horizontal" >
 
         <LinearLayout

@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -26,7 +25,7 @@ import java.util.Date;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
-import gaongil.safereturnhome.support.ChatAdapter;
+import gaongil.safereturnhome.adapter.ChatAdapter;
 
 public class ChatActivity extends CustomActivity implements OnClickListener {
 	

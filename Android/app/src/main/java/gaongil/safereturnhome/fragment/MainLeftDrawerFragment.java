@@ -33,7 +33,7 @@ import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.ImageUtil;
 import gaongil.safereturnhome.support.PreferenceUtil;
 import gaongil.safereturnhome.support.StaticUtils;
-import gaongil.safereturnhome.support.StatusSpinnerAdapter;
+import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
 import gaongil.safereturnhome.support.TimePickerDialogFragment;
 
 /**

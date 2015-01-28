@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.support;
+package gaongil.safereturnhome.adapter;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.ContactInfo;
 

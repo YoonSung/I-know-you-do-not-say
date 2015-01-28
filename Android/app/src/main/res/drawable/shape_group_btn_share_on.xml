@@ -4,9 +4,9 @@
 
     <stroke
         android:width="@dimen/pad_zero_point_1"
-        android:color="@color/main_color_blue" />
+        android:color="@color/main_color" />
 
-    <solid android:color="@color/main_color_lightblue" />
+    <solid android:color="@color/main_color_assist" />
 
     <padding
         android:bottom="@dimen/pad_10dp"

@@ -15,7 +15,7 @@ import java.util.Date;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
-import gaongil.safereturnhome.support.TimeLineAdapter;
+import gaongil.safereturnhome.adapter.TimeLineAdapter;
 
 /**
  * Created by yoon on 15. 1. 28..

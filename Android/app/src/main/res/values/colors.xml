@@ -6,10 +6,19 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+
+    <color name="actionbar_background">#DCABB5FF</color>
+
+    <!--
     <color name="actionbar_background">#DCDEE0ff</color>
+    <color name="main_color">#3792CF</color>
+    <color name="main_color_light">#4bb3fc</color>
+    -->
+
+
     <color name="skin_light">#E4E6DB</color>
-    <color name="main_color_blue">#3792CF</color>
-    <color name="main_color_lightblue">#4bb3fc</color>
+    <color name="main_color">#DCCCDAFF</color>
+    <color name="main_color_assist">#DC99B9FF</color>
     <color name="main_color_gray">#acacac</color>
     <color name="main_text_color">#3F7582</color>
     <color name="main_color_lightgray">#d9d7d7</color>

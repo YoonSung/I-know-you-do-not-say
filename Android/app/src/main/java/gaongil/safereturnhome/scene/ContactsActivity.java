@@ -3,7 +3,7 @@ package gaongil.safereturnhome.scene;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.ContactInfo;
 import gaongil.safereturnhome.support.Constant;
-import gaongil.safereturnhome.support.ContactsAdapter;
+import gaongil.safereturnhome.adapter.ContactsAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -33,7 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class ContactsActivity extends Activity {
 	
@@ -67,7 +65,7 @@ public class ContactsActivity extends Activity {
 		
 		actionBar.setLogo(R.drawable.ic_cancle);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color_blue)));
+		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color)));
 		actionBar.setHomeButtonEnabled(true);
 	}
 	
