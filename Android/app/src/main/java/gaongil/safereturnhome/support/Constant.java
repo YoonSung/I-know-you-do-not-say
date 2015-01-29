@@ -2,6 +2,8 @@ package gaongil.safereturnhome.support;
 
 public class Constant {
 
+    public static final String TAG = "WITH_PROJECT";
+
 	/********************************************************************************
 	 * 										Preference
 	 *********************************************************************************/

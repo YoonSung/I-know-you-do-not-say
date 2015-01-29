@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".scene.MainActivity"
+            android:name=".scene.MainActivity_"
             android:label="@null"
             android:screenOrientation="portrait" />
         <activity

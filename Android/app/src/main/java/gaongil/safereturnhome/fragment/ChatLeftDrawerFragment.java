@@ -8,16 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.androidannotations.annotations.EFragment;
+
 import gaongil.safereturnhome.R;
 
-/**
- * Created by yoon on 15. 1. 28..
- */
+@EFragment(R.layout.drawer_chat_left)
 public class ChatLeftDrawerFragment extends Fragment {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.drawer_chat_left, container, false);
-        return view;
-    }
 }

@@ -8,9 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +20,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.model.Group;
@@ -36,14 +44,23 @@ import gaongil.safereturnhome.support.StaticUtils;
 import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
 import gaongil.safereturnhome.support.TimePickerDialogFragment;
 
-/**
- * Created by yoon on 15. 1. 27..
- */
+
+@EFragment(R.layout.drawer_main_left)
 public class MainLeftDrawerFragment extends Fragment implements View.OnClickListener {
 
-    private Spinner mLeftDrawerStatusSpinner;
-    private ImageButton mLeftDrawerProfileImageButton;
-    private Button mLeftDrawerAlarmButton;
+
+    @ViewById(R.id.drawer_main_left_user_spinner_status)
+    Spinner mLeftDrawerStatusSpinner;
+
+    @ViewById(R.id.drawer_main_left_user_img_profile)
+    ImageButton mLeftDrawerProfileImageButton;
+
+    @ViewById(R.id.drawer_main_left_user_btn_alarm)
+    Button mLeftDrawerAlarmButton;
+
+    @ViewById(R.id.main_user_txt_currentstatus)
+    TextView mMainTextViewCurrentStatus;
+
     //TimePickerDialog
     private TimePickerDialogFragment mTimePickerDialogFragment;
 
@@ -66,28 +83,26 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
         }
     };
 
-    public void setData(PreferenceUtil preferenceUtil, ImageUtil imageUtil) {
-        this.mPreferenceUtil = preferenceUtil;
-        this.mImageUtil = imageUtil;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.drawer_main_left, container, false);
-        init(view);
+    @AfterViews
+    void init() {
+        Log.d(Constant.TAG,"test");
+        initSetting();
         updateViewBySavedData();
 
-        return view;
     }
 
-    private void init(View view) {
+    private void initSetting() {
+
+        //TODO Optimize
+        this.mPreferenceUtil = new PreferenceUtil(getActivity());
+        this.mImageUtil = new ImageUtil(getActivity());
+
 
         mProfileSize = mPreferenceUtil.getProfileSize();
 
         /**
          * Alarm Setting
          */
-        mLeftDrawerAlarmButton = (Button) view.findViewById(R.id.drawer_main_left_user_btn_alarm);
         mLeftDrawerAlarmButton.setOnClickListener(this);
         mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
 
@@ -95,15 +110,18 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
         /**
          * Profile ImageButton
          */
-        mLeftDrawerProfileImageButton = (ImageButton) view.findViewById(R.id.drawer_main_left_user_img_profile);
         mLeftDrawerProfileImageButton.setOnClickListener(this);
 
 
         /**
          * Spinner Setting
          */
-        mLeftDrawerStatusSpinner = (Spinner) view.findViewById(R.id.drawer_main_left_user_spinner_status);
         StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this.getActivity(), R.layout.status_list_row, UserStatus.getList());
+
+        Log.d(Constant.TAG,"statusSpinnerAdapter : "+statusSpinnerAdapter);
+        Log.d(Constant.TAG,"mLeftDrawerStatusSpinner : "+mLeftDrawerStatusSpinner);
+        Log.d(Constant.TAG,"UserStatus.getList() : "+UserStatus.getList());
+
         mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
         mLeftDrawerStatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -125,6 +143,8 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        mLeftDrawerStatusSpinner.notify();
     }
 
     private void updateProfileImageView(Bitmap profile) {
@@ -142,9 +162,12 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
         mLeftDrawerStatusSpinner.setSelection(position);
         UserStatus userStatus = UserStatus.getList().get(position);
 
+
+        Log.d(Constant.TAG, userStatus.toString());
+
         //update text
         //TODO doing
-        //mMainTextViewCurrentStatus.setText(userStatus.getStringValue(MainLeftDrawerFragment.this));
+        mMainTextViewCurrentStatus.setText(userStatus.getStringValue(getActivity()));
 
         //update emoticon
         //TODO doing
