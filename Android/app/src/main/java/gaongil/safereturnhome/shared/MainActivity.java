@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.fragment.MainRightDrawerFragment;
@@ -79,14 +80,13 @@ public class MainActivity extends FragmentActivity {
     private int profileSize;
     private ImageUtil imageUtil;
 
-    //@Pref
-    //PreferenceUtil_ preferenceUtil;
+    @Pref
+    PreferenceUtil_ preferenceUtil;
 
 
     @AfterViews
     public void init() {
         setupCommonData();
-        setupMainComponent();
         setupDrawer();
 
         //TODO
@@ -99,16 +99,12 @@ public class MainActivity extends FragmentActivity {
      */
     private void setupCommonData() {
         imageUtil = new ImageUtil(this);
-        //profileSize = preferenceUtil.profileSize().get();
+        profileSize = preferenceUtil.profileSize().get();
 
         //Appripriate Image Size Set
         LayoutParams profileLayoutParam = userProfile.getLayoutParams();
         profileLayoutParam.width = profileSize;
         profileLayoutParam.height = profileSize;
-    }
-
-    private void setupMainComponent() {
-
     }
 
     private void setupDrawer() {
@@ -117,7 +113,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     //TODO DELETE
-    void tempEventHandler(View v) {
+    public void tempEventHandler(View v) {
         startActivity(new Intent(MainActivity.this, ChatActivity.class));
     }
 
