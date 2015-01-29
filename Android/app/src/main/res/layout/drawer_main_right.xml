@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/drawer_background"
     android:orientation="vertical"
-    tools:context="gaongil.safereturnhome.scene.MainActivity" >
+    tools:context="gaongil.safereturnhome.shared.MainActivity" >
 
     <LinearLayout
         android:layout_width="match_parent"

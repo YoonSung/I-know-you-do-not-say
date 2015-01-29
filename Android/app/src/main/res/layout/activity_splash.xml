@@ -5,7 +5,7 @@
     android:background="@color/main_color"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="gaongil.safereturnhome.scene.SplashScreen" >
+    tools:context="gaongil.safereturnhome.shared.SplashScreen" >
 
     <ImageView
         android:layout_width="wrap_content"

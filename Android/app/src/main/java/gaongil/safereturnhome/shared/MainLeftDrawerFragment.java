@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.fragment;
+package gaongil.safereturnhome.shared;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -6,14 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,25 +23,27 @@ import com.soundcloud.android.crop.Crop;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
 import gaongil.safereturnhome.model.Group;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.scene.GroupActivity;
+import gaongil.safereturnhome.shared.TimePickerDialogFragment;
 import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.ImageUtil;
-import gaongil.safereturnhome.support.PreferenceUtil;
 import gaongil.safereturnhome.support.StaticUtils;
-import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
-import gaongil.safereturnhome.support.TimePickerDialogFragment;
 
 
 @EFragment(R.layout.drawer_main_left)
 public class MainLeftDrawerFragment extends Fragment implements View.OnClickListener {
+
+    @Pref
+    PreferenceUtil_ preferenceUtil;
 
 
     @ViewById(R.id.drawer_main_left_user_spinner_status)
@@ -64,28 +61,14 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
     //TimePickerDialog
     private TimePickerDialogFragment mTimePickerDialogFragment;
 
-    private PreferenceUtil mPreferenceUtil;
     private ImageUtil mImageUtil;
     private int mProfileSize;
     // This handles the message send from TimePickerDialogFragment on setting Time
-    Handler mTimePickerDialogHandler = new Handler(){
-        @Override
-        public void handleMessage(Message message){
-            Bundle bundleFromTimePickerFragment = message.getData();
 
-            int hour = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_HOUR);
-            int minute = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_MINUTE);
-
-
-            // Save New Alarm Time
-            mPreferenceUtil.storeAlarmTime(hour, minute);
-            updateAlarmView(hour, minute);
-        }
-    };
 
     @AfterViews
     void init() {
-        Log.d(Constant.TAG,"test");
+        Log.d(Constant.TAG, "test");
         initSetting();
         updateViewBySavedData();
 
@@ -94,17 +77,16 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
     private void initSetting() {
 
         //TODO Optimize
-        this.mPreferenceUtil = new PreferenceUtil(getActivity());
         this.mImageUtil = new ImageUtil(getActivity());
 
 
-        mProfileSize = mPreferenceUtil.getProfileSize();
+        mProfileSize = preferenceUtil.profileSize().get();
 
         /**
          * Alarm Setting
          */
         mLeftDrawerAlarmButton.setOnClickListener(this);
-        mTimePickerDialogFragment = new TimePickerDialogFragment(mTimePickerDialogHandler);
+        mTimePickerDialogFragment = new TimePickerDialogFragment();
 
 
         /**
@@ -118,9 +100,9 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
          */
         StatusSpinnerAdapter statusSpinnerAdapter = new StatusSpinnerAdapter(this.getActivity(), R.layout.status_list_row, UserStatus.getList());
 
-        Log.d(Constant.TAG,"statusSpinnerAdapter : "+statusSpinnerAdapter);
-        Log.d(Constant.TAG,"mLeftDrawerStatusSpinner : "+mLeftDrawerStatusSpinner);
-        Log.d(Constant.TAG,"UserStatus.getList() : "+UserStatus.getList());
+        Log.d(Constant.TAG, "statusSpinnerAdapter : " + statusSpinnerAdapter);
+        Log.d(Constant.TAG, "mLeftDrawerStatusSpinner : " + mLeftDrawerStatusSpinner);
+        Log.d(Constant.TAG, "UserStatus.getList() : " + UserStatus.getList());
 
         mLeftDrawerStatusSpinner.setAdapter(statusSpinnerAdapter);
         mLeftDrawerStatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,7 +118,7 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
 
                 int enumPosition = view.getId();
                 //check if status same previous status, did not update anithing especially network things
-                mPreferenceUtil.storeUserStatusEnumPosition(position);
+                //preferenceUtil.statusEnumPosition().put(enumPosition);
                 updateStatusView(enumPosition);
             }
 
@@ -195,12 +177,10 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
      * Update View Area Start
      */
     private void updateViewBySavedData() {
-
-		/*
-		 * Alarm
-		 */
-        updateAlarmView(mPreferenceUtil.getAlarmHour(), mPreferenceUtil.getAlarmMinute());
-
+        updateAlarmView(
+                preferenceUtil.alarmHour().get(),
+                preferenceUtil.alarmMinute().get()
+        );
 		/*
 		 * Profile
 		 */
@@ -213,7 +193,7 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
 		/*
 		 * Status
 		 */
-        updateStatusView(mPreferenceUtil.getUserStatusEnumPosition());
+        updateStatusView(preferenceUtil.statusEnumPosition().get());
 
 
 		/*
@@ -306,15 +286,16 @@ public class MainLeftDrawerFragment extends Fragment implements View.OnClickList
 
     private void showTimePicker() {
         Bundle bundleToTimePickerDialogFragment = new Bundle();
+        /*
         bundleToTimePickerDialogFragment.putInt(
                 Constant.BUNDLE_KEY_TIMEPICKER_HOUR,
-                mPreferenceUtil.getAlarmHour()
+                preferenceUtil.alarmHour().get()
         );
         bundleToTimePickerDialogFragment.putInt(
                 Constant.BUNDLE_KEY_TIMEPICKER_MINUTE,
-                mPreferenceUtil.getAlarmMinute()
+                preferenceUtil.alarmMinute().get()
         );
-
+*/
         mTimePickerDialogFragment.setArguments(bundleToTimePickerDialogFragment);
 
         FragmentTransaction ft = this.getActivity().getSupportFragmentManager().beginTransaction();

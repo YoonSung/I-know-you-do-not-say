@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.support;
+package gaongil.safereturnhome.shared;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -6,18 +6,46 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
+import android.widget.Button;
 import android.widget.TimePicker;
 
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+
+import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.support.Constant;
+
+@EFragment
 public class TimePickerDialogFragment extends DialogFragment {
 	
-	Handler mHandler ;
     int mHour;
-    int mMinute;    
+    int mMinute;
 
-    public TimePickerDialogFragment(Handler handler){
-    	//Getting the reference to the message handler instantiated in MainActivity class
-        mHandler = handler;
-    }
+    @Pref
+    PreferenceUtil_ preferenceUtil;
+
+    //TODO DELETE
+    //@ViewById(R.id.drawer_main_left_user_btn_alarm)
+    Button mLeftDrawerAlarmButton;
+
+    Handler mTimePickerDialogHandler = new Handler(){
+        @Override
+        public void handleMessage(Message message){
+            Bundle bundleFromTimePickerFragment = message.getData();
+
+            int hour = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_HOUR);
+            int minute = bundleFromTimePickerFragment.getInt(Constant.BUNDLE_KEY_TIMEPICKER_MINUTE);
+
+
+            // Save New Alarm Time
+            //preferenceUtil.alarmHour().put(hour);
+            //preferenceUtil.alarmMinute().put(minute);
+
+            updateAlarmView(hour, minute);
+        }
+    };
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -55,7 +83,7 @@ public class TimePickerDialogFragment extends DialogFragment {
                 message.setData(bundle);
 
                 // Message m is sending using the message handler instantiated in MainActivity class
-                mHandler.sendMessage(message);								
+                mTimePickerDialogHandler.sendMessage(message);
 			}
 		};        
 
@@ -64,4 +92,21 @@ public class TimePickerDialogFragment extends DialogFragment {
 		return new TimePickerDialog(getActivity(), listener, mHour, mMinute, false);
     }
 
+    //TODO otto apply to MainLeftDrawerFraglement
+    private void updateAlarmView(int hour, int minute) {
+        /**
+         * Change Button Text
+         */
+        String timezone = Constant.TIME_ZONE_AM;
+        if (hour > 12) {
+            timezone = Constant.TIME_ZONE_PM;
+            hour -= 12;
+        }
+
+        String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
+        mLeftDrawerAlarmButton.setText(displayTime);
+
+        //TODO doing
+        //mMainTextViewAlarmTime.setText(displayTime);
+    }
 }

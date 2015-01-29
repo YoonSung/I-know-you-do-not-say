@@ -1,16 +1,4 @@
-package gaongil.safereturnhome.scene;
-
-import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.support.Constant;
-import gaongil.safereturnhome.support.PreferenceUtil;
-import gaongil.safereturnhome.support.StaticUtils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+package gaongil.safereturnhome.shared;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,11 +15,26 @@ import android.view.KeyEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.support.Constant;
+
+@EActivity
 public class SplashScreen extends Activity {
 
 	private final String TAG = SplashScreen.class.getSimpleName();
 
-	private PreferenceUtil preferenceManager;
+    @Pref
+    PreferenceUtil_ preferenceUtil;
 	private GoogleCloudMessaging gcm;
     private String regId;
 
@@ -50,7 +53,6 @@ public class SplashScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-        init();
 		checkEssentialInfomation();
 
 	}
@@ -60,13 +62,13 @@ public class SplashScreen extends Activity {
         // Otherwise, prompt user to get valid Play Services APK.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
-            regId = preferenceManager.getRegistrationId();
+            regId = preferenceUtil.registrationId().get();
 
             if (regId.isEmpty()) {
                 registerInBackground();
             }
 
-            int profileImageSize = preferenceManager.getProfileSize();
+            int profileImageSize = preferenceUtil.profileSize().get();
             if (profileImageSize == 0) {
             	saveProfileImageWidth();
             }
@@ -93,11 +95,7 @@ public class SplashScreen extends Activity {
             deviceWidth = display.getWidth();
         }
 
-		preferenceManager.storeProfileSize(deviceWidth / Constant.PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH);
-	}
-
-	private void init() {
-        preferenceManager = new PreferenceUtil(this);
+        preferenceUtil.profileSize().put(deviceWidth / Constant.PROFILE_IMAGE_RATE_BY_DEVICE_WIDTH);
 	}
 
 	/**

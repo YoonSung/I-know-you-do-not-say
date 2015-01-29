@@ -1,0 +1,14 @@
+Bug. (Android Annotation 3.2's SharedPreference is not nomally opperation)
+
+see also
+    https://github.com/excilys/androidannotations/wiki/FAQ#import
+    https://github.com/excilys/androidannotations/issues/909
+    https://github.com/excilys/androidannotations/issues/774#issuecomment-27944940
+    https://github.com/excilys/androidannotations/issues/774#issuecomment-27944940
+
+
+Register Issue
+    https://github.com/excilys/androidannotations/issues/1315
+
+
+It must be repackaging After next android annotation library release
