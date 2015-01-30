@@ -1,6 +1,8 @@
 package gaongil.safereturnhome.scene;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -19,6 +22,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -54,6 +58,9 @@ public class MainActivity extends FragmentActivity {
 
     @ViewById(R.id.drawer_main_right)
     View rightDrawerLayout;
+
+    //@FragmentArg
+    MainLeftDrawerFragment mainLeftDrawerFragment;
 
     /**
      * MainContents
@@ -99,9 +106,15 @@ public class MainActivity extends FragmentActivity {
         bus.unregister(this);
     }
 
+    //It is need to fragment onActivityResult Called (Fragment Request startActivityForResult, result method called in main activity)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mainLeftDrawerFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Click(R.id.main_btn_addgroup)
     void addGroup() {
-        startActivity(new Intent(MainActivity.this, GroupActivity.class));
+        startActivity(new Intent(MainActivity.this, GroupActivity_.class));
     }
 
     @Click(R.id.main_toolbar_left_toggle)
@@ -127,6 +140,11 @@ public class MainActivity extends FragmentActivity {
         alarmTime.setText(displayTime);
     }
 
+    @Subscribe
+    public void updateProfile(Drawable profile) {
+        ImageUtil.setCircleImageToTargetView(userProfile, profile);
+    }
+
     private void setupCommonData() {
         profileSize = preferenceUtil.profileSize().get();
 
@@ -138,9 +156,11 @@ public class MainActivity extends FragmentActivity {
 
     private void setupDrawer() {
 
+        mainLeftDrawerFragment = new MainLeftDrawerFragment_();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.drawer_main_left, new MainLeftDrawerFragment_());
+        fragmentTransaction.replace(R.id.drawer_main_left, mainLeftDrawerFragment);
         fragmentTransaction.replace(R.id.drawer_main_right, new MainRightDrawerFragment_());
         fragmentTransaction.commit();
 

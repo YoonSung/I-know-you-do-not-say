@@ -52,10 +52,10 @@
             android:name=".scene.ChatActivity_"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".scene.ContactsActivity" >
+        <activity android:name=".scene.ContactsActivity_" >
         </activity>
         <activity
-            android:name=".scene.GroupActivity"
+            android:name=".scene.GroupActivity_"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             >
         </activity>

@@ -3,17 +3,6 @@ package gaongil.safereturnhome.support;
 public class Constant {
 
     public static final String TAG = "WITH_PROJECT";
-
-	/********************************************************************************
-	 * 										Preference
-	 *********************************************************************************/
-	public static final String PREFERENCE_KEY_REG_ID = "registrationId";
-	public static final String PREFERENCE_KEY_APP_VERSION = "appVersion";
-    public static final String PREFERENCE_KEY_DEVICE_WIDTH = "deviceWidth";
-	public static final String PREFERENCE_KEY_PROFILE_SIZE = "profileSize";
-	public static final String PREFERENCE_KEY_ALARM_HOUR = "alarmHour";
-	public static final String PREFERENCE_KEY_ALARM_MINUTE = "alarmMinute";
-	public static final String PREFERENCE_KEY_STATUS_ENUM_POSITION = "statusEnumPosition";
 	
 	/********************************************************************************
 	 * 										Network Key
@@ -40,10 +29,7 @@ public class Constant {
 	
 	//private static final String ROOT_PATH = "http://localhost:8080";
 	public static final String ROOT_PATH = "http://10.73.43.247:8080";
-	public static final String LINE_END = "\r\n";
-	public static final String TWO_HYPHENS = "--";
-	public static final String DATA_BOUNDARY = "*****";
-	
+
 	//private static final String ROOT_PATH = "http://localhost:8080";
 	public static final String MESSAGE_PLAY_SERVICES_ERROR = "This device is not supported.";
 	public static final int  SPLASH_WAIT_TIME = 1000;
@@ -60,4 +46,7 @@ public class Constant {
 	public static final int REQUEST_CODE_GROUPTOCONTACT = 1;
 	public static final String TEXT_SEPERATOR_COMMA = ", ";
 	public static final String IMAGE_EXTENSION = ".png";
+
+    public static final String OTTO_KEY_HOUR = "hour";
+    public static final String OTTO_KEY_MINUTE = "minute";
 }

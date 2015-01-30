@@ -1,7 +1,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
- 
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/contacts_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/actionbar_background">
+
+        <ImageButton
+            android:id="@+id/contact_toolbar_left_toggle"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/crop__ic_cancel"/>
+
+        <ImageButton
+            android:id="@+id/contact_toolbar_right_toggle"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/crop__ic_done"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <EditText
         android:id="@+id/contact_edt_search"
         android:layout_width="fill_parent"
@@ -10,7 +36,7 @@
         android:layout_centerInParent="true"
         android:hint="@string/contact_edt_searchhint"
         android:textSize="@dimen/txt_18sp" />
- 
+
     <LinearLayout
         android:id="@+id/contact_data_container"
         android:layout_width="match_parent"
@@ -19,19 +45,19 @@
         android:background="@color/white"
         android:gravity="center|top"
         android:orientation="vertical" />
- 
+
     <RelativeLayout
         android:id="@+id/contact_progressbar_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#55000000"
         android:clickable="true"
-        android:visibility="gone" >
- 
+        android:visibility="gone"  >
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
     </RelativeLayout>
- 
+
 </RelativeLayout>

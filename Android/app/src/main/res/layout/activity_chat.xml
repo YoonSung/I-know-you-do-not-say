@@ -27,9 +27,10 @@
                 android:layout_weight="1"
                 android:background="@color/white_smoke"
                 android:divider="@color/transparent"
-                android:dividerHeight="20.0sp"
+                android:dividerHeight="@dimen/pad_20dp"
                 android:listSelector="@android:color/transparent"
-                android:fastScrollEnabled="true"></ListView>
+                android:scrollbars="none"
+                android:fastScrollEnabled="true" />
 
             <include
                 android:layout_width="match_parent"

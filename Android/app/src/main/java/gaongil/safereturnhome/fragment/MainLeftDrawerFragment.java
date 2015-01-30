@@ -2,6 +2,7 @@ package gaongil.safereturnhome.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
+import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -27,13 +29,13 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
+import java.util.HashMap;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
 import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.*;
-import gaongil.safereturnhome.fragment.*;
 
 
 @EFragment(R.layout.drawer_main_left)
@@ -61,8 +63,11 @@ public class MainLeftDrawerFragment extends Fragment {
     private TimePickerDialogFragment mTimePickerDialogFragment;
     private int mProfileSize;
 
+
     @AfterViews
     void init() {
+        bus.register(this);
+
         mProfileSize = preferenceUtil.profileSize().get();
 
         mTimePickerDialogFragment = new TimePickerDialogFragment_();
@@ -77,14 +82,35 @@ public class MainLeftDrawerFragment extends Fragment {
         updateStatusView(preferenceUtil.statusEnumPosition().get());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
     @Click(R.id.drawer_main_left_user_img_profile)
-    void setProfile() {
+    void modifyProfile() {
         Crop.pickImage(this.getActivity());
     }
 
     @Click(R.id.drawer_main_left_user_btn_alarm)
-    void setAlarm() {
-        showTimePicker();
+    void modifyAlarm() {
+        Bundle bundleToTimePickerDialogFragment = new Bundle();
+        bundleToTimePickerDialogFragment.putInt(
+                Constant.BUNDLE_KEY_TIMEPICKER_HOUR,
+                preferenceUtil.alarmHour().get()
+        );
+        bundleToTimePickerDialogFragment.putInt(
+                Constant.BUNDLE_KEY_TIMEPICKER_MINUTE,
+                preferenceUtil.alarmMinute().get()
+        );
+
+        mTimePickerDialogFragment.setArguments(bundleToTimePickerDialogFragment);
+
+        FragmentTransaction ft = this.getActivity().getSupportFragmentManager().beginTransaction();
+        // Adding the fragment object to the fragment transaction
+        ft.add(mTimePickerDialogFragment, Constant.TIME_PICKER);
+        ft.commit();
     }
 
 
@@ -127,22 +153,36 @@ public class MainLeftDrawerFragment extends Fragment {
         Drawable profile = ImageUtil.getProfileImage(getActivity(), Constant.PROFILE_IMAGE_NAME);
 
         ImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
+
+        //update MainActivity Content
+        bus.post(profile);
     }
+
+    @Subscribe
+    public void updateAlarmView(HashMap<String, Integer> params) {
+        updateAlarmView(
+                params.get(Constant.OTTO_KEY_HOUR),
+                params.get(Constant.OTTO_KEY_MINUTE)
+        );
+    }
+
 
     /**
      * *********************************************************************
      * Update View Area Start
      */
 
-    private void updateProfileImageView(Bitmap profile) {
+    private void updateProfileView(Bitmap profile) {
 
         if (profile == null) {
             return;
         }
 
         ImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
-    }
 
+        //update MainActivity Content
+        bus.post(new BitmapDrawable(getResources(),profile));
+    }
 
     private void updateAlarmView(int hour, int minute) {
         /**
@@ -182,6 +222,7 @@ public class MainLeftDrawerFragment extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {
+
         if (requestCode == Crop.REQUEST_PICK && resultCode == this.getActivity().RESULT_OK) {
             beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP) {
@@ -217,7 +258,7 @@ public class MainLeftDrawerFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            updateProfileImageView(croppedImage);
+            updateProfileView(croppedImage);
 
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this.getActivity(), Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
@@ -226,23 +267,4 @@ public class MainLeftDrawerFragment extends Fragment {
     /*
 	 * LeftDrawer Image Crop End
 	 ************************************************************************/
-
-    private void showTimePicker() {
-        Bundle bundleToTimePickerDialogFragment = new Bundle();
-        bundleToTimePickerDialogFragment.putInt(
-                Constant.BUNDLE_KEY_TIMEPICKER_HOUR,
-                preferenceUtil.alarmHour().get()
-        );
-        bundleToTimePickerDialogFragment.putInt(
-                Constant.BUNDLE_KEY_TIMEPICKER_MINUTE,
-                preferenceUtil.alarmMinute().get()
-        );
-
-        mTimePickerDialogFragment.setArguments(bundleToTimePickerDialogFragment);
-
-        FragmentTransaction ft = this.getActivity().getSupportFragmentManager().beginTransaction();
-        // Adding the fragment object to the fragment transaction
-        ft.add(mTimePickerDialogFragment, Constant.TIME_PICKER);
-        ft.commit();
-    }
 }

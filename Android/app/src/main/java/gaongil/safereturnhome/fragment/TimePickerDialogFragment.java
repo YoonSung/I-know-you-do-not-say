@@ -8,13 +8,16 @@ import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.widget.Button;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import java.util.HashMap;
+
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.support.*;
 
 @EFragment
@@ -25,6 +28,9 @@ public class TimePickerDialogFragment extends DialogFragment {
 
     @Pref
     PreferenceUtil_ preferenceUtil;
+
+    @Bean
+    OttoBus bus;
 
     //TODO DELETE
     @ViewById(R.id.drawer_main_left_user_btn_alarm)
@@ -94,21 +100,10 @@ public class TimePickerDialogFragment extends DialogFragment {
     }
 
     //TODO otto apply to MainLeftDrawerFraglement
-    private void updateAlarmView(int hour, int minute) {
-        /**
-         * Change Button Text
-         */
-        String timezone = Constant.TIME_ZONE_AM;
-        if (hour > 12) {
-            timezone = Constant.TIME_ZONE_PM;
-            hour -= 12;
-        }
-
-        String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
-
-        //mLeftDrawerAlarmButton.setText(displayTime);
-
-        //TODO doing
-        //mMainTextViewAlarmTime.setText(displayTime);
+    private void updateAlarmView(final int hour, final int minute) {
+        bus.post(new HashMap<String, Integer>(){{
+            put(Constant.OTTO_KEY_HOUR, hour);
+            put(Constant.OTTO_KEY_MINUTE, minute);
+        }});
     }
 }
