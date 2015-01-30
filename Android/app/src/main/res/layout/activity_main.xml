@@ -13,7 +13,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,11 +33,12 @@
                     android:id="@+id/main_btn_addgroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/pad_35dp"
                     android:background="@null"
                     android:gravity="center"
                     android:padding="@dimen/pad_15dp"
                     android:text="@string/plus"
-                    android:textColor="@color/main_color_lightgray"
+                    android:textColor="@color/black"
                     android:textSize="60sp"
                     android:textStyle="bold" />
             </LinearLayout>
