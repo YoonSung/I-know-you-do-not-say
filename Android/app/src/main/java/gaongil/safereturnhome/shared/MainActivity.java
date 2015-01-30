@@ -26,8 +26,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.model.UserStatus;
-import gaongil.safereturnhome.scene.ChatActivity;
-import gaongil.safereturnhome.scene.GroupActivity;
+import gaongil.safereturnhome.scene.*;
 import gaongil.safereturnhome.support.DrawableListener;
 
 
@@ -152,7 +151,7 @@ public class MainActivity extends FragmentActivity {
 
     //TODO DELETE
     public void tempEventHandler(View v) {
-        startActivity(new Intent(MainActivity.this, ChatActivity.class));
+        startActivity(new Intent(MainActivity.this, ChatActivity_.class));
     }
 
 }
