@@ -2,6 +2,8 @@ package gaongil.safereturnhome.shared;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -14,13 +16,11 @@ import android.widget.TextView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.fragment.MainRightDrawerFragment;
 import gaongil.safereturnhome.scene.ChatActivity;
 import gaongil.safereturnhome.scene.GroupActivity;
 import gaongil.safereturnhome.support.DrawableListener;
@@ -49,12 +49,6 @@ public class MainActivity extends FragmentActivity {
     @ViewById(R.id.drawer_main_right)
     View rightDrawerLayout;
 
-    @FragmentById(R.id.drawer_main_left)
-    MainLeftDrawerFragment leftDrawerFragment;
-
-    @FragmentById(R.id.drawer_main_right)
-    MainRightDrawerFragment rightDrawerFragment;
-
     /**
      * MainContents
      */
@@ -78,7 +72,6 @@ public class MainActivity extends FragmentActivity {
      * Common Data
      */
     private int profileSize;
-    private ImageUtil imageUtil;
 
     @Pref
     PreferenceUtil_ preferenceUtil;
@@ -98,7 +91,6 @@ public class MainActivity extends FragmentActivity {
      * Setup Area Start
      */
     private void setupCommonData() {
-        imageUtil = new ImageUtil(this);
         profileSize = preferenceUtil.profileSize().get();
 
         //Appripriate Image Size Set
@@ -108,6 +100,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void setupDrawer() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.drawer_main_left, new MainLeftDrawerFragment_());
+        fragmentTransaction.replace(R.id.drawer_main_right, new MainRightDrawerFragment_());
+        fragmentTransaction.commit();
+
         DrawerLayout.DrawerListener drawerListener = new DrawableListener(findViewById(R.id.main_content_layout), drawerLayout, leftDrawerLayout, rightDrawerLayout);
         drawerLayout.setDrawerListener(drawerListener);
     }

@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.widget.Button;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -26,9 +27,10 @@ public class TimePickerDialogFragment extends DialogFragment {
     PreferenceUtil_ preferenceUtil;
 
     //TODO DELETE
-    //@ViewById(R.id.drawer_main_left_user_btn_alarm)
+    @ViewById(R.id.drawer_main_left_user_btn_alarm)
     Button mLeftDrawerAlarmButton;
 
+    // This handles the message send from TimePickerDialogFragment on setting Time
     Handler mTimePickerDialogHandler = new Handler(){
         @Override
         public void handleMessage(Message message){
@@ -39,8 +41,8 @@ public class TimePickerDialogFragment extends DialogFragment {
 
 
             // Save New Alarm Time
-            //preferenceUtil.alarmHour().put(hour);
-            //preferenceUtil.alarmMinute().put(minute);
+            preferenceUtil.alarmHour().put(hour);
+            preferenceUtil.alarmMinute().put(minute);
 
             updateAlarmView(hour, minute);
         }
@@ -49,7 +51,6 @@ public class TimePickerDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-
     	//Creating a bundle object to pass currently set time to the fragment
     	Bundle b = getArguments();
 
@@ -104,7 +105,8 @@ public class TimePickerDialogFragment extends DialogFragment {
         }
 
         String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
-        mLeftDrawerAlarmButton.setText(displayTime);
+
+        //mLeftDrawerAlarmButton.setText(displayTime);
 
         //TODO doing
         //mMainTextViewAlarmTime.setText(displayTime);

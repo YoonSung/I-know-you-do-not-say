@@ -2,7 +2,7 @@ package gaongil.safereturnhome.shared;
 
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
-@SharedPref//(value=SharedPref.Scope.UNIQUE)
+@SharedPref(value=SharedPref.Scope.UNIQUE)
 public interface PreferenceUtil {
 	
     // Stores the registration ID and the app versionCode in the application's

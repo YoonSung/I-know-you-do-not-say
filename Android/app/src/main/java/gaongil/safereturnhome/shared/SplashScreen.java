@@ -2,8 +2,6 @@ package gaongil.safereturnhome.shared;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -30,8 +28,6 @@ import gaongil.safereturnhome.support.Constant;
 
 @EActivity
 public class SplashScreen extends Activity {
-
-	private final String TAG = SplashScreen.class.getSimpleName();
 
     @Pref
     PreferenceUtil_ preferenceUtil;
@@ -69,6 +65,7 @@ public class SplashScreen extends Activity {
             }
 
             int profileImageSize = preferenceUtil.profileSize().get();
+
             if (profileImageSize == 0) {
             	saveProfileImageWidth();
             }
@@ -77,7 +74,7 @@ public class SplashScreen extends Activity {
             startSplash();
 
         } else {
-            Log.i(TAG, "No valid Google Play Services APK found.");
+            Log.i(Constant.TAG, "No valid Google Play Services APK found.");
         }
 	}
 
@@ -86,7 +83,7 @@ public class SplashScreen extends Activity {
 
         int deviceWidth;
 
-        if (Build.VERSION.SDK_INT>Build.VERSION_CODES.HONEYCOMB){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB){
             Point size = new Point();
             display.getSize(size);
             deviceWidth = size.x;
@@ -110,29 +107,13 @@ public class SplashScreen extends Activity {
 	            GooglePlayServicesUtil.getErrorDialog(resultCode, this,
 	                    Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
 	        } else {
-	            Log.i(TAG, Constant.MESSAGE_PLAY_SERVICES_ERROR);
+	            Log.i(Constant.TAG, Constant.MESSAGE_PLAY_SERVICES_ERROR);
 	            finish();
 	        }
 	        return false;
 	    }
 	    return true;
 	}
-
-	/**
-     * @return Application's version code from the {@code PackageManager}.
-     */
-    public int getAppVersion() {
-        try {
-            PackageInfo packageInfo = this.getPackageManager()
-                    .getPackageInfo(this.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (NameNotFoundException e) {
-            // should never happen
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
-
-
 
     /**
      * Sends the registration ID to your server over HTTP, so it can use GCM/HTTP or CCS to send
@@ -152,7 +133,7 @@ public class SplashScreen extends Activity {
 			e.printStackTrace();
 		}
 
-    	Log.i(TAG, "responseString = "+response);
+    	Log.i(Constant.TAG, "responseString = "+response);
     }
 
     /**

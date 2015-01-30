@@ -16,13 +16,7 @@ import android.widget.ImageView;
 
 public class ImageUtil {
 
-	private Context context;
-	
-	public ImageUtil(Context context) {
-		this.context = context;
-	}
-
-	public void saveProfileImage(Bitmap image, String imageName) throws saveImageFileException {
+	public static void saveProfileImage(Context context, Bitmap image, String imageName) throws saveImageFileException {
 		String filePath = context.getApplicationContext().getFilesDir().getPath();
 		File file = new File(filePath + File.separator + imageName + Constant.IMAGE_EXTENSION);
 		
@@ -52,11 +46,6 @@ public class ImageUtil {
 			throw new saveImageFileException("Save Profile Exception");
 	}
 	
-	public Drawable getProfileImage(String imageName) {
-        File file = context.getFileStreamPath(imageName+Constant.IMAGE_EXTENSION);
-		return Drawable.createFromPath(file.getAbsolutePath());
-	}
-	
 	public static Drawable getProfileImage(Context context, String imageName) {
         File file = context.getFileStreamPath(imageName+Constant.IMAGE_EXTENSION);
         System.out.println("Is File Exists? : "+file.exists());
@@ -67,12 +56,12 @@ public class ImageUtil {
             return context.getResources().getDrawable(R.drawable.ic_default_profile);
     }
 
-	public void setCircleImageToTargetView(ImageView targetView, Bitmap bitmap) {
+	public static void setCircleImageToTargetView(ImageView targetView, Bitmap bitmap) {
 		RoundedAvatarDrawable rondedAvatarImg = new RoundedAvatarDrawable(bitmap);
         targetView.setImageDrawable(new RoundedAvatarDrawable(rondedAvatarImg.getBitmap()));	
 	}
 
-	public void setCircleImageToTargetView(ImageView targetView, Drawable profile) {
+	public static void setCircleImageToTargetView(ImageView targetView, Drawable profile) {
 		setCircleImageToTargetView(targetView, ((BitmapDrawable)profile).getBitmap());
 	}
 	

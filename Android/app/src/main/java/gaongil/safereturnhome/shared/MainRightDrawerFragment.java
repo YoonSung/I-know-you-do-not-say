@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.fragment;
+package gaongil.safereturnhome.shared;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,24 +21,17 @@ import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
 import gaongil.safereturnhome.adapter.TimeLineAdapter;
 
-/**
- * Created by yoon on 15. 1. 28..
- */
+
+@EFragment(R.layout.drawer_main_right)
 public class MainRightDrawerFragment extends Fragment {
 
     private TimeLineAdapter mTimeLineAdapter;
-    private ListView mRightDrawerListView;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.drawer_main_right, container, false);
+    @ViewById(R.id.drawer_main_right_listview)
+    ListView mRightDrawerListView;
 
-        init();
-
-        return view;
-    }
-
-    private void init() {
+    @AfterViews
+    void init() {
         //TODO DELETE
         //Test Start
         ArrayList<MessageData> testList = new ArrayList<MessageData>();
@@ -47,11 +44,11 @@ public class MainRightDrawerFragment extends Fragment {
 
         this.mTimeLineAdapter = new TimeLineAdapter(getActivity(), testList);
 
-        mRightDrawerListView = (ListView) getActivity().findViewById(R.id.drawer_main_right_listview);
-
         mRightDrawerListView.setAdapter(mTimeLineAdapter);
         mRightDrawerListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         mRightDrawerListView.setStackFromBottom(false);
+
+        //mRightDrawerListView.notify();
     }
 
 }
