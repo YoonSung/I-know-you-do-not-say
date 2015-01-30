@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.shared;
+package gaongil.safereturnhome.support;
 
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 

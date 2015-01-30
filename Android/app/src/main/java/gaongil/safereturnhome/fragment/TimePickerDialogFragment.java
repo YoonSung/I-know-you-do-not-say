@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.shared;
+package gaongil.safereturnhome.fragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -15,7 +15,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.*;
 
 @EFragment
 public class TimePickerDialogFragment extends DialogFragment {

@@ -35,7 +35,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".shared.SplashScreen_"
+            android:name=".scene.SplashScreen_"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" >
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>ㅣ
         <activity
-            android:name=".shared.MainActivity_"
+            android:name=".scene.MainActivity_"
             android:label="@null"
             android:screenOrientation="portrait" />
         <activity

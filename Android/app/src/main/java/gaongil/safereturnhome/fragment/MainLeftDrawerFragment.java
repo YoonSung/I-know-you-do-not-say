@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.shared;
+package gaongil.safereturnhome.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,9 +32,8 @@ import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
 import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.model.UserStatus;
-import gaongil.safereturnhome.support.Constant;
-import gaongil.safereturnhome.support.ImageUtil;
-import gaongil.safereturnhome.support.StaticUtils;
+import gaongil.safereturnhome.support.*;
+import gaongil.safereturnhome.fragment.*;
 
 
 @EFragment(R.layout.drawer_main_left)

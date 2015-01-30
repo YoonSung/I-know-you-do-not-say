@@ -26,9 +26,9 @@ import java.util.Date;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.adapter.ChatAdapter;
 import gaongil.safereturnhome.fragment.*;
+import gaongil.safereturnhome.support.*;
 import gaongil.safereturnhome.model.MessageData;
 import gaongil.safereturnhome.model.MessageType;
-import gaongil.safereturnhome.support.DrawableListener;
 
 @WindowFeature({Window.FEATURE_NO_TITLE})
 @EActivity(R.layout.activity_chat)

@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.shared;
+package gaongil.safereturnhome.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

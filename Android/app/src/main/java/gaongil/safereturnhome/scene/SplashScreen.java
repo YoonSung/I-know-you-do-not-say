@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.shared;
+package gaongil.safereturnhome.scene;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.apache.http.NameValuePair;
@@ -24,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gaongil.safereturnhome.R;
-import gaongil.safereturnhome.support.Constant;
+import gaongil.safereturnhome.support.*;
 
-@EActivity
+@EActivity(R.layout.activity_splash)
 public class SplashScreen extends Activity {
 
     @Pref
@@ -45,12 +46,9 @@ public class SplashScreen extends Activity {
         checkPlayServices();
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash);
+	@AfterViews
+	void init() {
 		checkEssentialInfomation();
-
 	}
 
 	private void checkEssentialInfomation() {

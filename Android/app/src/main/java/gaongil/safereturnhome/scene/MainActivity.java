@@ -1,4 +1,4 @@
-package gaongil.safereturnhome.shared;
+package gaongil.safereturnhome.scene;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -26,9 +26,8 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.model.UserStatus;
-import gaongil.safereturnhome.scene.*;
-import gaongil.safereturnhome.support.DrawableListener;
-
+import gaongil.safereturnhome.support.*;
+import gaongil.safereturnhome.fragment.*;
 
 @EActivity(R.layout.activity_main)
 @WindowFeature({Window.FEATURE_NO_TITLE})
