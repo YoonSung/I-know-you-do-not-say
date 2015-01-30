@@ -21,20 +21,31 @@ public enum UserStatus {
     ANGRY(R.string.status_angry, R.drawable.ic_status_angry);
 
     @SuppressWarnings("serial")
+    private static ArrayList<UserStatus> userStatuses;
+
+
     public static ArrayList<UserStatus> getList() {
-        return new ArrayList<UserStatus>() {{
-            add(BAD);
-            add(FLAT);
-            add(HAPPY);
-            add(LOVELY);
-            add(NOTGOOD);
-            add(PUZZLED);
-            add(SAD);
-            add(SMILE);
-            add(SPEECHLESS);
-            add(SURPRISE);
-            add(ANGRY);
-        }};
+
+        if (userStatuses == null) {
+            userStatuses = new ArrayList<UserStatus>() {
+                {
+                    add(BAD);
+                    add(FLAT);
+                    add(HAPPY);
+                    add(LOVELY);
+                    add(NOTGOOD);
+                    add(PUZZLED);
+                    add(SAD);
+                    add(SMILE);
+                    add(SPEECHLESS);
+                    add(SURPRISE);
+                    add(ANGRY);
+                }
+            };
+        }
+
+        return userStatuses;
+
     }
 
     private int stringId;

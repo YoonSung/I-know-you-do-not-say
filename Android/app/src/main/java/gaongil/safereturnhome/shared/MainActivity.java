@@ -13,7 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -21,15 +24,20 @@ import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.eventbus.OttoBus;
+import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.scene.ChatActivity;
 import gaongil.safereturnhome.scene.GroupActivity;
 import gaongil.safereturnhome.support.DrawableListener;
-import gaongil.safereturnhome.support.ImageUtil;
 
 
 @EActivity(R.layout.activity_main)
 @WindowFeature({Window.FEATURE_NO_TITLE})
 public class MainActivity extends FragmentActivity {
+
+
+    @Bean
+    OttoBus bus;
 
     /**
      * Drawer
@@ -79,6 +87,7 @@ public class MainActivity extends FragmentActivity {
 
     @AfterViews
     public void init() {
+        bus.register(this);
         setupCommonData();
         setupDrawer();
 
@@ -86,10 +95,40 @@ public class MainActivity extends FragmentActivity {
         //setupSensorInfo();
     }
 
-    /**
-     * *********************************************************************
-     * Setup Area Start
-     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Click(R.id.main_btn_addgroup)
+    void addGroup() {
+        startActivity(new Intent(MainActivity.this, GroupActivity.class));
+    }
+
+    @Click(R.id.main_toolbar_left_toggle)
+    void leftToggle(View v) {
+        drawerLayout.closeDrawer(rightDrawerLayout);
+        drawerLayout.openDrawer(leftDrawerLayout);
+    }
+
+    @Click(R.id.main_toolbar_right_toggle)
+    void rightToggle(View v) {
+        drawerLayout.closeDrawer(leftDrawerLayout);
+        drawerLayout.openDrawer(rightDrawerLayout);
+    }
+
+    @Subscribe
+    public void updateStatus(UserStatus userStatus) {
+        currentStatus.setText(userStatus.getStringValue(this));
+        userEmoticon.setImageDrawable(getResources().getDrawable(userStatus.getImageResourceId()));
+    }
+
+    @Subscribe
+    public void updateAlarm(String displayTime) {
+        alarmTime.setText(displayTime);
+    }
+
     private void setupCommonData() {
         profileSize = preferenceUtil.profileSize().get();
 
@@ -114,24 +153,6 @@ public class MainActivity extends FragmentActivity {
     //TODO DELETE
     public void tempEventHandler(View v) {
         startActivity(new Intent(MainActivity.this, ChatActivity.class));
-    }
-
-
-    @Click(R.id.main_btn_addgroup)
-    void addGroup() {
-        startActivity(new Intent(MainActivity.this, GroupActivity.class));
-    }
-
-    @Click(R.id.main_toolbar_left_toggle)
-    void leftToggle(View v) {
-        drawerLayout.closeDrawer(rightDrawerLayout);
-        drawerLayout.openDrawer(leftDrawerLayout);
-    }
-
-    @Click(R.id.main_toolbar_right_toggle)
-    void rightToggle(View v) {
-        drawerLayout.closeDrawer(leftDrawerLayout);
-        drawerLayout.openDrawer(rightDrawerLayout);
     }
 
 }

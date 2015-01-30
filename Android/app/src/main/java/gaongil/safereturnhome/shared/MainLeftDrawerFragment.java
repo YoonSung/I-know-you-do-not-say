@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.soundcloud.android.crop.Crop;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -29,6 +30,7 @@ import java.io.File;
 
 import gaongil.safereturnhome.R;
 import gaongil.safereturnhome.adapter.StatusSpinnerAdapter;
+import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.model.UserStatus;
 import gaongil.safereturnhome.support.Constant;
 import gaongil.safereturnhome.support.ImageUtil;
@@ -52,6 +54,9 @@ public class MainLeftDrawerFragment extends Fragment {
 
     @ViewById(R.id.main_user_txt_currentstatus)
     TextView mMainTextViewCurrentStatus;
+
+    @Bean
+    OttoBus bus;
 
     //TimePickerDialog
     private TimePickerDialogFragment mTimePickerDialogFragment;
@@ -84,14 +89,6 @@ public class MainLeftDrawerFragment extends Fragment {
     }
 
 
-
-
-
-
-
-
-
-
     private void initSpinner() {
         /**
          * Spinner Setting
@@ -118,7 +115,8 @@ public class MainLeftDrawerFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -130,12 +128,10 @@ public class MainLeftDrawerFragment extends Fragment {
         Drawable profile = ImageUtil.getProfileImage(getActivity(), Constant.PROFILE_IMAGE_NAME);
 
         ImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
-
-        //TODO doing
-        //mImageUtil.setCircleImageToTargetView(mMainUserProfileImage, profile);
     }
 
-    /************************************************************************
+    /**
+     * *********************************************************************
      * Update View Area Start
      */
 
@@ -146,10 +142,7 @@ public class MainLeftDrawerFragment extends Fragment {
         }
 
         ImageUtil.setCircleImageToTargetView(mLeftDrawerProfileImageButton, profile);
-        //TODO doing
-        //mImageUtil.setCircleImageToTargetView(mMainUserProfileImage, profile);
     }
-
 
 
     private void updateAlarmView(int hour, int minute) {
@@ -165,8 +158,8 @@ public class MainLeftDrawerFragment extends Fragment {
         String displayTime = String.format("%s %02d:%02d", timezone, hour, minute);
         mLeftDrawerAlarmButton.setText(displayTime);
 
-        //TODO doing
-        //mMainTextViewAlarmTime.setText(displayTime);
+        //update MainActivity Content
+        bus.post(displayTime);
     }
 
     private void updateStatusView(int position) {
@@ -176,25 +169,20 @@ public class MainLeftDrawerFragment extends Fragment {
 
         Log.d(Constant.TAG, userStatus.toString());
 
-        //update text
-        //TODO doing
-        //mMainTextViewCurrentStatus.setText(userStatus.getStringValue(getActivity()));
-
-        //update emoticon
-        //TODO doing
-        //mMainUserEmoticonImage.setImageDrawable(getResources().getDrawable(userStatus.getImageResourceId()));
+        //update MainActivity Content
+        bus.post(userStatus);
     }
-	/*
-	 * Update View Area End
+    /*
+     * Update View Area End
 	 ************************************************************************/
 
 
-
-    /************************************************************************
+    /**
+     * *********************************************************************
      * LeftDrawer Image Crop Start
      */
     @Override
-    public void onActivityResult(int requestCode	, int resultCode, Intent result) {
+    public void onActivityResult(int requestCode, int resultCode, Intent result) {
         if (requestCode == Crop.REQUEST_PICK && resultCode == this.getActivity().RESULT_OK) {
             beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP) {
@@ -222,16 +210,13 @@ public class MainLeftDrawerFragment extends Fragment {
             // TODO Send Image by Network. (All Device Common Size Image)
             // Save Proper Image
 
-            //TODO DELETE
-            //Test Start
             try {
-                //mImageUtil.saveProfileImage(croppedImage, ""+getGenerateUserId());
+                //ImageUtil.saveProfileImage(croppedImage, ""+getGenerateUserId());
+                //TODO Replace upper script
                 ImageUtil.saveProfileImage(getActivity(), croppedImage, Constant.PROFILE_IMAGE_NAME);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //TODO DELETE
-            //Test End
 
             updateProfileImageView(croppedImage);
 

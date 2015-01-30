@@ -47,8 +47,6 @@ public class MainRightDrawerFragment extends Fragment {
         mRightDrawerListView.setAdapter(mTimeLineAdapter);
         mRightDrawerListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         mRightDrawerListView.setStackFromBottom(false);
-
-        //mRightDrawerListView.notify();
     }
 
 }
