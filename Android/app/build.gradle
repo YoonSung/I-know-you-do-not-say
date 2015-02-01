@@ -66,6 +66,10 @@ dependencies {
     //'com.soundcloud.android:android-crop:0.9.10'
     compile 'com.soundcloud.android:android-crop:0.9.10@aar'
 
+    //RecyclingView
+    compile 'com.android.support:recyclerview-v7:+'
+
+
     // I used ormlite version 4.48
     compile 'com.j256.ormlite:ormlite-android:+'
     compile 'com.j256.ormlite:ormlite-core:+'

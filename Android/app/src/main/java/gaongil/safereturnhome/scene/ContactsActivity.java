@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -35,10 +37,7 @@ import gaongil.safereturnhome.support.Constant;
 @EActivity(R.layout.activity_contacts)
 public class ContactsActivity extends Activity {
 
-    private final ArrayList<ContactInfo> mPhoneList = new ArrayList<ContactInfo>();
-
     private ContactsAdapter contactsAdapter;
-    private ListView mListView;
 
     @ViewById(R.id.contact_edt_search)
     EditText mEdtSearch;
@@ -49,20 +48,24 @@ public class ContactsActivity extends Activity {
     @ViewById(R.id.contact_progressbar_relativelayout)
     RelativeLayout mRelativeLayout;
 
+    @ViewById(R.id.contact_recyclerview)
+    RecyclerView recyclerView;
+
+
     @AfterViews
     void init() {
         addContactsInList();
     }
 
-    @Click(R.id.contact_toolbar_left_toggle)
-    void leftToggle() {
+    @Click(R.id.contact_btn_cancel)
+    void cancle() {
         this.finish();
     }
 
-    @Click(R.id.contact_toolbar_right_toggle)
-    void rightToggle() {
+    @Click(R.id.contact_btn_done)
+    void addGroup() {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(Constant.INTENT_GROUP_SELECTED_CONTACTLIST, getSelectedContacts());
+        intent.putParcelableArrayListExtra(Constant.INTENT_GROUP_SELECTED_CONTACTLIST, contactsAdapter.getCheckedList());
         setResult(RESULT_OK, intent);
 
         this.finish();
@@ -79,81 +82,11 @@ public class ContactsActivity extends Activity {
         showProgressBar();
 
         try {
+            initRecyclerView();
+            ArrayList<ContactInfo> orderedContactList = initOrderedContactList();
 
-            // get Contacts Cursor
-            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-
-            try {
-                mPhoneList.clear();
-
-            } catch (Exception e) {
-                Log.e(Constant.TAG, e.getMessage());
-                e.printStackTrace();
-
-            }
-
-            String phoneName = null;
-            String phoneNumber = null;
-            ContactInfo contactObject = null;
-
-            while (phones.moveToNext()) {
-
-                // get Data From Contacts Cursor
-                phoneName = phones.getString(phones
-                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-
-                phoneNumber = phones.getString(phones
-                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                contactObject = new ContactInfo(phoneName, phoneNumber);
-                mPhoneList.add(contactObject);
-
-            }
-            phones.close();
-
-            //Lazy loading (Create ListView to show contacts, add linearLayout)
-            mListView = new ListView(this);
-            mListView.setLayoutParams(new LayoutParams(
-                    LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT));
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mLinearLayout.addView(mListView);
-                }
-            });
-
-            Collections.sort(mPhoneList,
-                    new Comparator<ContactInfo>() {
-
-                        @Override
-                        public int compare(ContactInfo lhs, ContactInfo rhs) {
-                            return lhs.getName().compareTo(rhs.getName());
-                        }
-                    });
-
-            contactsAdapter = new ContactsAdapter(ContactsActivity.this, mPhoneList);
-            mListView.setAdapter(contactsAdapter);
-            mListView.setOnItemClickListener(new OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.contact_checkbox);
-                    ContactInfo selectedContactInfo = mPhoneList.get(position);
-
-                    if (selectedContactInfo.isSelected()) {
-                        selectedContactInfo.setSelected(false);
-                        checkBox.setChecked(false);
-
-                    } else {
-                        selectedContactInfo.setSelected(true);
-                        checkBox.setChecked(true);
-                    }
-
-                }
-            });
+            contactsAdapter = new ContactsAdapter(ContactsActivity.this, orderedContactList);
+            recyclerView.setAdapter(contactsAdapter);
 
         } catch (Exception e) {
             Log.e(Constant.TAG, e.getMessage());
@@ -164,18 +97,66 @@ public class ContactsActivity extends Activity {
         hideProgressbar();
     }
 
-    private ArrayList<ContactInfo> getSelectedContacts() {
+    private void initRecyclerView() {
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
 
-        ArrayList<ContactInfo> selectedList = new ArrayList<ContactInfo>();
-
-        for (ContactInfo contactInfo : this.mPhoneList) {
-            if (contactInfo.isSelected())
-                selectedList.add(contactInfo);
-        }
-
-        return selectedList;
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    private ArrayList<ContactInfo> initOrderedContactList() {
+
+        ArrayList<ContactInfo> photoList = new ArrayList<>();
+
+        // get Contacts Cursor
+        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+
+        try {
+            photoList.clear();
+
+        } catch (Exception e) {
+            Log.e(Constant.TAG, e.getMessage());
+            e.printStackTrace();
+
+        }
+
+        String phoneName = null;
+        String phoneNumber = null;
+        ContactInfo contactObject = null;
+
+        while (phones.moveToNext()) {
+
+            // get Data From Contacts Cursor
+            phoneName = phones.getString(phones
+                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+
+            phoneNumber = phones.getString(phones
+                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            contactObject = new ContactInfo(phoneName, phoneNumber);
+            photoList.add(contactObject);
+
+        }
+
+        phones.close();
+
+
+        Collections.sort(photoList,
+                new Comparator<ContactInfo>() {
+
+                    @Override
+                    public int compare(ContactInfo one, ContactInfo another) {
+                        return one.getName().compareTo(another.getName());
+                    }
+                });
+
+
+        return photoList;
+    }
 
     @UiThread
     void showProgressBar() {

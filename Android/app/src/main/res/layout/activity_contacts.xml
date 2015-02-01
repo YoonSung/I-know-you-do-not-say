@@ -1,39 +1,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/contacts_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/actionbar_background">
+    <LinearLayout
+        android:id="@+id/contacts_menubar"
+        style="@style/Crop.DoneCancelBar"
+        android:layout_alignParentTop="true">
 
-        <ImageButton
-            android:id="@+id/contact_toolbar_left_toggle"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/crop__ic_cancel"/>
+        <FrameLayout
+            android:id="@+id/contact_btn_cancel"
+            style="@style/Crop.ActionButton">
 
-        <ImageButton
-            android:id="@+id/contact_toolbar_right_toggle"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/crop__ic_done"/>
+            <TextView style="@style/Crop.ActionButtonText.Cancel" />
+        </FrameLayout>
 
-    </android.support.v7.widget.Toolbar>
+        <FrameLayout
+            android:id="@+id/contact_btn_done"
+            style="@style/Crop.ActionButton">
+
+            <TextView style="@style/Crop.ActionButtonText.Done" />
+        </FrameLayout>
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/contact_edt_search"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/contacts_menubar"
         android:hint="@string/contact_edt_searchhint"
         android:textSize="@dimen/txt_18sp" />
 
@@ -44,7 +40,15 @@
         android:layout_below="@+id/contact_edt_search"
         android:background="@color/white"
         android:gravity="center|top"
-        android:orientation="vertical" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/contact_recyclerview"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/contact_progressbar_relativelayout"
@@ -52,7 +56,7 @@
         android:layout_height="match_parent"
         android:background="#55000000"
         android:clickable="true"
-        android:visibility="gone"  >
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"

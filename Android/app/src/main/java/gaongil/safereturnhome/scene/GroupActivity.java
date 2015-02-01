@@ -38,7 +38,7 @@ public class GroupActivity extends Activity {
 
     @Click(R.id.group_btn_addmember)
     void moveContactActivity() {
-        startActivityForResult(new Intent(GroupActivity.this, ContactsActivity.class), Constant.REQUEST_CODE_GROUPTOCONTACT);
+        startActivityForResult(new Intent(GroupActivity.this, ContactsActivity_.class), Constant.REQUEST_CODE_GROUPTOCONTACT);
     }
 
     @Click(R.id.group_btn_create)
