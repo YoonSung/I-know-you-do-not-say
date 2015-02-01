@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -46,7 +47,15 @@ public class SplashScreen extends Activity {
         checkPlayServices();
 	}
 
-	@AfterViews
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        //Smooth transition, full activity to non full activity
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        super.onCreate(savedInstanceState);
+    }
+
+    @AfterViews
 	void init() {
 		checkEssentialInfomation();
 	}

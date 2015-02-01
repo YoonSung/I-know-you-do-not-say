@@ -3,6 +3,8 @@ package gaongil.safereturnhome.scene;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,12 +12,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -23,6 +30,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -89,15 +97,81 @@ public class MainActivity extends FragmentActivity {
     @Pref
     PreferenceUtil_ preferenceUtil;
 
-
     @AfterViews
     public void init() {
         bus.register(this);
-        setupCommonData();
         setupDrawer();
+        setupCommonData();
 
         //TODO
         //setupSensorInfo();
+
+
+    }
+
+    boolean isFirst = true;
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if(isFirst && hasFocus){
+            isFirst = false;
+            animate();
+        }
+    }
+
+    /**
+     * Animation Component
+     */
+
+    // User Status Layout
+    @ViewById(R.id.main_linearlayout_user_status)
+    LinearLayout userStatusLayout;
+
+    // Test Group Layout TODO DELETE
+    @ViewById(R.id.main_group_testgroup)
+    RelativeLayout testUserGroup;
+
+    // AddGroup Button. Upper Declared
+
+    // Left, Right Toggle, Upper Declared
+
+    @UiThread(delay = 200)
+    void animate() {
+
+        setVisible(new View[]{
+                userStatusLayout,
+                testUserGroup,
+                addGroup,
+                leftDrawerToggle,
+                rightDrawerToggle
+        });
+
+        YoYo.with(Techniques.FadeInLeft)
+                .duration(700)
+                .playOn(leftDrawerToggle);
+
+        YoYo.with(Techniques.FadeInRight)
+                .duration(700)
+                .playOn(rightDrawerToggle);
+
+        YoYo.with(Techniques.FadeInUp)
+                .duration(500)
+                .playOn(userStatusLayout);
+
+        YoYo.with(Techniques.FadeInUp)
+                .duration(600)
+                .playOn(testUserGroup);
+
+        YoYo.with(Techniques.FadeInUp)
+                .duration(600)
+                .playOn(addGroup);
+
+    }
+
+    private void setVisible(View[] views) {
+        for(View view : views) {
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

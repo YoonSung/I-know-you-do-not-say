@@ -23,10 +23,14 @@
                 android:layout_marginTop="?attr/actionBarSize"
                 android:padding="@dimen/pad_15dp">
 
-                <include layout="@layout/main_user" />
+                <include
+                    android:id="@+id/main_linearlayout_user_status"
+                    android:visibility="invisible"
+                    layout="@layout/main_user" />
 
                 <include
                     android:id="@+id/main_group_testgroup"
+                    android:visibility="invisible"
                     layout="@layout/main_group" />
 
                 <Button
@@ -40,7 +44,8 @@
                     android:text="@string/plus"
                     android:textColor="@color/black"
                     android:textSize="60sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="invisible"/>
             </LinearLayout>
         </ScrollView>
 
@@ -64,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:src="@drawable/ic_menu"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:visibility="invisible"/>
 
                 <ImageButton
                     android:id="@+id/main_toolbar_right_toggle"
@@ -72,7 +78,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:src="@drawable/ic_timeline"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:visibility="invisible"/>
 
             </android.support.v7.widget.Toolbar>
         </FrameLayout>
