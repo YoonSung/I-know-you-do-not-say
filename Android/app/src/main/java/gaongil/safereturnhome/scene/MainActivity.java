@@ -1,10 +1,7 @@
 package gaongil.safereturnhome.scene;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,14 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -29,7 +24,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
@@ -244,7 +238,9 @@ public class MainActivity extends FragmentActivity {
 
     //TODO DELETE
     public void tempEventHandler(View v) {
+        //MainActivity_.intent(ChatActivity_).start();
         startActivity(new Intent(MainActivity.this, ChatActivity_.class));
+        overridePendingTransition(R.anim.activity_sliding_up,R.anim.activity_stop);
     }
 
 }

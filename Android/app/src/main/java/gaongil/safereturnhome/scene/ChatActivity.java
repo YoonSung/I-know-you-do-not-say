@@ -193,4 +193,10 @@ public class ChatActivity extends FragmentActivity {
 
         mChatAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+        overridePendingTransition(R.anim.activity_stop, R.anim.activity_sliding_down);
+    };
 }
