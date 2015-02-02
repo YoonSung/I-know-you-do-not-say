@@ -35,7 +35,7 @@ public class StaticUtils {
 	// http://stackoverflow.com/questions/11044291/using-httppost-to-upload-file-android
 	public static String postRequest(String url, List<NameValuePair> parameters)
 			throws ClientProtocolException, IOException {
-		HttpPost httppost = new HttpPost(Constant.ROOT_PATH + url);
+		HttpPost httppost = new HttpPost(Constant.NETWORK_ROOT_PATH + url);
 
 		if (parameters != null)
 			httppost.setEntity(new UrlEncodedFormEntity(parameters));

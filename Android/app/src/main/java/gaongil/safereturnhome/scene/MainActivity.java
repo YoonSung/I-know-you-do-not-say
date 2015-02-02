@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -21,6 +22,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -30,8 +33,10 @@ import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import gaongil.safereturnhome.R;
+import gaongil.safereturnhome.WithApp;
 import gaongil.safereturnhome.eventbus.OttoBus;
 import gaongil.safereturnhome.model.UserStatus;
+import gaongil.safereturnhome.network.WithNetwork;
 import gaongil.safereturnhome.support.*;
 import gaongil.safereturnhome.fragment.*;
 
@@ -42,6 +47,9 @@ public class MainActivity extends FragmentActivity {
 
     @Bean
     OttoBus bus;
+
+    @App
+    WithApp app;
 
     /**
      * Drawer
@@ -182,7 +190,17 @@ public class MainActivity extends FragmentActivity {
 
     @Click(R.id.main_btn_addgroup)
     void addGroup() {
-        startActivity(new Intent(MainActivity.this, GroupActivity_.class));
+
+        //startActivity(new Intent(MainActivity.this, GroupActivity_.class));
+        test();
+    }
+
+    @Background
+    void test() {
+        boolean result = app.NETWORK.testRequest("test");
+        Log.i(Constant.TAG, "Network Request Result : "+result);
+
+        //call @UIThread method if you manupulate ui component and interaction
     }
 
     @Click(R.id.main_toolbar_left_toggle)

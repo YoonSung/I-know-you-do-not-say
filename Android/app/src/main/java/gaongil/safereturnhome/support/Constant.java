@@ -27,10 +27,10 @@ public class Constant {
     // Project number from the API Console
 	public static final String PROJECT_ID = "342931063456";
 	
-	//private static final String ROOT_PATH = "http://localhost:8080";
-	public static final String ROOT_PATH = "http://10.73.43.247:8080";
+	//private static final String NETWORK_ROOT_PATH = "http://localhost:8080";
+	public static final String NETWORK_ROOT_PATH = "http://10.73.43.227:8080";
 
-	//private static final String ROOT_PATH = "http://localhost:8080";
+	//private static final String NETWORK_ROOT_PATH = "http://localhost:8080";
 	public static final String MESSAGE_PLAY_SERVICES_ERROR = "This device is not supported.";
 	public static final int  SPLASH_WAIT_TIME = 1000;
 	public static final float DRAWER_SLIDE_WIDTH_RATE = 0.8f;
