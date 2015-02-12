@@ -6,20 +6,19 @@ import java.sql.SQLException;
 import gaongil.domain.User;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.stereotype.Repository;
 
-//@Repository
 public class UserDao extends JdbcDaoSupport {
 	
-	/*
-	@Autowired
 	private DataSource dataSource;
-	*/
 	
 	RowMapper<User> rowMapper = new RowMapper<User>() {
 		@Override
