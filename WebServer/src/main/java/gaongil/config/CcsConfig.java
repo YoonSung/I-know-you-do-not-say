@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages={"gaongil.ccs"})
-public class CcsConfiguration {
+public class CcsConfig {
 }

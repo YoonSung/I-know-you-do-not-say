@@ -1,7 +1,7 @@
 package gaongil.dao;
 
 import static org.junit.Assert.*;
-import gaongil.config.ApplicationConfiguration;
+import gaongil.config.AppCoinfig;
 import gaongil.domain.User;
 
 import javax.sql.DataSource;
@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={ApplicationConfiguration.class})
+@ContextConfiguration(classes={AppCoinfig.class})
 public class UserDaoTest {
 
 	@Autowired
