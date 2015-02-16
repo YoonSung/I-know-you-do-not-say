@@ -114,10 +114,8 @@
 		</dependency>
 
 		<!-- Embeded Tomcat -->
-		<!-- 
-			ref : http://www.slipp.net/wiki/pages/viewpage.action?pageId=16711743
-			ref : http://slipp.net/questions/208
-		 -->
+		<!-- ref : http://www.slipp.net/wiki/pages/viewpage.action?pageId=16711743 
+			ref : http://slipp.net/questions/208 -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
@@ -155,19 +153,31 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>4.3.7.Final</version>
 		</dependency>
-		
+
 		<!-- Spring Data JPA -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.7.1.RELEASE</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
-		<plugins>
 
+		<resources>
+			<!-- Basic Scan -->
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			
+			<!-- Additaional Scan -->
+			<resource>
+				<directory>src/main/resources-${environment}</directory>
+			</resource>
+		</resources>
+
+		<plugins>
 			<!-- Directory Change -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -202,4 +212,24 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>development</id>
+			<properties>
+				<environment>development</environment>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>release</id>
+			<properties>
+				<environment>release</environment>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>

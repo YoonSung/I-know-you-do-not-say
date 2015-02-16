@@ -1,9 +1,9 @@
 package gaongil.controller;
 
-import java.util.Random;
-
-import gaongil.dao.UserDao;
 import gaongil.domain.User;
+import gaongil.repository.UserRepository;
+
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	UserDao userDao;
+	UserRepository userRepository;
 
 	// Validation Apply TODO
 	@RequestMapping(value = "", method = RequestMethod.POST)
@@ -35,7 +35,7 @@ public class UserController {
 		user.setNickname("User " + new Random().nextInt(100));
 
 		try {
-			userDao.create(user);
+			userRepository.save(user);
 			return "success";
 
 		} catch (Exception e) {
