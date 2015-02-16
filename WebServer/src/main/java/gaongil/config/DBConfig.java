@@ -3,6 +3,7 @@ package gaongil.config;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @PropertySource("classpath:/database.properties")
 
 //JPA Repository Class Scanning
 @EnableJpaRepositories(basePackages={"gaongil.repository"})
+
+//Enable Transaction Annotation Setting. It is same with <tx:annotation-driven/>
+@EnableTransactionManagement
 public class DBConfig {
 	
 	@Autowired

@@ -1,6 +1,9 @@
 package gaongil.repository;
 
 import static org.junit.Assert.*;
+
+import javax.transaction.Transactional;
+
 import gaongil.config.AppCoinfig;
 import gaongil.domain.User;
 
@@ -8,11 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={AppCoinfig.class})
+@Transactional
 public class UserRepositoryTest {
 
 	@Autowired
@@ -31,14 +36,14 @@ public class UserRepositoryTest {
 	}
 	
 	@Test
+	@Rollback(true)
 	public void create() throws Exception {
-		userRepository.deleteAll();
 		userRepository.save(user1);
 	}
 
 	@Test
+	@Rollback(true)
 	public void select() throws Exception {
-		userRepository.deleteAll();
 		userRepository.save(user1);
 		
 		User selectedUser = userRepository.findByRegId(user1.getRegId());
