@@ -9,7 +9,7 @@
 	<properties>
 		<org.springframework.version>4.1.0.RELEASE</org.springframework.version>
 		<org.h2database.version>1.4.181</org.h2database.version>
-		<tomcat.version>7.0.34</tomcat.version>
+		<tomcat.version>8.0.18</tomcat.version>
 	</properties>
 
 

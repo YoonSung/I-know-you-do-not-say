@@ -2,26 +2,24 @@ package gaongil.config;
 
 import java.util.Properties;
 
-import gaongil.dao.UserDao;
-
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-@ComponentScan(basePackages={"gaongil.dao"})
 @PropertySource("classpath:/database.properties")
+
+//JPA Repository Class Scanning
+@EnableJpaRepositories(basePackages={"gaongil.repository"})
 public class DBConfig {
 	
 	@Autowired
@@ -44,17 +42,11 @@ public class DBConfig {
 	}
 	
 	@Bean
-	public UserDao userDao() {
-		UserDao userDao = new UserDao();
-		userDao.setDataSource(dataSource());
-		return userDao;
-	}
-	
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		
 		entityManagerFactoryBean.setDataSource(dataSource());
+		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		entityManagerFactoryBean.setPackagesToScan("gaongil.domain");
 		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		
@@ -62,12 +54,14 @@ public class DBConfig {
 		String jpaFormatSql = "hibernate.format_sql";
 		String jpaNamingStrategy = "hibernate.ejb.naming_strategy";
 		String jpaShowSql = "hibernate.show_sql";
+		String jpaOperationMode="hibernate.hbm2ddl.auto";
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.put(jpaDialect, environment.getProperty(jpaDialect));
 		jpaProperties.put(jpaFormatSql, environment.getProperty(jpaFormatSql));
 		jpaProperties.put(jpaNamingStrategy, environment.getProperty(jpaNamingStrategy));
 		jpaProperties.put(jpaShowSql, environment.getProperty(jpaShowSql));
+		jpaProperties.put(jpaOperationMode, environment.getProperty(jpaOperationMode));
 		
 		entityManagerFactoryBean.setJpaProperties(jpaProperties);
 		
@@ -75,10 +69,10 @@ public class DBConfig {
 	}
 	
 	@Bean
-	public JpaTransactionManager transactionmanager() {
+	public JpaTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(
-				entityManagerFactoryBean().getObject()
+				entityManagerFactory().getObject()
 		);
 		
 		return transactionManager;

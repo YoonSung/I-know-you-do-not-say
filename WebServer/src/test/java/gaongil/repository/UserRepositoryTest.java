@@ -1,13 +1,10 @@
-package gaongil.dao;
+package gaongil.repository;
 
 import static org.junit.Assert.*;
 import gaongil.config.AppCoinfig;
 import gaongil.domain.User;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={AppCoinfig.class})
-public class UserDaoTest {
+public class UserRepositoryTest {
 
 	@Autowired
-	UserDao userDao;
+	UserRepository userRepository;
 	
 	User user1;
 	
@@ -30,21 +27,21 @@ public class UserDaoTest {
 	
 	@Test
 	public void userDao() throws Exception {
-		assertNotNull(userDao);
+		assertNotNull(userRepository);
 	}
 	
 	@Test
 	public void create() throws Exception {
-		userDao.deleteAll();
-		userDao.create(user1);
+		userRepository.deleteAll();
+		userRepository.save(user1);
 	}
-	
+
 	@Test
 	public void select() throws Exception {
-		userDao.deleteAll();
-		userDao.create(user1);
+		userRepository.deleteAll();
+		userRepository.save(user1);
 		
-		User selectedUser = userDao.findByRegId(user1.getRegId());
+		User selectedUser = userRepository.findByRegId(user1.getRegId());
 		System.out.println("selectedUser : "+selectedUser.toString());
 		assertEquals(user1.getNickname(), selectedUser.getNickname());
 	}

@@ -1,11 +1,33 @@
 package gaongil.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class User {
-	private int pid;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long pid;
+	
+	@Column
 	private String phoneNumber;
+	
+	@Column
 	private boolean isMember;
+	
+	@Column
 	private String nickname;
+	
+	@Column
 	private String imagePath;
+	
+	@Column(nullable=false)
 	private String regId;
 	
 	public User(){}
@@ -16,7 +38,7 @@ public class User {
 		this.regId = regId;
 	}
 	
-	public User(int pid, String phoneNumber, boolean isMember, String nickname, String imagePath, String regId) {
+	public User(long pid, String phoneNumber, boolean isMember, String nickname, String imagePath, String regId) {
 		this.pid = pid;
 		this.phoneNumber = phoneNumber;
 		this.isMember = isMember;
@@ -25,10 +47,11 @@ public class User {
 		this.regId = regId;
 	}
 
-	public int getPid() {
+	//Type이 정확하게 일치해야 한다. return type이 long일경우 에러발생
+	public Long getPid() {
 		return pid;
 	}
-	public void setPid(int pid) {
+	public void setPid(long pid) {
 		this.pid = pid;
 	}
 	public String getPhoneNumber() {
@@ -71,7 +94,7 @@ public class User {
 		result = prime * result + (isMember ? 1231 : 1237);
 		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
 		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
-		result = prime * result + pid;
+		result = prime * result + ((pid == null) ? 0 : pid.hashCode());
 		result = prime * result + ((regId == null) ? 0 : regId.hashCode());
 		return result;
 	}
@@ -102,7 +125,10 @@ public class User {
 				return false;
 		} else if (!phoneNumber.equals(other.phoneNumber))
 			return false;
-		if (pid != other.pid)
+		if (pid == null) {
+			if (other.pid != null)
+				return false;
+		} else if (!pid.equals(other.pid))
 			return false;
 		if (regId == null) {
 			if (other.regId != null)

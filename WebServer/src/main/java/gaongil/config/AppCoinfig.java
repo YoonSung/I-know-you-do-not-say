@@ -1,21 +1,16 @@
 package gaongil.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.context.annotation.Import;
 
+/**
+ * 각각의 Configuration File을 Import한다.
+ */
+@Import(value={
+		CcsConfig.class, 
+		DBConfig.class, 
+		WebConfig.class}
+)
 @Configuration
 public class AppCoinfig {
-	
-	@Autowired
-	CcsConfig ccsConfig;
-	
-	@Autowired
-	DBConfig dbConfig;
-	
-	@Autowired
-	WebConfig webConfig;
 }
