@@ -22,6 +22,10 @@
 		<level value="DEBUG" />
 	</logger>
 
+	<!-- Added by http://kwonnam.pe.kr/wiki/java/hibernate/log -->
+    <logger name="org.hibernate.type" level="TRACE" />
+    <logger name="org.hibernate.type.BasicTypeRegistry" level="WARN" />
+
 	<root>
 		<priority value="INFO" />
 		<appender-ref ref="STDOUT" />
