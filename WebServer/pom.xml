@@ -170,7 +170,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 			</resource>
-			
+
 			<!-- Additaional Scan -->
 			<resource>
 				<directory>src/main/resources-${environment}</directory>
@@ -208,6 +208,31 @@
 					<source>1.7</source>
 					<target>1.7</target>
 					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			
+			<!-- 
+				Generate SQL from Entity Class.
+				Execution by mvn exec:java
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>	
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>gaongil.support.util.JPASchemaGenerator</mainClass>
+					<arguments>
+						<argument>gaongil.domain</argument>
+						<argument>${project.basedir}/src/main/resources-${environment}/sql/generated/</argument>
+					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
