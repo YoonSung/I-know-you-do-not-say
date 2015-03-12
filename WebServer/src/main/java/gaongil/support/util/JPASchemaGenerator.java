@@ -4,7 +4,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 /**
@@ -32,8 +34,13 @@ public class JPASchemaGenerator {
 
     public JPASchemaGenerator(String packageName) throws Exception {
         configuration = new Configuration();
+        
+		configuration.setProperty("hibernate.format_sql", "true");
+		configuration.setProperty("hibernate.format_sql", "false");				
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
-
+        
+        configuration.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
+        
         for (Class<?> clazz : getClasses(packageName)) {
             configuration.addAnnotatedClass(clazz);
         }

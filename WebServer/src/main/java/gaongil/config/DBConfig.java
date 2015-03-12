@@ -69,7 +69,6 @@ public class DBConfig {
 		jpaProperties.put(jpaOperationMode, environment.getProperty(jpaOperationMode));
 		
 		entityManagerFactoryBean.setJpaProperties(jpaProperties);
-		
 		return entityManagerFactoryBean;
 	}
 	

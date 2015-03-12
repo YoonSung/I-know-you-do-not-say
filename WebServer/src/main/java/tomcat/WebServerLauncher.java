@@ -13,6 +13,9 @@ public class WebServerLauncher {
     public static void main(String[] args) throws Exception {
         String webappDirLocation = "webapp/";
         Tomcat tomcat = new Tomcat();
+        
+        
+        
         String webPort = System.getenv("PORT");
         if(webPort == null || webPort.isEmpty()) {
             webPort = "8080";
@@ -32,6 +35,7 @@ public class WebServerLauncher {
         ctx.setResources(resources);
         System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
         
+        tomcat.enableNaming();
         tomcat.start();
         tomcat.getServer().await();  
     }
