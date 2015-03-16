@@ -4,46 +4,39 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table
-public class Member {
-
-	enum SEX {
-		M,
-		W
+public class Message {
+	
+	enum TYPE {
+		PLAIN,
+		WARN,
+		URGENT,
+		INFO
 	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column
-	private String email;
+	@Column(nullable=false)
+	private String message;
 	
-	@Column
-	private String password;
-	
-	@Column
-	private short age;
-	
-	@Column
-	private SEX sex;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
+	private TYPE type;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false, updatable = false)
-	private Date createdDate;
-	
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="member")
-	private User user;
-	
+	@Column(nullable=false, updatable=false)
+	private Date createdTime;
 	
 }

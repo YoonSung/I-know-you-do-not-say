@@ -4,46 +4,28 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table
-public class Member {
-
-	enum SEX {
-		M,
-		W
-	}
+@Table(name="tbl_location_log")
+public class LocationLog {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	private long pid;
 	
-	@Column
-	private String email;
+	@Column(nullable=false, columnDefinition="DECIMAL(10, 8)")
+	private float latitude;
 	
-	@Column
-	private String password;
-	
-	@Column
-	private short age;
-	
-	@Column
-	private SEX sex;
+	@Column(nullable=false, columnDefinition="DECIMAL(11, 8)")
+	private float longitude;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false, updatable = false)
-	private Date createdDate;
-	
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="member")
-	private User user;
-	
-	
+	@Column(nullable=false, updatable=false)
+	private Date createdTime;
 }

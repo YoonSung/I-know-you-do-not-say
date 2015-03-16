@@ -1,6 +1,7 @@
 package gaongil.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,42 +9,33 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table
-public class Member {
+@Table(name="tbl_group")
+public class Group {
 
-	enum SEX {
-		M,
-		W
-	}
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column
-	private String email;
+	private String name;
 	
-	@Column
-	private String password;
+	@ManyToMany
+	@JoinTable(name="tbl_chat_room", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="group_id"))
+	private List<User> users;
 	
-	@Column
-	private short age;
-	
-	@Column
-	private SEX sex;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="groups")
+	private List<ChatRoom> chatRooms;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false, updatable = false)
 	private Date createdDate;
-	
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="member")
-	private User user;
-	
-	
 }
