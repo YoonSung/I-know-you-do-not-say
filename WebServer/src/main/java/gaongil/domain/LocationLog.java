@@ -3,6 +3,7 @@ package gaongil.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,13 +18,10 @@ public class LocationLog {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long pid;
+	private Long id;
 	
-	@Column(nullable=false, columnDefinition="DECIMAL(10, 8)")
-	private float latitude;
-	
-	@Column(nullable=false, columnDefinition="DECIMAL(11, 8)")
-	private float longitude;
+	@Embedded
+	GeoLocation geoLocation;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false, updatable=false)

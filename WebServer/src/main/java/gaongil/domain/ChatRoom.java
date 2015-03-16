@@ -1,43 +1,42 @@
 package gaongil.domain;
 
-import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="tbl_chat_room")
-public class ChatRoom implements Serializable {
-
-	private static final long serialVersionUID = -1454873402326517765L;
+public class ChatRoom {
 
 	@Id
-	@Column(name="user_id")
-	private long userId;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 	
-	@Id
-	@Column(name="group_id")
-	private long roomId;
+	@Column
+	private String name;
 	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User users;
+	@ManyToMany
+	@JoinTable(name="tbl_chat_room_setting", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="group_id"))
+	private List<User> users;
 	
-	@ManyToOne
-	@JoinColumn(name="group_id")
-	private Group groups;
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="chat_room_id")
+	private List<Message> messages;
 	
-	@Column(name="alarm_on")
-	private boolean alarmOn;
-	
-	//@OneToMany(fetch=FetchType.LAZY)
-	//private List<Message> messages;
-	//*/
-	
-	public ChatRoom(){}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false, updatable = false)
+	private Date createdDate;
 }
