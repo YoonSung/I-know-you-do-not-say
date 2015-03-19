@@ -1,5 +1,9 @@
 package gaongil.config;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -7,9 +11,11 @@ import javax.servlet.ServletRegistration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -28,6 +34,17 @@ public class WebConfig implements WebApplicationInitializer {
 		dispatcher.setLoadOnStartup(1);
 		
 		servletContext.addListener(new ContextLoaderListener(rootContext));
+		
+		
+		/**
+		 * Add Spring Security Filter.
+		 * if not setting to this.
+		 * 
+		 * See Document (chapter 3. Java Configuration) - http://docs.spring.io/spring-security/site/docs/3.2.6.RELEASE/reference/htmlsingle/#hello-web-security-java-configuration
+		 * implements AbstractSecurityWebApplicationInitializer, and it enroll automatically below settings
+		 */
+		Dynamic securityFilter = servletContext.addFilter(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME, DelegatingFilterProxy.class);
+		securityFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	@Bean
