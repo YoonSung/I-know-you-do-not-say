@@ -34,7 +34,7 @@ public class Member {
 	private String password;
 	
 	@Column
-	private short age;
+	private Short age;
 	
 	@Column
 	private SEX sex;
@@ -47,5 +47,13 @@ public class Member {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", email=" + email + ", password=" + password + ", age=" + age + ", sex=" + sex + ", createdDate=" + createdDate
+				+ ", user=" + user + "]";
+	}
 }
