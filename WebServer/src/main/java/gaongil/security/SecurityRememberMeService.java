@@ -27,6 +27,12 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 	
 	SecurityUserDetailService securityUserDetailService;
 	
+	/*
+	 * For Spring Container Bean Creation
+	 */
+	@SuppressWarnings("deprecation")
+	public SecurityRememberMeService(){}
+	
 	public SecurityRememberMeService(String key, UserDetailsService userDetailsService) {
 		super(key, userDetailsService);
 		this.securityUserDetailService = (SecurityUserDetailService) userDetailsService;
@@ -96,8 +102,6 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response)
 			throws RememberMeAuthenticationException, UsernameNotFoundException {
 
-		log.debug("cookieTokens : {}", cookieTokens);
-		
 		if (cookieTokens.length != 3) {
 			throw new InvalidCookieException("Cookie token did not contain 3 "
 					+ "tokens, but contains '" + Arrays.asList(cookieTokens) +"'");

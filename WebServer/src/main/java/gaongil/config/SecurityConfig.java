@@ -4,18 +4,20 @@ import gaongil.security.SecurityRememberMeService;
 import gaongil.security.SecurityUserDetailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 @Configuration
 @ComponentScan(basePackages={"gaongil.security", "gaongil.service"})
+@ImportResource({"classpath:/springSecurity.xml"})
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 // WebSecurityConfigureAdapter is provides a default configuration in the configre(HttpSecurity http) method.
@@ -23,68 +25,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	SecurityUserDetailService securityUserDetailService;
 	
-	@Bean
-	public SecurityRememberMeService securityRememberMeService() {
-		
-		SecurityRememberMeService instance = new SecurityRememberMeService("test", securityUserDetailService);
-		instance.setAlwaysRemember(true);
-		instance.setTokenValiditySeconds(360);
-		
-		return instance;
-	}
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	SecurityRememberMeService securityRememberMeService;	
+	
 	
 	/**
 	 * Doen't Whatever method name.
-	 * 
 	 */
-	
-	//TODO Extract XML for environment
-	
 	@Autowired
     public void setupAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        /*
-         	auth
-            .inMemoryAuthentication()
-                .withUser("user").password("123").roles("USER")
-                .and()
-                .withUser("member").password("321").roles("MEMBER");
-		*/
 		auth
 			.userDetailsService(securityUserDetailService)
-			//for test
-			.passwordEncoder(NoOpPasswordEncoder.getInstance());
+			.passwordEncoder(passwordEncoder);
     }
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.rememberMe()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				
+				.and()
 				//.addFilterBefore(rememberMeAuthenticationFilter(), BasicAuthenticationFilter.class )
-				//TODO extract key to xml file
-				.rememberMeServices(securityRememberMeService()).key("test").and()
+				.rememberMe()
+				.rememberMeServices(securityRememberMeService)
 				
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.and()
+				.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 				
+				.and()
 				.authorizeRequests()
 				.antMatchers("/login","/about").permitAll()
 	        	.antMatchers("/main").hasRole("MEMBER")
-	        	.anyRequest().authenticated()
-	        	.and()
-	        .formLogin()
-	        	.permitAll();
+	        	.anyRequest().authenticated();
+	        	
 	}
-
-	/*
-	private SecurityAuthenticationFilter rememberMeAuthenticationFilter() {
-		
-		return null;
-	}
-	*/
-	
-	/*
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**");
-	}
-	*/
 }
