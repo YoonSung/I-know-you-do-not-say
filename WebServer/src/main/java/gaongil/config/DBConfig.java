@@ -1,5 +1,7 @@
 package gaongil.config;
 
+import gaongil.support.Constant;
+
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -34,10 +36,10 @@ public class DBConfig {
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		
-		String driverClassName = environment.getProperty("database.driverClassName");
-		String url = environment.getProperty("database.url");
-		String username = environment.getProperty("database.username");
-		String password = environment.getProperty("database.password");
+		String driverClassName = environment.getProperty(Constant.PROPERTY_KEY_DB_DRIVERCLASSNAME);
+		String url = environment.getProperty(Constant.PROPERTY_KEY_DB_URL);
+		String username = environment.getProperty(Constant.PROPERTY_KEY_DB_USERNAME);
+		String password = environment.getProperty(Constant.PROPERTY_KEY_DB_PASSWORD);
 		
 		dataSource.setDriverClassName(driverClassName);
 		dataSource.setUrl(url);
@@ -55,11 +57,11 @@ public class DBConfig {
 		entityManagerFactoryBean.setPackagesToScan("gaongil.domain");
 		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		
-		String jpaDialect = "hibernate.dialect";
-		String jpaFormatSql = "hibernate.format_sql";
-		String jpaNamingStrategy = "hibernate.ejb.naming_strategy";
-		String jpaShowSql = "hibernate.show_sql";
-		String jpaOperationMode="hibernate.hbm2ddl.auto";
+		String jpaDialect = Constant.PROPERTY_KEY_JPA_DIALECT;
+		String jpaFormatSql = Constant.PROPERTY_KEY_DB_FORMATSQL;
+		String jpaNamingStrategy = Constant.PROPERTY_KEY_DB_NAMING_STRATEGY;
+		String jpaShowSql = Constant.PROPERTY_KEY_DB_SHOWSQL;
+		String jpaOperationMode=Constant.PROPERTY_KEY_DB_JPATODDL;
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.put(jpaDialect, environment.getProperty(jpaDialect));
