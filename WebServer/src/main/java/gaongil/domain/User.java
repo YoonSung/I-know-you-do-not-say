@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="tbl_user")
 public class User {
@@ -35,17 +37,21 @@ public class User {
 	@Column(nullable=false)
 	private String regId;
 	
+	@JsonIgnore
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
 	private Member member;
 	
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private Collection<Safezone> safezones;
 	
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private List<LocationLog> locationLogs;
 	
+	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="users")
 	private List<ChatRoom> groups;
 	

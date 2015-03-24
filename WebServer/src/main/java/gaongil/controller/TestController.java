@@ -22,7 +22,7 @@ public class TestController {
 	}
 	
 	@RequestMapping("/test")
-	public @ResponseBody String test(@LoginMember Member member) {
-		return member.toString();
+	public Member test(@LoginMember Member member) {
+		return member;
 	}
 }
