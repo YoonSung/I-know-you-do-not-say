@@ -14,5 +14,11 @@ public class Constant {
 	public static final String PROPERTY_KEY_DB_NAMING_STRATEGY = "hibernate.ejb.naming_strategy";
 	public static final String PROPERTY_KEY_DB_SHOWSQL = "hibernate.show_sql";
 	public static final String PROPERTY_KEY_DB_JPATODDL = "hibernate.hbm2ddl.auto";
+	
+	
+	/**
+	 * Error
+	 */
+	public static final String ERRORCODE_LOGIN_REQUIRED_EXCEPTION = "exception.login.required";
 
 }

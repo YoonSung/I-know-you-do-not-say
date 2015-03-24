@@ -1,5 +1,8 @@
 package gaongil.controller;
 
+import gaongil.domain.Member;
+import gaongil.support.web.LoginMember;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,5 +19,10 @@ public class TestController {
 	public @ResponseBody String home() {
 		log.info("/ : ROOT Request");
 		return "Server Operation Success!";
+	}
+	
+	@RequestMapping("/test")
+	public @ResponseBody String test(@LoginMember Member member) {
+		return member.toString();
 	}
 }

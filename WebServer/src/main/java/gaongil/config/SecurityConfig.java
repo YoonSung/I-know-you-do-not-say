@@ -45,21 +45,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				
-				.and()
+				//.and()
 				//.addFilterBefore(rememberMeAuthenticationFilter(), BasicAuthenticationFilter.class )
 				.rememberMe()
 				.rememberMeServices(securityRememberMeService)
 				
-				.and()
-				.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+				//.and()
+				//.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 				
 				.and()
 				.authorizeRequests()
 				.antMatchers("/login","/about").permitAll()
 	        	.antMatchers("/main").hasRole("MEMBER")
-	        	.anyRequest().authenticated();
+	        	.anyRequest().authenticated()
+		
+				//test
+				.and()
+				.formLogin()
+				.and()
+				.httpBasic()
+				;
 	        	
 	}
 }

@@ -36,5 +36,4 @@ public class SecurityUserDetailService implements UserDetailsService {
 		
 		return grantedAuthorities;
 	}
-	
 }

@@ -27,12 +27,6 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 	
 	SecurityUserDetailService securityUserDetailService;
 	
-	/*
-	 * For Spring Container Bean Creation
-	 */
-	@SuppressWarnings("deprecation")
-	public SecurityRememberMeService(){}
-	
 	public SecurityRememberMeService(String key, UserDetailsService userDetailsService) {
 		super(key, userDetailsService);
 		this.securityUserDetailService = (SecurityUserDetailService) userDetailsService;

@@ -1,6 +1,10 @@
 package gaongil.config;
 
+import gaongil.support.web.LoginMemberHandlerMethodArgumentResolver;
+import gaongil.support.web.LoginUserHandlerMethodArgument;
+
 import java.util.EnumSet;
+import java.util.List;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration.Dynamic;
@@ -16,13 +20,15 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @ComponentScan(basePackages={"gaongil.controller"})
-public class WebConfig implements WebApplicationInitializer {
+public class WebConfig extends WebMvcConfigurationSupport implements WebApplicationInitializer {
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
@@ -55,5 +61,22 @@ public class WebConfig implements WebApplicationInitializer {
 
         return viewResolver;
     }
-
+	
+	@Bean
+	public HandlerMethodArgumentResolver loginMemberHandlerMethodArgument() {
+		return new LoginMemberHandlerMethodArgumentResolver();
+	}
+	
+	@Bean
+	public HandlerMethodArgumentResolver loginUserHandlerMethodArgument() {
+		return new LoginUserHandlerMethodArgument();
+	}
+	
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(loginUserHandlerMethodArgument());
+		argumentResolvers.add(loginMemberHandlerMethodArgument());
+		
+		super.addArgumentResolvers(argumentResolvers);
+	}
 }

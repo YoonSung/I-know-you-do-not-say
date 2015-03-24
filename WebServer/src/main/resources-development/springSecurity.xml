@@ -8,8 +8,8 @@
 	<bean id="securityUserDetailService" class="gaongil.security.SecurityUserDetailService"/>
 
 	<bean id="securityRememberMeService" class="gaongil.security.SecurityRememberMeService">
-		<property name="userDetailsService" ref="securityUserDetailService" />
-		<property name="key" value="test" />
+		<constructor-arg name="key" value="test"/>
+		<constructor-arg name="userDetailsService" ref="securityUserDetailService"/>
 		<property name="tokenValiditySeconds" value="60" />
 		<property name="alwaysRemember" value="true"/>
 	</bean>
