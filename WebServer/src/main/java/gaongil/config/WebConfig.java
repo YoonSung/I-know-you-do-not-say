@@ -1,7 +1,12 @@
 package gaongil.config;
 
-import gaongil.support.web.LoginMemberHandlerMethodArgumentResolver;
-import gaongil.support.web.LoginUserHandlerMethodArgument;
+import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
+import gaongil.support.web.converter.ResponseMessageConverter;
+import gaongil.support.web.holder.RequestHolder;
+import gaongil.support.web.resolver.LoginMemberHandlerMethodArgumentResolver;
+import gaongil.support.web.resolver.LoginUserHandlerMethodArgumentResolver;
+import gaongil.support.web.resolver.ResponseCodeHandlerMethodArgumentResolver;
+import gaongil.support.web.resolver.argument.ResponseApplicationCode;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -16,7 +21,8 @@ import javax.servlet.ServletRegistration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -26,9 +32,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -62,7 +68,43 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 		securityFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
+	@Bean
+	public RequestHolder requestHolder() {
+		return new RequestHolder();
+	}
+	
+	/**
+	 * argument resolver parameter 
+	 */
+	@Bean
+	public ResponseApplicationCode responseApplicationCode() {
+		return new ResponseApplicationCode();
+	}
+	
+	//~ MessageConverter ========================================================================================================
+	
+	@Bean
+	public ResponseMessageConverter responseMessageConverter() {
+		return new ResponseMessageConverter();
+	}
+	
+	@Bean
+	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+		return new CustomMappingJackson2HttpMessageConverter();
+	}
+	
+	@Override
+	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(mappingJackson2HttpMessageConverter());
+		//addDefaultHttpMessageConverters(converters);
+		super.configureMessageConverters(converters);
+	}
+	
+	
+	//~ ViewResolver ========================================================================================================
+	
 	//http://fruzenshtein.com/spring-java-configurations/
+	/*
 	@Override
 	protected void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 		configurer
@@ -70,8 +112,9 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 			.mediaType("json", MediaType.APPLICATION_JSON)
 			.defaultContentType(MediaType.APPLICATION_JSON);
 	}
-
-	/*
+	 */
+	 
+	
 	@Bean
 	public ViewResolver resourceViewResolver() {
 		//TODO DELETE
@@ -82,8 +125,7 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
         
         return resolver;
 	}
-	*/
-	
+
 	@Bean
 	public View mappingJackson2JsonView() {
 		MappingJackson2JsonView view = new MappingJackson2JsonView();
@@ -108,6 +150,8 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
         resolver.setOrder(1);
         return resolver ;
     }
+
+	//~ ArgumentResolver ========================================================================================================
 	
 	@Bean
 	public HandlerMethodArgumentResolver loginMemberHandlerMethodArgument() {
@@ -116,13 +160,19 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 	
 	@Bean
 	public HandlerMethodArgumentResolver loginUserHandlerMethodArgument() {
-		return new LoginUserHandlerMethodArgument();
+		return new LoginUserHandlerMethodArgumentResolver();
+	}
+	
+	@Bean
+	public HandlerMethodArgumentResolver responseCodeHandlerMethodArgument() {
+		return new ResponseCodeHandlerMethodArgumentResolver();
 	}
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(loginUserHandlerMethodArgument());
 		argumentResolvers.add(loginMemberHandlerMethodArgument());
+		argumentResolvers.add(responseCodeHandlerMethodArgument());
 		
 		super.addArgumentResolvers(argumentResolvers);
 	}

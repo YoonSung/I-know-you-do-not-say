@@ -1,8 +1,9 @@
-package gaongil.support.web;
+package gaongil.support.web.resolver;
 
 import gaongil.domain.Member;
 import gaongil.security.LoginRequiredException;
 import gaongil.service.MemberService;
+import gaongil.support.web.resolver.argument.LoginMember;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

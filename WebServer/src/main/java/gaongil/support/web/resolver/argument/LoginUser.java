@@ -1,4 +1,4 @@
-package gaongil.support.web;
+package gaongil.support.web.resolver.argument;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -7,8 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value=ElementType.PARAMETER)
+@Target(ElementType.PARAMETER)
 @Documented
-public @interface LoginMember {
+public @interface LoginUser {
 	boolean required() default true;
 }
