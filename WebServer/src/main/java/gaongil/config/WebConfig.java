@@ -3,6 +3,7 @@ package gaongil.config;
 import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
 import gaongil.support.web.converter.ResponseMessageConverter;
 import gaongil.support.web.holder.RequestHolder;
+import gaongil.support.web.resolver.CustomExceptionResolver;
 import gaongil.support.web.resolver.LoginMemberHandlerMethodArgumentResolver;
 import gaongil.support.web.resolver.LoginUserHandlerMethodArgumentResolver;
 import gaongil.support.web.resolver.ResponseCodeHandlerMethodArgumentResolver;
@@ -30,6 +31,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -150,7 +152,21 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
         resolver.setOrder(1);
         return resolver ;
     }
-
+	//~ ExceptionResolver ========================================================================================================
+	
+	@Bean
+	public CustomExceptionResolver customExceptionResolver() {
+		CustomExceptionResolver resolver = new CustomExceptionResolver();
+		resolver.setOrder(100);
+		return resolver;
+	}
+	
+	protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+		exceptionResolvers.add(customExceptionResolver());
+		
+		super.configureHandlerExceptionResolvers(exceptionResolvers);
+	};
+	
 	//~ ArgumentResolver ========================================================================================================
 	
 	@Bean

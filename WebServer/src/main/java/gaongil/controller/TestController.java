@@ -28,4 +28,9 @@ public class TestController {
 		responseCode.set(ApplicationCode.CREATE);
 		return member;
 	}
+	
+	@RequestMapping("/error")
+	public String error() {
+		throw new IllegalArgumentException("Username is required.");
+	}
 }
