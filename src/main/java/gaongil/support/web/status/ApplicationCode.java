@@ -1,12 +1,14 @@
 package gaongil.support.web.status;
 
 import gaongil.support.exception.NotFoundException;
+import gaongil.support.exception.WrongParameterException;
 
 public enum ApplicationCode {
-	OK 						(200, "ok"),
-	CREATE 				(201, "create"),
-	NOT_FOUND 		(400, "not found", new NotFoundException()),
-	UNEXPECTED		(500, "unexpected")
+	OK 									(200, "ok"),
+	CREATE_NEWDATA 							(201, "create"),
+	WRONG_PARAMETER 	(400, "wrong parameter", new WrongParameterException()),
+	NOT_FOUND 					(404, "not found", new NotFoundException()),
+	UNEXPECTED					(500, "unexpected")
 	
 	//TODO add code
 	;

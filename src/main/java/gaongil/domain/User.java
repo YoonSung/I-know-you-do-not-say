@@ -96,6 +96,10 @@ public class User {
 		return imagePath;
 	}
 
+	public void setRegId(String regId) {
+		this.regId = regId;
+	}
+	
 	public String getRegId() {
 		return regId;
 	}

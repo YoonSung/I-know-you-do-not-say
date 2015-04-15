@@ -25,7 +25,7 @@ public class TestController {
 	
 	@RequestMapping("/test")
 	public Member test(@LoginMember Member member, @Response ResponseApplicationCode responseCode ) {
-		responseCode.set(ApplicationCode.CREATE);
+		responseCode.set(ApplicationCode.CREATE_NEWDATA);
 		return member;
 	}
 	

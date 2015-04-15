@@ -2,16 +2,17 @@ package gaongil.controller;
 
 import gaongil.domain.User;
 import gaongil.repository.UserRepository;
-
-import java.util.Random;
+import gaongil.support.exception.WrongParameterException;
+import gaongil.support.web.resolver.argument.Response;
+import gaongil.support.web.resolver.argument.ResponseApplicationCode;
+import gaongil.support.web.status.ApplicationCode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,28 +23,14 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
-	// Validation Apply TODO
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String register(String regId, User user) {
-		log.info("regId : {}", regId);
-		log.info("User : {}", user.toString());
+	public void register(User user, @Response ResponseApplicationCode code) {
+		log.debug("regId : {}, phoneNumber : {}", user.getRegId(), user.getPhoneNumber());
 		
-		if (user.getRegId() == null)
-			return "fail";
+		if (StringUtils.isEmpty(user.getRegId()) || StringUtils.isEmpty(user.getPhoneNumber()))
+			throw new WrongParameterException();
 
-		// DELETE TODO
-		user.setPhoneNumber("010" + new Random().nextInt(8));
-		user.setNickname("User " + new Random().nextInt(100));
-
-		try {
-			userRepository.save(user);
-			return "success";
-
-		} catch (Exception e) {
-			log.error("Register Request User : {}, Error : {}", user.toString(), e.getMessage());
-			return "error";
-		}
+		userRepository.save(user);
+		code.set(ApplicationCode.CREATE_NEWDATA);
 	}
-	
-	
 }
