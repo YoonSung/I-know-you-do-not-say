@@ -12,8 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -23,7 +24,7 @@ public class UserController {
 
 	// Validation Apply TODO
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public @ResponseBody String register(String regId, User user) {
+	public String register(String regId, User user) {
 		log.info("regId : {}", regId);
 		log.info("User : {}", user.toString());
 		
@@ -43,4 +44,6 @@ public class UserController {
 			return "error";
 		}
 	}
+	
+	
 }
