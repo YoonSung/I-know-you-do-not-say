@@ -11,21 +11,23 @@ public class TestUtil {
 		WebConfig webConfig = new WebConfig();
 		
 		return standaloneSetup(controller)
-			
+				
 			.setViewResolvers(
 					webConfig.resourceViewResolver(), 
 					webConfig.contentNegotiationViewResolver()
 			)
 			
-		
+		/* NullPointerException
+		 * 
 			.setMessageConverters(webConfig.mappingJackson2HttpMessageConverter())
 			.setCustomArgumentResolvers(
 					webConfig.loginMemberHandlerMethodArgument(), 
 					webConfig.loginUserHandlerMethodArgument(),
-					webConfig.responseCodeHandlerMethodArgument()).build();
-			/*
-			.setHandlerExceptionResolvers(webConfig.customExceptionResolver()).build();
-			*/
+					webConfig.responseCodeHandlerMethodArgument())
+			
+			.setHandlerExceptionResolvers(webConfig.customExceptionResolver())
+		*/
+			.build();
 	}
 
 	
