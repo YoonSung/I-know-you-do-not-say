@@ -34,6 +34,7 @@ public class GcmCcsSender {
 			Map<String, String> payload = new HashMap<String, String>();
 			payload.put("msg", message);
 
+			@SuppressWarnings("static-access")
 			String jsonMessage = mCssClient.createJsonMessage(registrationId, mCssClient.nextMessageId(), payload, "", 10000L, true);
 			mCssClient.sendDownstreamMessage(jsonMessage);
 		} catch (Exception e) {
