@@ -1,5 +1,6 @@
 package gaongil.service;
 
+import static org.mockito.Mockito.when;
 import gaongil.config.DBConfig;
 import gaongil.domain.User;
 import gaongil.repository.UserRepository;
@@ -11,14 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.context.ContextConfiguration;
-
-import static org.mockito.Mockito.when;
-import static org.mockito.Mock.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes = {DBConfig.class})

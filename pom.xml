@@ -9,13 +9,30 @@
 	<properties>
 		<org.springframework.version>4.1.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
-		<org.h2database.version>1.4.181</org.h2database.version>
 		<tomcat.version>8.0.18</tomcat.version>
+
+		<!-- Database Setting -->
+
+		<!-- migration information, TODO extract setting.properties -->
+		<database.url>jdbc:h2:tcp://localhost/~/gaongil</database.url>
+		<database.username>yoon</database.username>
+		<database.password></database.password>
+
+		<!-- h2 -->
+		<database.groupId>com.h2database</database.groupId>
+		<database.artifactId>h2</database.artifactId>
+		<database.version>1.4.181</database.version>
+
+		<!-- mysql -->
+		<!--
+		<database.groupId>mysql</database.groupId>
+		<database.artifactId>mysql-connector-java</database.artifactId>
+		<database.version>5.1.33</database.version>
+		-->
 	</properties>
 
 
 	<dependencies>
-
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -39,12 +56,11 @@
 
 		<!-- Database -->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${org.h2database.version}</version>
+			<groupId>${database.groupId}</groupId>
+			<artifactId>${database.artifactId}</artifactId>
+			<version>${database.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
-			<version>5.1.33</version> </dependency> -->
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
@@ -212,6 +228,7 @@
 					<version>2.4</version>
 					<configuration>
 						<warSourceDirectory>webapp</warSourceDirectory>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
 					</configuration>
 				</plugin>
 
@@ -259,6 +276,30 @@
 						</arguments>
 					</configuration>
 				</plugin>
+
+				<!--DB migration -->
+				<plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>3.2.1</version>
+					<configuration>
+						<url>${database.url}</url>
+						<user>${database.username}</user>
+						<password>${database.password}</password>
+						<!--
+						<url>jdbc:h2:tcp://localhost/~/gaongil</url>
+						<user>yoon</user>
+						-->
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>${database.groupId}</groupId>
+							<artifactId>${database.artifactId}</artifactId>
+							<version>${database.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
