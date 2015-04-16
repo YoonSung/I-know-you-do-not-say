@@ -278,6 +278,12 @@
 				</plugin>
 
 				<!--DB migration -->
+				<!--
+					<Usage>
+					 - compile flyway:init
+					 - compile flyway:info
+					 - compile flyway:migrate
+				-->
 				<plugin>
 					<groupId>org.flywaydb</groupId>
 					<artifactId>flyway-maven-plugin</artifactId>
@@ -286,10 +292,9 @@
 						<url>${database.url}</url>
 						<user>${database.username}</user>
 						<password>${database.password}</password>
-						<!--
-						<url>jdbc:h2:tcp://localhost/~/gaongil</url>
-						<user>yoon</user>
-						-->
+						<locations>
+							<location>sql/migration</location>
+						</locations>
 					</configuration>
 					<dependencies>
 						<dependency>
