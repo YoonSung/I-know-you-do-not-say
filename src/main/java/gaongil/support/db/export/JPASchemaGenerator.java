@@ -1,49 +1,76 @@
-package gaongil.support.util;
+package gaongil.support.db.export;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import com.sun.javafx.binding.StringFormatter;
+import gaongil.support.Constant;
+import javafx.scene.effect.Reflection;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.ImprovedNamingStrategy;
+import org.hibernate.cfg.NamingStrategy;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Reference by http://blog.iprofs.nl/2013/01/29/hibernate4-schema-generation-ddl-from-annotated-entities/
  * @author yoon
  */
 public class JPASchemaGenerator {
-	
+
+    private static Properties properties = new Properties();
+
     private Configuration configuration;
 
     /**
      * @param args first argument is the directory to generate the dll to
      */
     public static void main(String[] args) throws Exception {
-    	System.out.println("-------- [ SQL Generating. ]");
+        loadProperties();
+
+        System.out.println("-------- [ SQL Generating. ]");
         final String packageName = args[0];
         JPASchemaGenerator gen = new JPASchemaGenerator(packageName);
+
+        //TODO Extract base directory to property
         final String directory = args[1];
-        gen.generate(Dialect.MYSQL, directory);
-        //gen.generate(Dialect.ORACLE, directory);
-        //gen.generate(Dialect.HSQL, directory);
-        //gen.generate(Dialect.H2, directory);
-        System.out.println("-------- [ SQL Generator Success. ]");
+        gen.generate(directory);
+
+        System.out.println(String.format("-------- [ SQL Generator in  %s]", directory));
+    }
+
+    private static void loadProperties() throws IOException {
+        ClassPathResource resource = new ClassPathResource("database.properties");
+        properties.load(new FileInputStream(resource.getFile()));
     }
 
     public JPASchemaGenerator(String packageName) throws Exception {
         configuration = new Configuration();
         
-		configuration.setProperty("hibernate.format_sql", "true");
-		configuration.setProperty("hibernate.format_sql", "false");				
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create");
-        
-        configuration.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
-        
+		configuration.setProperty(Constant.PROPERTY_KEY_DB_FORMATSQL, properties.getProperty(Constant.PROPERTY_KEY_DB_FORMATSQL));
+        configuration.setProperty(Constant.PROPERTY_KEY_DB_JPATODDL, properties.getProperty(Constant.PROPERTY_KEY_DB_JPATODDL));
+        //configuration.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
+        configuration.setNamingStrategy(getNamingStrategy());
+
+
+        //TODO recursive Directory Search
         for (Class<?> clazz : getClasses(packageName)) {
             configuration.addAnnotatedClass(clazz);
         }
+    }
+
+    /**
+     * @return .properties namingStrategy Class
+     */
+    @SuppressWarnings("deprecation")
+    public NamingStrategy getNamingStrategy() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        String namingStrategyPackage = properties.getProperty(Constant.PROPERTY_KEY_DB_NAMING_STRATEGY);
+        Class<NamingStrategy> claz = (Class<NamingStrategy>) Class.forName(namingStrategyPackage);
+
+        return claz.newInstance();
     }
 
     /**
@@ -102,35 +129,14 @@ public class JPASchemaGenerator {
 
     /**
      * Method that actually creates the file.
-     *
-     * @param dialect to use
      */
-    private void generate(Dialect dialect, String directory) {
-        configuration.setProperty("hibernate.dialect", dialect.getDialectClass());
+    private void generate(String directory) {
+        String dialect = properties.getProperty(Constant.PROPERTY_KEY_JPA_DIALECT);
+        configuration.setProperty(Constant.PROPERTY_KEY_JPA_DIALECT, dialect);
         SchemaExport export = new SchemaExport(configuration);
         export.setDelimiter(";");
-        export.setOutputFile(directory + "ddl_" + dialect.name().toLowerCase() + ".sql");
+        export.setOutputFile(directory + "schema.sql");
         export.setFormat(true);
         export.execute(true, false, false, false);
-    }
-
-    /**
-     * Holds the classnames of hibernate dialects for easy reference.
-     */
-    private static enum Dialect {
-        ORACLE("org.hibernate.dialect.Oracle10gDialect"),
-        MYSQL("org.hibernate.dialect.MySQLDialect"),
-        HSQL("org.hibernate.dialect.HSQLDialect"),
-        H2("org.hibernate.dialect.H2Dialect");
-
-        private String dialectClass;
-
-        private Dialect(String dialectClass) {
-            this.dialectClass = dialectClass;
-        }
-
-        public String getDialectClass() {
-            return dialectClass;
-        }
     }
 }

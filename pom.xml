@@ -249,8 +249,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.1</version>
 					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
+						<source>1.8</source>
+						<target>1.8</target>
 						<encoding>utf-8</encoding>
 					</configuration>
 				</plugin>
@@ -269,10 +269,10 @@
 						</execution>
 					</executions>
 					<configuration>
-						<mainClass>gaongil.support.util.JPASchemaGenerator</mainClass>
+						<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>
 						<arguments>
 							<argument>gaongil.domain</argument>
-							<argument>${project.basedir}/src/main/resources-${environment}/sql/generated/</argument>
+							<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>
 						</arguments>
 					</configuration>
 				</plugin>
