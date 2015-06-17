@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.sun.javafx.binding.StringFormatter;
 import gaongil.support.Constant;
-import javafx.scene.effect.Reflection;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.cfg.NamingStrategy;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.core.io.ClassPathResource;
@@ -50,8 +47,8 @@ public class JPASchemaGenerator {
     public JPASchemaGenerator(String packageName) throws Exception {
         configuration = new Configuration();
         
-		configuration.setProperty(Constant.PROPERTY_KEY_DB_FORMATSQL, properties.getProperty(Constant.PROPERTY_KEY_DB_FORMATSQL));
-        configuration.setProperty(Constant.PROPERTY_KEY_DB_JPATODDL, properties.getProperty(Constant.PROPERTY_KEY_DB_JPATODDL));
+		configuration.setProperty(Constant.PROPERTY_KEY_JPA_FORMATSQL, properties.getProperty(Constant.PROPERTY_KEY_JPA_FORMATSQL));
+        configuration.setProperty(Constant.PROPERTY_KEY_JPA_JPATODDL, properties.getProperty(Constant.PROPERTY_KEY_JPA_JPATODDL));
         //configuration.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
         configuration.setNamingStrategy(getNamingStrategy());
 
@@ -67,7 +64,7 @@ public class JPASchemaGenerator {
      */
     @SuppressWarnings("deprecation")
     public NamingStrategy getNamingStrategy() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        String namingStrategyPackage = properties.getProperty(Constant.PROPERTY_KEY_DB_NAMING_STRATEGY);
+        String namingStrategyPackage = properties.getProperty(Constant.PROPERTY_KEY_JPA_NAMING_STRATEGY);
         Class<NamingStrategy> claz = (Class<NamingStrategy>) Class.forName(namingStrategyPackage);
 
         return claz.newInstance();

@@ -19,6 +19,12 @@ public class UserService {
 
 		return userRepository.save(user);
 	}
-	
-	
+
+
+	public User findById(Long id) {
+		if (id == null)
+			throw new WrongParameterException();
+
+		return userRepository.findOne(id);
+	}
 }

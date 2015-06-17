@@ -50,7 +50,7 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(AppCoinfig.class);
+		rootContext.register(AppConfig.class);
 		
 		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
 		dispatcher.addMapping("/");

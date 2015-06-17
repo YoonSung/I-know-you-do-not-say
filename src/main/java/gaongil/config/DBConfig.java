@@ -58,10 +58,10 @@ public class DBConfig {
 		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		
 		String jpaDialect = Constant.PROPERTY_KEY_JPA_DIALECT;
-		String jpaFormatSql = Constant.PROPERTY_KEY_DB_FORMATSQL;
-		String jpaNamingStrategy = Constant.PROPERTY_KEY_DB_NAMING_STRATEGY;
-		String jpaShowSql = Constant.PROPERTY_KEY_DB_SHOWSQL;
-		String jpaOperationMode=Constant.PROPERTY_KEY_DB_JPATODDL;
+		String jpaFormatSql = Constant.PROPERTY_KEY_JPA_FORMATSQL;
+		String jpaNamingStrategy = Constant.PROPERTY_KEY_JPA_NAMING_STRATEGY;
+		String jpaShowSql = Constant.PROPERTY_KEY_JPA_SHOWSQL;
+		String jpaOperationMode=Constant.PROPERTY_KEY_JPA_JPATODDL;
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.put(jpaDialect, environment.getProperty(jpaDialect));

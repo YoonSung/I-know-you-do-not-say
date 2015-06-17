@@ -26,7 +26,7 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column
+	@Column(nullable = false)
 	private String phoneNumber;
 	
 	@Column
@@ -35,9 +35,12 @@ public class User {
 	@Column
 	private String imagePath;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String regId;
-	
+
+	@Column(nullable = false)
+	private String uuid;
+
 	@JsonIgnore
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
 	private Member member;
@@ -55,7 +58,7 @@ public class User {
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="users")
 	private List<ChatRoom> groups;
-	
+
 	public User(){}
 	
 	public User(String phoneNumber, String nickname, String regId) {
@@ -117,5 +120,9 @@ public class User {
 			return false;
 
 		return true;
+	}
+
+	public String getUuid() {
+		return this.uuid;
 	}
 }

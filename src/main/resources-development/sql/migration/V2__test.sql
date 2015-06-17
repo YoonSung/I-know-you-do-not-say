@@ -1,2 +1,1 @@
-CREATE TABLE test (
-);
+INSERT INTO TBL_MEMBER(email, password, created_date) VALUES ('lvev9925@naver.com', 'test', now());

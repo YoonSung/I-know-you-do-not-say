@@ -8,8 +8,10 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gaongil.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,7 +28,10 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 	private static final Logger log = LoggerFactory.getLogger(SecurityRememberMeService.class);
 	
 	SecurityUserDetailService securityUserDetailService;
-	
+
+    @Autowired
+    private UserService userService;
+
 	public SecurityRememberMeService(String key, UserDetailsService userDetailsService) {
 		super(key, userDetailsService);
 		this.securityUserDetailService = (SecurityUserDetailService) userDetailsService;
@@ -90,8 +95,66 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
     protected int calculateLoginLifetime(HttpServletRequest request, Authentication authentication) {
         return getTokenValiditySeconds();
     }
-	
 
+    /**
+     * @author : yoon
+     *
+     * 리턴하는 데이터는 무의미. 이미 auto true로 설정되어 있어서 무조건 성공한다.
+     * 만약, 인증을 철회하려면 사용자(프로그래머)가 직접 로직을 구현해서 Exception을 throw해야 한다.
+     * 자세한 내용은 AbstractRememberMeServices의 autoLogin함수를 참조
+     */
+    @Override
+    protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response)
+            throws RememberMeAuthenticationException, UsernameNotFoundException {
+
+        int cookieTokenLength = cookieTokens.length;
+
+        //Member Login Request
+        switch (cookieTokenLength) {
+            case 3:
+                return checkMemberDetail(cookieTokens);
+            case 4:
+                return checkUserDetails(cookieTokens);
+            default:
+                throw new InvalidCookieException("Cookie token did not contain 3 "+ "tokens, but contains '" + Arrays.asList(cookieTokens) +"'");
+        }
+    }
+
+    private UserDetails checkUserDetails(String[] cookieTokens) {
+        log.debug("cookieTokens User columnId : {}", cookieTokens[0]);
+
+        return null;
+    }
+
+    private UserDetails checkMemberDetail(String[] cookieTokens) {
+        log.debug("cookieTokens Member Email : {}", cookieTokens[0]);
+
+        long tokenExpiryTime;
+
+        try {
+            tokenExpiryTime = new Long(cookieTokens[1]).longValue();
+        } catch (NumberFormatException nfe) {
+            throw new InvalidCookieException("Cookie token[1] did not contain a valid number (contained '" +
+                    cookieTokens[1] + "')");
+        }
+
+        if (isTokenExpired(tokenExpiryTime)) {
+            throw new InvalidCookieException("Cookie token[1] has expired (expired on '"
+                    + new Date(tokenExpiryTime) + "'; current time is '" + new Date() + "')");
+        }
+
+        WithSecurityUser userDetails =  (WithSecurityUser) securityUserDetailService.loadUserByUsername(cookieTokens[0]);
+
+        String expectedTokenSignature = makeTokenSignature(tokenExpiryTime, userDetails.getUsername(), userDetails.getPassword());
+        if (!equals(expectedTokenSignature,cookieTokens[2])) {
+            throw new InvalidCookieException("Cookie token[2] contained signature '" + cookieTokens[2]
+                    + "' but expected '" + expectedTokenSignature + "'");
+        }
+
+        return userDetails;
+    }
+
+/*
 	@Override
 	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response)
 			throws RememberMeAuthenticationException, UsernameNotFoundException {
@@ -128,6 +191,7 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 		
 		return userDetails;
 	}
+	*/
 
 	private boolean isInstanceOfUserDetails(Authentication authentication) {
         return authentication.getPrincipal() instanceof UserDetails;

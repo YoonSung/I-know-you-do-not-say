@@ -14,5 +14,5 @@ import org.springframework.context.annotation.Import;
 		}
 )
 @Configuration
-public class AppCoinfig {
+public class AppConfig {
 }
