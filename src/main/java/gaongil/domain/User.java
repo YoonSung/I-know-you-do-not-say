@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name="tbl_user")
@@ -72,7 +73,7 @@ public class User {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber.trim().replaceAll(" ", "");;
 	}
 	
 	public void setNickname(String nickname) {
@@ -102,5 +103,19 @@ public class User {
 	
 	public String getRegId() {
 		return regId;
+	}
+
+	public boolean canRegistable() {
+		return isValidPhoneNumber() == true && !StringUtils.isEmpty(this.regId) ? true : false;
+	}
+
+	private boolean isValidPhoneNumber() {
+		if (!this.phoneNumber.startsWith("010"))
+			return false;
+
+		if (this.phoneNumber.length() != 11)
+			return false;
+
+		return true;
 	}
 }

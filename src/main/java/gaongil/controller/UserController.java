@@ -21,13 +21,14 @@ public class UserController {
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public void create(User user, @Response ResponseApplicationCode code) {
-		log.debug("regId : {}, phoneNumber : {}", user.getRegId(), user.getPhoneNumber());
-		
-		User savedUser = userService.create(user);
-		
-		if (savedUser.getPid() != null)
+
+		if (user.canRegistable()) {
+			userService.create(user);
+			log.debug("regId : {}, phoneNumber : {}", user.getRegId(), user.getPhoneNumber());
 			code.set(ApplicationCode.CREATE_NEWDATA);
-		else
+
+		} else {
 			code.set(ApplicationCode.UNEXPECTED);
+		}
 	}
 }

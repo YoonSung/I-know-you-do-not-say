@@ -20,10 +20,10 @@ public class CustomExceptionResolver extends AbstractHandlerExceptionResolver {
 
 	@Autowired
 	private RequestHolder holder;
-	
+
 	@Autowired
 	private CustomMappingJackson2HttpMessageConverter customResolver;
-	
+
 	private static final Logger log = LoggerFactory.getLogger(CustomExceptionResolver.class);
 	
 	@Override

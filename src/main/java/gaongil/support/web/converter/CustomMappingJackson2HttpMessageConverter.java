@@ -18,10 +18,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class CustomMappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomMappingJackson2HttpMessageConverter.class);
-	
+
 	@Autowired
 	ResponseMessageConverter responseMessageConverter;
-	
+
 	@Override
 	protected void writeInternal(Object object, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {

@@ -16,9 +16,9 @@ public class TestUtil {
 					webConfig.resourceViewResolver(), 
 					webConfig.contentNegotiationViewResolver()
 			)
-			
+
 		/* NullPointerException
-		 * 
+		 *
 			.setMessageConverters(webConfig.mappingJackson2HttpMessageConverter())
 			.setCustomArgumentResolvers(
 					webConfig.loginMemberHandlerMethodArgument(), 

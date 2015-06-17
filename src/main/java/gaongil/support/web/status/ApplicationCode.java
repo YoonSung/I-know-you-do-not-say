@@ -4,11 +4,11 @@ import gaongil.support.exception.NotFoundException;
 import gaongil.support.exception.WrongParameterException;
 
 public enum ApplicationCode {
-	OK 									(200, "ok"),
-	CREATE_NEWDATA 							(201, "create"),
-	WRONG_PARAMETER 	(400, "wrong parameter", new WrongParameterException()),
-	NOT_FOUND 					(404, "not found", new NotFoundException()),
-	UNEXPECTED					(500, "unexpected")
+	OK 							(200, "요청성공"),
+	CREATE_NEWDATA 				(201, "새로운 데이터를 생성했습니다"),
+	WRONG_PARAMETER 			(400, "잘못된 Parameter 요청입니다", new WrongParameterException()),
+	NOT_FOUND 					(404, "요청자원을 찾지 못했습니다", new NotFoundException()),
+	UNEXPECTED					(500, "예기치 못한 에러가 발생했습니다")
 	
 	//TODO add code
 	;
@@ -26,12 +26,12 @@ public enum ApplicationCode {
 		return this.intValue;
 	}
 	
-	private ApplicationCode(int code, String description) {
+	ApplicationCode(int code, String description) {
 		this.intValue = code;
 		this.description = description;
 	}
 	
-	private ApplicationCode(int code, String description, RuntimeException exception) {
+	ApplicationCode(int code, String description, RuntimeException exception) {
 		this.intValue= code;
 		this.description = description;
 		this.exception = exception;
