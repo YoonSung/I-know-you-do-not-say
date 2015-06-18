@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gaongil.security.token.MemberTokenGenerator;
 import gaongil.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,12 +61,15 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
             }
         }
         
-		
+
+        setTokenToUser(request, response, new MemberTokenGenerator(username, password));
+
+        /*
         int tokenLifetime = calculateLoginLifetime(request, successfulAuthentication);
         long expiryTime = System.currentTimeMillis();
         // SEC-949
         expiryTime += 1000L* (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
-
+//ing
         String signatureValue = makeTokenSignature(expiryTime, username, password);
         
         setCookie(new String[] {username, Long.toString(expiryTime), signatureValue}, tokenLifetime, request, response);
@@ -74,9 +78,27 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
             logger.info("Added remember-me cookie for user '" + username + "', expiry: '"
                     + new Date(expiryTime) + "'");
         }
+        */
 	}
-	
-	 /**
+
+    private void setTokenToUser(HttpServletRequest request, HttpServletResponse response, MemberTokenGenerator memberTokenGenerator) {
+        int tokenLifetime = calculateLoginLifetime();
+        long expiryTime = System.currentTimeMillis();
+        // SEC-949
+        expiryTime += 1000L* (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
+
+        setCookie(memberTokenGenerator.getTokenArray(getKey(), tokenLifetime, expiryTime), tokenLifetime, request, response);
+        //setCookie(new String[] {username, Long.toString(expiryTime), signatureValue}, tokenLifetime, request, response);
+
+        /*
+        if (logger.isDebugEnabled()) {
+            logger.info("Added remember-me cookie for user '" + username + "', expiry: '"
+                    + new Date(expiryTime) + "'");
+        }
+        */
+    }
+
+    /**
      * Calculates the validity period in seconds for a newly generated remember-me login.
      * After this period (from the current time) the remember-me login will be considered expired.
      * This method allows customization based on request parameters supplied with the login or information in
@@ -96,6 +118,10 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         return getTokenValiditySeconds();
     }
 
+    private int calculateLoginLifetime() {
+        return getTokenValiditySeconds();
+    }
+
     /**
      * @author : yoon
      *
@@ -112,8 +138,10 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         //Member Login Request
         switch (cookieTokenLength) {
             case 3:
+                //TODO catch exception. update token to user
                 return checkMemberDetail(cookieTokens);
             case 4:
+                //TODO catch exception. update token to user
                 return checkUserDetails(cookieTokens);
             default:
                 throw new InvalidCookieException("Cookie token did not contain 3 "+ "tokens, but contains '" + Arrays.asList(cookieTokens) +"'");
@@ -121,11 +149,38 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
     }
 
     private UserDetails checkUserDetails(String[] cookieTokens) {
-        log.debug("cookieTokens User columnId : {}", cookieTokens[0]);
+        log.debug("cookieTokens User id : {}", cookieTokens[0]);
 
-        return null;
+        long tokenExpiryTime;
+
+        try {
+            tokenExpiryTime = new Long(cookieTokens[1]).longValue();
+        } catch (NumberFormatException nfe) {
+            throw new InvalidCookieException("Cookie token[1] did not contain a valid number (contained '" +
+                    cookieTokens[1] + "')");
+        }
+
+        if (isTokenExpired(tokenExpiryTime)) {
+            throw new InvalidCookieException("Cookie token[1] has expired (expired on '"
+                    + new Date(tokenExpiryTime) + "'; current time is '" + new Date() + "')");
+        }
+
+        WithSecurityUser userDetails =  (WithSecurityUser) securityUserDetailService.loadUserByUsername(cookieTokens[0]);
+
+        String expectedTokenSignature = makeTokenSignature(tokenExpiryTime, userDetails.getUsername(), userDetails.getPassword());
+        if (!equals(expectedTokenSignature,cookieTokens[2])) {
+            throw new InvalidCookieException("Cookie token[2] contained signature '" + cookieTokens[2]
+                    + "' but expected '" + expectedTokenSignature + "'");
+        }
+
+        return userDetails;
     }
 
+    /**
+     * @author yoon
+     * cookie length is 3.
+     * 1. email, 2. expiryTime, 3. signatureValue, tokenLifetime, request, response);
+     */
     private UserDetails checkMemberDetail(String[] cookieTokens) {
         log.debug("cookieTokens Member Email : {}", cookieTokens[0]);
 
