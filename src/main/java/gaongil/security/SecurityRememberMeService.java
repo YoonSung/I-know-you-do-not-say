@@ -8,11 +8,8 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import gaongil.security.token.MemberTokenGenerator;
-import gaongil.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,9 +26,6 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 	private static final Logger log = LoggerFactory.getLogger(SecurityRememberMeService.class);
 	
 	SecurityUserDetailService securityUserDetailService;
-
-    @Autowired
-    private UserService userService;
 
 	public SecurityRememberMeService(String key, UserDetailsService userDetailsService) {
 		super(key, userDetailsService);
@@ -63,22 +57,6 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         
 
         setTokenToUser(request, response, new MemberTokenGenerator(username, password));
-
-        /*
-        int tokenLifetime = calculateLoginLifetime(request, successfulAuthentication);
-        long expiryTime = System.currentTimeMillis();
-        // SEC-949
-        expiryTime += 1000L* (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
-//ing
-        String signatureValue = makeTokenSignature(expiryTime, username, password);
-        
-        setCookie(new String[] {username, Long.toString(expiryTime), signatureValue}, tokenLifetime, request, response);
-
-        if (logger.isDebugEnabled()) {
-            logger.info("Added remember-me cookie for user '" + username + "', expiry: '"
-                    + new Date(expiryTime) + "'");
-        }
-        */
 	}
 
     private void setTokenToUser(HttpServletRequest request, HttpServletResponse response, MemberTokenGenerator memberTokenGenerator) {
@@ -87,8 +65,7 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         // SEC-949
         expiryTime += 1000L* (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
 
-        setCookie(memberTokenGenerator.getTokenArray(getKey(), tokenLifetime, expiryTime), tokenLifetime, request, response);
-        //setCookie(new String[] {username, Long.toString(expiryTime), signatureValue}, tokenLifetime, request, response);
+        setCookie(memberTokenGenerator.getTokenArray(getKey(), expiryTime), tokenLifetime, request, response);
 
         /*
         if (logger.isDebugEnabled()) {
@@ -118,6 +95,7 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         return getTokenValiditySeconds();
     }
 
+
     private int calculateLoginLifetime() {
         return getTokenValiditySeconds();
     }
@@ -138,11 +116,23 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         //Member Login Request
         switch (cookieTokenLength) {
             case 3:
+                WithSecurityUser memberUserDetails =  (WithSecurityUser) securityUserDetailService.loadUserByUsername(cookieTokens[0]);
+                MemberTokenGenerator memberTokenGenerator = new MemberTokenGenerator(memberUserDetails.getUsername(), memberUserDetails.getPassword());
+                checkWithUserDetails(cookieTokens, memberTokenGenerator);
+                return memberUserDetails;
+
                 //TODO catch exception. update token to user
-                return checkMemberDetail(cookieTokens);
+                //return checkMemberDetail(cookieTokens);
+
+
             case 4:
+                WithSecurityUser userDetails =  (WithSecurityUser) securityUserDetailService.loadWithUserById(Long.parseLong(cookieTokens[0]));
+                UserTokenGenerator userTokenGenerator = new UserTokenGenerator(Long.valueOf(userDetails.getUsername()), userDetails.getPassword());
+                checkWithUserDetails(cookieTokens, userTokenGenerator);
+                return userDetails;
+
                 //TODO catch exception. update token to user
-                return checkUserDetails(cookieTokens);
+                //return checkUserDetails(cookieTokens);
             default:
                 throw new InvalidCookieException("Cookie token did not contain 3 "+ "tokens, but contains '" + Arrays.asList(cookieTokens) +"'");
         }
@@ -200,7 +190,10 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
 
         WithSecurityUser userDetails =  (WithSecurityUser) securityUserDetailService.loadUserByUsername(cookieTokens[0]);
 
-        String expectedTokenSignature = makeTokenSignature(tokenExpiryTime, userDetails.getUsername(), userDetails.getPassword());
+        //TODO Weak declaration
+        MemberTokenGenerator tokenGenerator = new MemberTokenGenerator(userDetails.getUsername(), userDetails.getPassword());
+        String expectedTokenSignature = tokenGenerator.makeTokenSignature(getKey(), tokenExpiryTime);
+
         if (!equals(expectedTokenSignature,cookieTokens[2])) {
             throw new InvalidCookieException("Cookie token[2] contained signature '" + cookieTokens[2]
                     + "' but expected '" + expectedTokenSignature + "'");
@@ -209,44 +202,28 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         return userDetails;
     }
 
-/*
-	@Override
-	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response)
-			throws RememberMeAuthenticationException, UsernameNotFoundException {
+    private void checkWithUserDetails(String[] cookieTokens, AbstractTokenGenerator tokenGenerator) {
+        long tokenExpiryTime;
 
-		if (cookieTokens.length != 3) {
-			throw new InvalidCookieException("Cookie token did not contain 3 "
-					+ "tokens, but contains '" + Arrays.asList(cookieTokens) +"'");
-		}
-		
-		log.debug("cookieTokens userId : {}", cookieTokens[0]);
-		
-		long tokenExpiryTime;
-		
-		try {
-			tokenExpiryTime = new Long(cookieTokens[1]).longValue();
-		} catch (NumberFormatException nfe) {
-			throw new InvalidCookieException("Cookie token[1] did not contain a valid number (contained '" +
+        try {
+            tokenExpiryTime = new Long(cookieTokens[1]).longValue();
+        } catch (NumberFormatException nfe) {
+            throw new InvalidCookieException("Cookie token[1] did not contain a valid number (contained '" +
                     cookieTokens[1] + "')");
-		}
-		
-		if (isTokenExpired(tokenExpiryTime)) {
-			throw new InvalidCookieException("Cookie token[1] has expired (expired on '"
-                    + new Date(tokenExpiryTime) + "'; current time is '" + new Date() + "')");
-		}
-		
-		WithSecurityUser userDetails =  (WithSecurityUser) securityUserDetailService.loadUserByUsername(cookieTokens[0]);
-		
-		String expectedTokenSignature = makeTokenSignature(tokenExpiryTime, userDetails.getUsername(), userDetails.getPassword());
-		if (!equals(expectedTokenSignature,cookieTokens[2])) {
-            throw new InvalidCookieException("Cookie token[2] contained signature '" + cookieTokens[2]
-                                                                                                    + "' but expected '" + expectedTokenSignature + "'");
         }
-		
-		
-		return userDetails;
-	}
-	*/
+
+        if (isTokenExpired(tokenExpiryTime)) {
+            throw new InvalidCookieException("Cookie token[1] has expired (expired on '"
+                    + new Date(tokenExpiryTime) + "'; current time is '" + new Date() + "')");
+        }
+
+        String expectedTokenSignature = tokenGenerator.makeTokenSignature(getKey(), tokenExpiryTime);
+
+        if (!equals(expectedTokenSignature,cookieTokens[2])) {
+            throw new InvalidCookieException("Cookie token[2] contained signature '" + cookieTokens[2]
+                    + "' but expected '" + expectedTokenSignature + "'");
+        }
+    }
 
 	private boolean isInstanceOfUserDetails(Authentication authentication) {
         return authentication.getPrincipal() instanceof UserDetails;

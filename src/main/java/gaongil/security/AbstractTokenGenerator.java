@@ -1,4 +1,4 @@
-package gaongil.security.token;
+package gaongil.security;
 
 import org.springframework.security.crypto.codec.Hex;
 
@@ -11,13 +11,12 @@ import java.security.NoSuchAlgorithmException;
 public abstract class AbstractTokenGenerator {
 
     protected static final String TOKEN_DELIMITER = ":";
-    protected String token;
 
-    abstract String makeTokenSignature(String key, int tokenLifetime, long tokenExpiryTime);
+    abstract String makeTokenSignature(String key, long tokenExpiryTime);
     abstract String[] generateTokenArray(String signatureValue, long tokenExpiryTime);
 
-    public String[] getTokenArray(String key, int tokenLifetime, long tokenExpiryTime) {
-        String signatureValue = makeTokenSignature(key, tokenLifetime, tokenExpiryTime);
+    public String[] getTokenArray(String key, long tokenExpiryTime) {
+        String signatureValue = makeTokenSignature(key, tokenExpiryTime);
         return generateTokenArray(signatureValue, tokenExpiryTime);
     }
 

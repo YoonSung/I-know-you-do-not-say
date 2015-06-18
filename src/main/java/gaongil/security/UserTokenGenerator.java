@@ -1,4 +1,4 @@
-package gaongil.security.token;
+package gaongil.security;
 
 /**
  * Created by yoon on 15. 6. 19..
@@ -16,7 +16,7 @@ public class UserTokenGenerator extends AbstractTokenGenerator {
     }
 
     @Override
-    String makeTokenSignature(String key, int tokenLifetime, long tokenExpiryTime) {
+    String makeTokenSignature(String key, long tokenExpiryTime) {
         String data = this.id + TOKEN_DELIMITER
                 + tokenExpiryTime + TOKEN_DELIMITER
                 + this.uuid + TOKEN_DELIMITER
