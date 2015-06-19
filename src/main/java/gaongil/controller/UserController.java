@@ -7,16 +7,13 @@ import gaongil.service.UserService;
 import gaongil.support.web.resolver.argument.Response;
 import gaongil.support.web.resolver.argument.ResponseApplicationCode;
 import gaongil.support.web.status.ApplicationCode;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/user")
@@ -30,19 +27,24 @@ public class UserController {
 	private SecurityRememberMeService securityRememberMeService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public void create(User user, @Response ResponseApplicationCode code, HttpServletRequest request, HttpServletResponse response) {
+	public String create(@RequestBody User user, @Response ResponseApplicationCode code) {
 
-		if (user.canRegistable()) {
+		log.debug("uuid : {}", user.getUuid());
+		log.debug("regId : {}", user.getRegId());
+		log.debug("phoneNumber : {}", user.getPhoneNumber());
+
+		if (user!= null && user.canRegistable()) {
 			User createdUser = userService.create(user);
 			log.debug("regId : {}, phoneNumber : {}", user.getRegId(), user.getPhoneNumber());
 
 			//TODO Add Retry Template
-			securityRememberMeService.setTokenToUser(request, response, new UserTokenGenerator(createdUser.getPid(), createdUser.getUuid()));
-
+			securityRememberMeService.setTokenToUser(new UserTokenGenerator(createdUser.getId(), createdUser.getUuid()));
 			code.set(ApplicationCode.CREATE_NEWDATA);
 
 		} else {
 			code.set(ApplicationCode.UNEXPECTED);
 		}
+
+		return "";
 	}
 }

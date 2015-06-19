@@ -20,6 +20,8 @@ import org.springframework.security.web.authentication.rememberme.AbstractRememb
 import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class SecurityRememberMeService extends AbstractRememberMeServices {
 
@@ -59,13 +61,19 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         setTokenToUser(request, response, new MemberTokenGenerator(username, password));
 	}
 
-    public void setTokenToUser(HttpServletRequest request, HttpServletResponse response, AbstractTokenGenerator tokenGenerator) {
+    private void setTokenToUser(HttpServletRequest request, HttpServletResponse response, MemberTokenGenerator memberTokenGenerator) {
+        setTokenToUser(request, response, memberTokenGenerator);
+    }
+
+    public void setTokenToUser(AbstractTokenGenerator tokenGenerator) {
         int tokenLifetime = calculateLoginLifetime();
         long expiryTime = System.currentTimeMillis();
         // SEC-949
         expiryTime += 1000L* (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
 
-        setCookie(tokenGenerator.getTokenArray(getKey(), expiryTime), tokenLifetime, request, response);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        setCookie(tokenGenerator.getTokenArray(getKey(), expiryTime), tokenLifetime, attr.getRequest(), attr.getResponse());
 
         /*
         if (logger.isDebugEnabled()) {

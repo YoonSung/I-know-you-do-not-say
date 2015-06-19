@@ -16,7 +16,9 @@ public class ResponseMessage {
 	
 	//response data
 	private Object data;
-	
+
+	public ResponseMessage(){}
+
 	public ResponseMessage(ApplicationCode appCode, Object data) {
 		
 		this.data = data;

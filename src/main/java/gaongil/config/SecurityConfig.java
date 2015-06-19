@@ -23,7 +23,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 // WebSecurityConfigureAdapter is provides a default configuration in the configre(HttpSecurity http) method.
-	
+
+	private static String authCookieName;
+
+	public static String getAuthCookieName() {
+		return authCookieName;
+	}
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -89,6 +95,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		String key = environment.getProperty(Constant.PROPERTY_KEY_REMEMBERME_TOKEN_KEY);
 		String cookieName = environment.getProperty(Constant.PROPERTY_KEY_AUTH_COOKIE_NAME);
+		SecurityConfig.authCookieName = cookieName;
+
 		int tokenValiditySeconds = Integer.parseInt(environment.getProperty(Constant.PROPERTY_KEY_AUTH_VALIDITY_SECONDS));
 
 		SecurityRememberMeService securityRememberMeService = new SecurityRememberMeService(key, securityUserDetailService());

@@ -29,6 +29,7 @@ public class CustomExceptionResolver extends AbstractHandlerExceptionResolver {
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
 		log.debug("doResolveException");
+		exception.printStackTrace();
 		
 		holder.saveApplicationCode(ApplicationCode.getApplicationCode(exception));
 		

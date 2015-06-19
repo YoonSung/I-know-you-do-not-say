@@ -16,8 +16,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.util.StringUtils;
 
+//TODO Seperate to DTO, domain
 @Entity
 @Table(name="tbl_user")
 public class User {
@@ -58,7 +60,6 @@ public class User {
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="users")
 	private List<ChatRoom> groups;
-	private long pid;
 
 	public User(){}
 	
@@ -76,6 +77,29 @@ public class User {
 		this.regId = regId;
 	}
 
+	public boolean canRegistable() {
+		return isValidPhoneNumber() == true && !StringUtils.isEmpty(this.regId) ? true : false;
+	}
+
+	private boolean isValidPhoneNumber() {
+
+		if (this.phoneNumber == null)
+			return false;
+
+		if (!this.phoneNumber.startsWith("010"))
+			return false;
+
+		if (this.phoneNumber.length() != 11)
+			return false;
+
+		return true;
+
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber.trim().replaceAll(" ", "");;
 	}
@@ -84,11 +108,6 @@ public class User {
 		this.nickname = nickname;
 	}
 	
-	//Type이 정확하게 일치해야 한다. return type이 long일경우 에러발생
-	public Long getPid() {
-		return id;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -109,29 +128,20 @@ public class User {
 		return regId;
 	}
 
-	public boolean canRegistable() {
-		return isValidPhoneNumber() == true && !StringUtils.isEmpty(this.regId) ? true : false;
-	}
-
-	private boolean isValidPhoneNumber() {
-		if (!this.phoneNumber.startsWith("010"))
-			return false;
-
-		if (this.phoneNumber.length() != 11)
-			return false;
-
-		return true;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 	public String getUuid() {
 		return this.uuid;
 	}
 
-	public void setPid(long pid) {
-		this.pid = pid;
-	}
-
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	//Type이 정확하게 일치해야 한다. return type이 long일경우 에러발생
+	public Long getId() {
+		return id;
 	}
 }

@@ -20,12 +20,7 @@ import javax.annotation.PostConstruct;
 /**
  * Created by yoon on 15. 6. 19..
  */
-@ImportResource(value = {"application.properties"})
 public class WithTokenRule implements TestRule {
-
-    @Autowired
-    private Environment environment;
-    private String authCookieName;
 
     public enum TYPE {
         USER("/user"),
@@ -52,18 +47,15 @@ public class WithTokenRule implements TestRule {
         }
     }
 
-    @PostConstruct
-    public void initToken() {
-        this.authCookieName = environment.getProperty(Constant.PROPERTY_KEY_AUTH_COOKIE_NAME);
-
-        TYPE.USER.setToken(generateUserTokenFromServer());
-
-        //TODO
-        //memberToken = generateMemberTokenFromServer();
-    }
-
     public RequestSpecification given(TYPE type) {
-        return RestAssured.given().cookie(authCookieName, type.getToken());
+
+        if (type.getToken() == null) {
+            TYPE.USER.setToken(generateUserTokenFromServer());
+            //TODO
+            //memberToken = generateMemberTokenFromServer();
+        }
+
+        return RestAssured.given().cookie(SecurityConfig.getAuthCookieName(), type.getToken());
     }
 
     @Override
@@ -100,8 +92,8 @@ public class WithTokenRule implements TestRule {
 
         for (String cookieEntry : cookieEntries) {
             cookieEntry = cookieEntry.trim();
-            if (cookieEntry.startsWith(this.authCookieName)) {
-                return cookieEntry.replace(this.authCookieName+"=","");
+            if (cookieEntry.startsWith(SecurityConfig.getAuthCookieName())) {
+                return cookieEntry.replace(SecurityConfig.getAuthCookieName()+"=","");
             }
         }
 
