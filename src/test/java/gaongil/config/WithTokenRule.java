@@ -2,11 +2,13 @@ package gaongil.config;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.specification.RequestSpecification;
-import gaongil.security.SecurityRememberMeService;
+import gaongil.support.Constant;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,12 +17,15 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 
-import static com.jayway.restassured.RestAssured.given;
-
 /**
  * Created by yoon on 15. 6. 19..
  */
+@ImportResource(value = {"application.properties"})
 public class WithTokenRule implements TestRule {
+
+    @Autowired
+    private Environment environment;
+    private String authCookieName;
 
     public enum TYPE {
         USER("/user"),
@@ -28,28 +33,37 @@ public class WithTokenRule implements TestRule {
         MEMBER("/member");
 
         String url;
+        String token;
+
         TYPE(String url) {
             this.url = url;
         }
 
-        public String getUrl() {
-            return "http://localhost:8080"+url;
+        String getUrl() {
+            return IntergrationTestConfig.TEST_SERVER_BASE_URL+url;
+        }
+
+        void setToken(String token) {
+            this.token = token;
+        }
+
+        String getToken() {
+            return token;
         }
     }
 
-    private String userToken;
-    private String memberToken;
-
     @PostConstruct
     public void initToken() {
-        userToken = generateUserTokenFromServer();
+        this.authCookieName = environment.getProperty(Constant.PROPERTY_KEY_AUTH_COOKIE_NAME);
+
+        TYPE.USER.setToken(generateUserTokenFromServer());
 
         //TODO
         //memberToken = generateMemberTokenFromServer();
     }
 
     public RequestSpecification given(TYPE type) {
-        return RestAssured.given().cookie("WITH_AUTH", this.userToken);
+        return RestAssured.given().cookie(authCookieName, type.getToken());
     }
 
     @Override
@@ -74,7 +88,7 @@ public class WithTokenRule implements TestRule {
         parameters.add("regId", "testRegId");
         parameters.add("uuid", "testUuid");
 
-        return getTokenFromServer("http://localhost:8080/user", parameters);
+        return getTokenFromServer(TYPE.USER.getUrl(), parameters);
     }
 
     private String getTokenFromServer(String url, MultiValueMap parameters) {
@@ -86,8 +100,8 @@ public class WithTokenRule implements TestRule {
 
         for (String cookieEntry : cookieEntries) {
             cookieEntry = cookieEntry.trim();
-            if (cookieEntry.startsWith("WITH_AUTH")) {
-                return cookieEntry.replace("WITH_AUTH=","");
+            if (cookieEntry.startsWith(this.authCookieName)) {
+                return cookieEntry.replace(this.authCookieName+"=","");
             }
         }
 

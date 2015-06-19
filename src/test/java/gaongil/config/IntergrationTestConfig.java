@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Import;
  */
 @Import(value={AppConfig.class})
 @Configuration
-public class TestConfig {
+public class IntergrationTestConfig {
+
+    public static final String TEST_SERVER_BASE_URL = "http://localhost:8080";
 
     @Bean
     public WithTokenRule tokenRule() {
