@@ -58,6 +58,7 @@ public class User {
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="users")
 	private List<ChatRoom> groups;
+	private long pid;
 
 	public User(){}
 	
@@ -124,5 +125,13 @@ public class User {
 
 	public String getUuid() {
 		return this.uuid;
+	}
+
+	public void setPid(long pid) {
+		this.pid = pid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }

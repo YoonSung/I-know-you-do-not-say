@@ -59,13 +59,13 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
         setTokenToUser(request, response, new MemberTokenGenerator(username, password));
 	}
 
-    private void setTokenToUser(HttpServletRequest request, HttpServletResponse response, MemberTokenGenerator memberTokenGenerator) {
+    public void setTokenToUser(HttpServletRequest request, HttpServletResponse response, AbstractTokenGenerator tokenGenerator) {
         int tokenLifetime = calculateLoginLifetime();
         long expiryTime = System.currentTimeMillis();
         // SEC-949
         expiryTime += 1000L* (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
 
-        setCookie(memberTokenGenerator.getTokenArray(getKey(), expiryTime), tokenLifetime, request, response);
+        setCookie(tokenGenerator.getTokenArray(getKey(), expiryTime), tokenLifetime, request, response);
 
         /*
         if (logger.isDebugEnabled()) {
