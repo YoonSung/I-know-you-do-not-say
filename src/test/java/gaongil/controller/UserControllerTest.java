@@ -3,7 +3,6 @@ package gaongil.controller;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import gaongil.config.SecurityConfig;
-import gaongil.config.WithIntergrationTest;
 import gaongil.domain.User;
 import gaongil.support.web.converter.ResponseMessage;
 import gaongil.support.web.status.ApplicationCode;

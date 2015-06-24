@@ -1,26 +1,46 @@
-package gaongil.config;
+package gaongil.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.config.RestAssuredConfig;
+import com.jayway.restassured.mapper.factory.Jackson2ObjectMapperFactory;
+import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.RequestSpecification;
-import gaongil.support.Constant;
+import gaongil.config.SecurityConfig;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
+import static com.jayway.restassured.config.ObjectMapperConfig.objectMapperConfig;
 
 /**
  * Created by yoon on 15. 6. 19..
  */
 public class WithTokenRule implements TestRule {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String TEST_SERVER_BASE_URL = "http://localhost:8080";
+
+    static {
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        RestAssured.defaultParser = Parser.JSON;
+        RestAssured.config = RestAssuredConfig.config().objectMapperConfig(objectMapperConfig().jackson2ObjectMapperFactory(
+                new Jackson2ObjectMapperFactory() {
+                    @Override
+                    public ObjectMapper create(Class aClass, String s) {
+                        //objectMapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
+                        return objectMapper;
+                    }
+                }
+        ));
+    }
 
     public enum TYPE {
         USER("/user"),
@@ -35,7 +55,7 @@ public class WithTokenRule implements TestRule {
         }
 
         String getUrl() {
-            return IntergrationTestConfig.TEST_SERVER_BASE_URL+url;
+            return TEST_SERVER_BASE_URL+url;
         }
 
         void setToken(String token) {
@@ -50,7 +70,12 @@ public class WithTokenRule implements TestRule {
     public RequestSpecification given(TYPE type) {
 
         if (type.getToken() == null) {
-            TYPE.USER.setToken(generateUserTokenFromServer());
+            try {
+                TYPE.USER.setToken(generateUserTokenFromServer());
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("Generating Token Failure");
+            }
             //TODO
             //memberToken = generateMemberTokenFromServer();
         }
@@ -73,7 +98,11 @@ public class WithTokenRule implements TestRule {
         return null;
     }
 
-    private String generateUserTokenFromServer() {
+    private String generateUserTokenFromServer() throws Exception {
+        return generateUserTokenByRestTemplate();
+    }
+
+    private String generateUserTokenByRestTemplate() {
 
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.add("phoneNumber", "01099258547");
@@ -99,4 +128,6 @@ public class WithTokenRule implements TestRule {
 
         throw new RuntimeException("Generating Token Failure");
     }
+
+
 }
