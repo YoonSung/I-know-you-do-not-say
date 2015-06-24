@@ -1,5 +1,6 @@
-package gaongil.controller;
+package acceptance_test.controller;
 
+import acceptance_test.controller.common.WithIntergrationTest;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import gaongil.config.SecurityConfig;

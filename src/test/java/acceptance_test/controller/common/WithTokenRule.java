@@ -1,4 +1,4 @@
-package gaongil.controller;
+package acceptance_test.controller.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

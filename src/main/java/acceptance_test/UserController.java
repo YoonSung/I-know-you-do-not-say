@@ -1,4 +1,4 @@
-package gaongil.controller;
+package acceptance_test;
 
 import gaongil.domain.User;
 import gaongil.security.SecurityRememberMeService;

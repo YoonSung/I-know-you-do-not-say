@@ -265,6 +265,7 @@
 
 				<!-- Maven basic phase exclude-->
 				<!-- Exclude intergration-test from normal test phase of Maven -->
+				<!-- "mvn test" not execute src/test/controller package -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -276,26 +277,55 @@
 					</configuration>
 				</plugin>
 
-				<!-- Generate SQL from Entity Class. Execution by mvn exec:java -->
+
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>1.2.1</version>
+					<!--<executions>-->
+						<!--<execution>-->
+							<!--<phase>process-classes</phase>-->
+							<!--<goals>-->
+								<!--<goal>java</goal>-->
+							<!--</goals>-->
+						<!--</execution>-->
+					<!--</executions>-->
+					<!--<configuration>-->
+						<!--<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>-->
+						<!--<arguments>-->
+							<!--<argument>gaongil.domain</argument>-->
+							<!--<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>-->
+						<!--</arguments>-->
+					<!--</configuration>-->
+
 					<executions>
 						<execution>
+							<id>sqlGenerate</id>
 							<phase>process-classes</phase>
 							<goals>
 								<goal>java</goal>
 							</goals>
+							<configuration>
+								<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>
+								<arguments>
+									<argument>gaongil.domain</argument>
+									<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>
+								</arguments>
+							</configuration>
+						</execution>
+
+
+						<execution>
+							<id>intergrationTest</id>
+							<phase>test</phase>
+							<goals>
+								<goal>java</goal>
+							</goals>
+							<configuration>
+								<mainClass>whiteship.backup.BackupRunner</mainClass>
+							</configuration>
 						</execution>
 					</executions>
-					<configuration>
-						<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>
-						<arguments>
-							<argument>gaongil.domain</argument>
-							<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>
-						</arguments>
-					</configuration>
 				</plugin>
 
 				<!--DB migration -->
@@ -314,7 +344,7 @@
 						<user>${database.username}</user>
 						<password>${database.password}</password>
 						<locations>
-							<location>sql/migration</location>
+							<location>filesystem:sql/migration</location>
 						</locations>
 					</configuration>
 					<dependencies>
@@ -347,6 +377,67 @@
 				<environment>release</environment>
 			</properties>
 		</profile>
+
+		<!--[start Exec:Java] -->
+		<!-- Execution by mvn exec:java -->
+
+		<profile>
+			<!-- Generate SQL from Entity Class.  -->
+			<id>sqlGenerate</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.4.0</version>
+
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>
+							<arguments>
+								<argument>gaongil.domain</argument>
+								<!--<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>-->
+								<argument>${project.basedir}/sql/export/</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<!-- Intergration-test from Test Tomcat Server -->
+			<id>intergrationTest</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.4.0</version>
+
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<mainClass>acceptance_test.launcher.IntergrationTestLauncher</mainClass>
+							<classpathScope>test</classpathScope>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!--[end Exec:Java] -->
 	</profiles>
 
 </project>

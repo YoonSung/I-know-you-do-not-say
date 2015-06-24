@@ -1,4 +1,4 @@
-package gaongil.controller;
+package acceptance_test.controller.common;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.specification.RequestSpecification;
