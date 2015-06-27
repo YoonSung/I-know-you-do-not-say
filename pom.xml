@@ -9,7 +9,7 @@
 	<properties>
 		<org.springframework.version>4.1.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
-		<tomcat.version>8.0.18</tomcat.version>
+		<tomcat.version>8.0.21</tomcat.version>
 
 		<!-- Database Setting -->
 
@@ -265,67 +265,16 @@
 
 				<!-- Maven basic phase exclude-->
 				<!-- Exclude intergration-test from normal test phase of Maven -->
-				<!-- "mvn test" not execute src/test/controller package -->
+				<!-- "mvn test" not execute src/test/acceptance_test package -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.18.1</version>
 					<configuration>
 						<excludes>
-							<exclude>**/controller/*</exclude>
+							<exclude>**/acceptance_test/*</exclude>
 						</excludes>
 					</configuration>
-				</plugin>
-
-
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.2.1</version>
-					<!--<executions>-->
-						<!--<execution>-->
-							<!--<phase>process-classes</phase>-->
-							<!--<goals>-->
-								<!--<goal>java</goal>-->
-							<!--</goals>-->
-						<!--</execution>-->
-					<!--</executions>-->
-					<!--<configuration>-->
-						<!--<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>-->
-						<!--<arguments>-->
-							<!--<argument>gaongil.domain</argument>-->
-							<!--<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>-->
-						<!--</arguments>-->
-					<!--</configuration>-->
-
-					<executions>
-						<execution>
-							<id>sqlGenerate</id>
-							<phase>process-classes</phase>
-							<goals>
-								<goal>java</goal>
-							</goals>
-							<configuration>
-								<mainClass>gaongil.support.db.export.JPASchemaGenerator</mainClass>
-								<arguments>
-									<argument>gaongil.domain</argument>
-									<argument>${project.basedir}/src/main/resources-${environment}/sql/export/</argument>
-								</arguments>
-							</configuration>
-						</execution>
-
-
-						<execution>
-							<id>intergrationTest</id>
-							<phase>test</phase>
-							<goals>
-								<goal>java</goal>
-							</goals>
-							<configuration>
-								<mainClass>whiteship.backup.BackupRunner</mainClass>
-							</configuration>
-						</execution>
-					</executions>
 				</plugin>
 
 				<!--DB migration -->
@@ -378,7 +327,7 @@
 			</properties>
 		</profile>
 
-		<!--[start Exec:Java] -->
+		<!--[startServer Exec:Java] -->
 		<!-- Execution by mvn exec:java -->
 
 		<profile>

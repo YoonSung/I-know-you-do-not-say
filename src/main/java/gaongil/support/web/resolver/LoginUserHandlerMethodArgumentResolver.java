@@ -9,7 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * {@link LoginUser} Inject LoginUser Instance in controller method parameter with @LoginUser
+ * {@link LoginUser} Inject LoginUser Instance in acceptance_test method parameter with @LoginUser
  */
 public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 	

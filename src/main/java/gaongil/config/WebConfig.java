@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-@ComponentScan(basePackages={"acceptance_test.controller"})
+@ComponentScan(basePackages={"controller"})
 public class WebConfig extends WebMvcConfigurationSupport implements WebApplicationInitializer {
 
 	@Override

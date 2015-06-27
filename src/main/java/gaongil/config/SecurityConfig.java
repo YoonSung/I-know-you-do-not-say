@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeServices(securityRememberMeService())
 
-				//[test start]
+				//[test startServer]
 				.and().formLogin()
 				.and().httpBasic()
 				//[test end]

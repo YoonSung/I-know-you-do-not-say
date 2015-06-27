@@ -10,7 +10,7 @@ import org.junit.Rule;
 public class WithIntergrationTest {
 
     @Rule
-    public WithTokenRule tokenRule;
+    public WithTokenRule tokenRule = WithTokenRule.getInstance();
 
     protected RequestSpecification given(WithTokenRule.TYPE type) {
         return this.tokenRule.given(type);

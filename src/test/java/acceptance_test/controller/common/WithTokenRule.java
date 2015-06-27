@@ -27,6 +27,9 @@ public class WithTokenRule implements TestRule {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final String TEST_SERVER_BASE_URL = "http://localhost:8080";
 
+    //intergration
+    public static final String AUTH_COOKIE_NAME = "WITH_AUTH";
+
     static {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
@@ -40,6 +43,14 @@ public class WithTokenRule implements TestRule {
                     }
                 }
         ));
+    }
+
+    private WithTokenRule(){}
+
+    private static WithTokenRule instance = new WithTokenRule();
+
+    public static WithTokenRule getInstance() {
+        return instance;
     }
 
     public enum TYPE {
