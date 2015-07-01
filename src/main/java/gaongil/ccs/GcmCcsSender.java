@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
+import org.jivesoftware.smack.SmackException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -25,6 +27,7 @@ public class GcmCcsSender {
 			mCssClient.connect(PROJECT_ID, API_KEY);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -39,6 +42,16 @@ public class GcmCcsSender {
 			mCssClient.sendDownstreamMessage(jsonMessage);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
+		}
+	}
+
+	@PreDestroy
+	public void destroy() {
+		try {
+			mCssClient.disconnect();
+		} catch (SmackException.NotConnectedException e) {
+			log.error(e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 	}
 }

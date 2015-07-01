@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import tomcat.WebServerLauncher;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,54 +19,111 @@ import java.util.List;
 public class IntergrationTestLauncher {
 
     private static final String TEST_CLASS_PACKAGE_PATH = "acceptance_test/controller";
-
     private static final Logger log = LoggerFactory.getLogger(IntergrationTestLauncher.class);
 
-    public static void main(String[] args) throws Exception {
-        Tomcat tomcat = new Tomcat();
-        WebServerLauncher.startServer(tomcat, () -> {
-            Server server = tomcat.getServer();
+    public static void main(String[] args) {
 
-            LifecycleState state = server.getState();
-            while (state != LifecycleState.STARTED) {
-                log.info("Waiting Server Started Time...Current State : {}", server.getState());
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if (state == LifecycleState.FAILED) {
-                    log.error("Tomcat Server Started Failure");
-                    break;
-                }
-
-                state = server.getState();
-            }
-
-            startTest();
-        });
-
-        //It is not called. Because JUnit call System.exit() method in internal
-        log.info("Terminate Tomcat Server");
-        WebServerLauncher.stopServer(tomcat);
-    }
-
-    private static void startTest() {
-        File file = new File("src/test/java/"+ TEST_CLASS_PACKAGE_PATH);
+        org.h2.tools.Server dbServer = null;
+        Tomcat tomcat = null;
 
         try {
-            List<String> classNameList = findClasseNames(file);
-            String[] array = classNameList.toArray(new String[classNameList.size()]);
+            //DB Server
+            //another options (ex new String[]{"-tcp", "-tcpPort", ...})
+            //http://www.h2database.com/html/advanced.html?highlight=tcpPort&search=tcpPort#firstFound
+            dbServer = org.h2.tools.Server.createTcpServer();
 
-            JUnitCore.main(array);
+            //Web Server Container
+            tomcat = new Tomcat();
+            startTestWithServer(tomcat, dbServer);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        log.info("End Intergration Test");
     }
 
-    private static List<String> findClasseNames(File directory) throws ClassNotFoundException {
-        List<String> classNameList = new ArrayList<>();
+    private static void dbStart(org.h2.tools.Server server) {
+        new Thread(() -> {
+            try {
+                server.start();
+            } catch (SQLException e) {
+                log.error("DB Server Start Exception : {}", e.getMessage());
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private static void dbShutdown(org.h2.tools.Server server) {
+        if (server == null)
+            return;
+
+        if (!server.isRunning(false))
+            return;
+        else {
+            server.stop();
+            server.shutdown();
+        }
+    }
+
+    private static void startTestWithServer(Tomcat tomcat, org.h2.tools.Server dbServer) throws Exception {
+
+        WebServerLauncher.startServer(tomcat, () -> {
+            dbStart(dbServer);
+            waitForTomcatStart(tomcat);
+
+            try {
+                startTest();
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+
+            } finally {
+                log.info("Terminate Tomcat Server");
+                WebServerLauncher.stopServer(tomcat);
+
+                log.info("Terminate Database Server");
+                dbShutdown(dbServer);
+            }
+        });
+    }
+
+    private static void waitForTomcatStart(Tomcat tomcat) {
+        Server server = tomcat.getServer();
+
+        LifecycleState state = server.getState();
+        while (state != LifecycleState.STARTED) {
+            log.info("Waiting Server Started Time...Current State : {}", server.getState());
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (state == LifecycleState.FAILED) {
+                log.error("Tomcat Server Started Failure");
+                break;
+            }
+
+            state = server.getState();
+        }
+    }
+
+    private static void startTest() throws ClassNotFoundException {
+
+        File file = new File("src/test/java/"+ TEST_CLASS_PACKAGE_PATH);
+
+        List<Class> classList = findTargetClasses(file);
+        //String[] array = classList.toArray(new String[classList.size()]);
+
+        classList.forEach(JUnitCore::runClasses);
+        //JUnitCore.main(array);
+    }
+
+
+
+    private static List<Class> findTargetClasses(File directory) throws ClassNotFoundException {
+        List<Class> classList = new ArrayList<>();
         if (!directory.exists())
             throw new ClassNotFoundException("TEST_CLASS_PACKAGE_PATH is wrong! {:"+ TEST_CLASS_PACKAGE_PATH +"}");
 
@@ -75,10 +133,12 @@ public class IntergrationTestLauncher {
 
         for (File file : files) {
             if (!file.isDirectory()) {
-                classNameList.add((packageExpression+file.getName().replace(".java", "")));
+                Class targetClass = Class.forName((packageExpression + file.getName().replace(".java", "")));
+                classList.add(targetClass);
+                //classList.add());
             }
         }
 
-        return classNameList;
+        return classList;
     }
 }

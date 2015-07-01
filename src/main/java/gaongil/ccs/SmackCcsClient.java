@@ -207,6 +207,11 @@ public class SmackCcsClient {
         return JSONValue.toJSONString(message);
     }
 
+    public void disconnect() throws NotConnectedException {
+        if (connection.isConnected())
+            connection.disconnect();
+    }
+
     /**
      * Connects to GCM Cloud Connection Server using the supplied credentials.
      *

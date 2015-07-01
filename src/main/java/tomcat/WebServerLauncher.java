@@ -5,12 +5,14 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleState;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.connector.Connector;
+import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletException;
 import java.io.File;
 
 public class WebServerLauncher {
@@ -44,8 +46,10 @@ public class WebServerLauncher {
         connector.setURIEncoding("UTF-8");
 
         Context ctx = tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+
         //reconcile WebServerlauncher ClassLoader and Tomcat ClassLoader
         tomcat.getEngine().setParentClassLoader(WebServerLauncher.class.getClassLoader());
+        //ctx.setLoader(new WebappLoader(WebServerLauncher.class.getClassLoader()));
 
         File additionWebInfClasses = new File("target/classes");
 
@@ -58,18 +62,24 @@ public class WebServerLauncher {
         tomcat.start();
 
         if (doSomeThingClass != null) {
-            new Thread(() -> {
+            Thread thread = new Thread(() -> {
                 doSomeThingClass.doSomeThing();
-            }).start();
+            });
+
+            thread.start();
+            thread.join();
         }
 
         tomcat.getServer().await();
     }
 
     public static void stopServer(Tomcat tomcat) {
+        System.out.println("stopServer start");
         if (tomcat == null || tomcat.getServer() == null) {
             return;
         }
+
+        System.out.println(tomcat.getServer().getState());
         if (tomcat.getServer().getState() != LifecycleState.DESTROYED) {
             if (tomcat.getServer().getState() != LifecycleState.STOPPED) {
                 try {
