@@ -1,6 +1,7 @@
 package gaongil.service;
 
 import gaongil.domain.User;
+import gaongil.dto.UserDTO;
 import gaongil.repository.UserRepository;
 import gaongil.support.exception.WrongParameterException;
 
@@ -13,11 +14,11 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	public User create(User user) {
-		if (StringUtils.isEmpty(user.getRegId()) || StringUtils.isEmpty(user.getPhoneNumber()))
+	public User create(UserDTO userDTO) {
+		if (StringUtils.isEmpty(userDTO.getRegId()) || StringUtils.isEmpty(userDTO.getPhoneNumber()))
 			throw new WrongParameterException();
 
-		return userRepository.save(user);
+		return userRepository.save(userDTO.getDomain());
 	}
 
 

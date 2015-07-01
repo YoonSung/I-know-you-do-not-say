@@ -1,6 +1,7 @@
 package controller;
 
 import gaongil.domain.User;
+import gaongil.dto.UserDTO;
 import gaongil.security.SecurityRememberMeService;
 import gaongil.security.UserTokenGenerator;
 import gaongil.service.UserService;
@@ -27,15 +28,13 @@ public class UserController {
 	private SecurityRememberMeService securityRememberMeService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String create(@RequestBody User user, @Response ResponseApplicationCode code) {
+	public String create(@RequestBody UserDTO userForm, @Response ResponseApplicationCode code) {
 
-		log.debug("uuid : {}", user.getUuid());
-		log.debug("regId : {}", user.getRegId());
-		log.debug("phoneNumber : {}", user.getPhoneNumber());
+		log.debug("UserForm : {}", userForm.toString());
 
-		if (user!= null && user.canRegistable()) {
-			User createdUser = userService.create(user);
-			log.debug("regId : {}, phoneNumber : {}", user.getRegId(), user.getPhoneNumber());
+		if (userForm!= null && userForm.canRegistable()) {
+			User createdUser = userService.create(userForm);
+			log.debug("regId : {}, phoneNumber : {}", userForm.getRegId(), userForm.getPhoneNumber());
 
 			//TODO Add Retry Template
 			securityRememberMeService.setTokenToUser(new UserTokenGenerator(createdUser.getId(), createdUser.getUuid()));

@@ -78,6 +78,7 @@ public class IntergrationTestLauncher {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
 
+            //It is not called. Because JUnit call System.exit() method in internal
             } finally {
                 log.info("Terminate Tomcat Server");
                 WebServerLauncher.stopServer(tomcat);
@@ -113,13 +114,40 @@ public class IntergrationTestLauncher {
 
         File file = new File("src/test/java/"+ TEST_CLASS_PACKAGE_PATH);
 
-        List<Class> classList = findTargetClasses(file);
-        //String[] array = classList.toArray(new String[classList.size()]);
-
-        classList.forEach(JUnitCore::runClasses);
-        //JUnitCore.main(array);
+        executeJUnitMain(file);
+        //executeJUnitRunClasses(file);
     }
 
+    private static void executeJUnitRunClasses(File file) throws ClassNotFoundException {
+        List<Class> classList = findTargetClasses(file);
+        classList.forEach(JUnitCore::runClasses);
+    }
+
+    private static void executeJUnitMain(File file) throws ClassNotFoundException {
+        List<String> classNameList = findClasseNames(file);
+        String[] array = classNameList.toArray(new String[classNameList.size()]);
+        JUnitCore.main(array);
+    }
+
+
+    private static List<String> findClasseNames(File directory) throws ClassNotFoundException {
+        List<String> classNameList = new ArrayList<>();
+
+        if (!directory.exists())
+            throw new ClassNotFoundException("TEST_CLASS_PACKAGE_PATH is wrong! {:"+ TEST_CLASS_PACKAGE_PATH +"}");
+
+        File[] files = directory.listFiles();
+
+        String packageExpression = TEST_CLASS_PACKAGE_PATH.replace("/", ".")+".";
+
+        for (File file : files) {
+            if (!file.isDirectory()) {
+                classNameList.add((packageExpression + file.getName().replace(".java", "")));
+            }
+        }
+
+        return classNameList;
+    }
 
 
     private static List<Class> findTargetClasses(File directory) throws ClassNotFoundException {

@@ -43,71 +43,35 @@ public class User {
 	@Column(nullable = false)
 	private String uuid;
 
-	@JsonIgnore
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
 	private Member member;
 	
-	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private Collection<Safezone> safezones;
 	
-	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private List<LocationLog> locationLogs;
 	
-	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="users")
 	private List<ChatRoom> groups;
 
 	public User(){}
-	
-	public User(String phoneNumber, String nickname, String regId) {
-		this.phoneNumber = phoneNumber;
-		this.nickname = nickname;
-		this.regId = regId;
+
+	public static User createUser(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
+		return new User(id, phoneNumber, nickname, imagePath, regId, uuid);
 	}
-	
-	public User(long pid, String phoneNumber, String nickname, String imagePath, String regId) {
-		this.id = pid;
+
+	private User(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
+		this.id = id;
 		this.phoneNumber = phoneNumber;
 		this.nickname = nickname;
 		this.imagePath = imagePath;
 		this.regId = regId;
+		this.uuid = uuid;
 	}
 
-	public boolean canRegistable() {
-		return isValidPhoneNumber() == true && !StringUtils.isEmpty(this.regId) ? true : false;
-	}
-
-	private boolean isValidPhoneNumber() {
-
-		if (this.phoneNumber == null)
-			return false;
-
-		if (!this.phoneNumber.startsWith("010"))
-			return false;
-
-		if (this.phoneNumber.length() != 11)
-			return false;
-
-		return true;
-
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber.trim().replaceAll(" ", "");;
-	}
-	
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-	
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -120,24 +84,12 @@ public class User {
 		return imagePath;
 	}
 
-	public void setRegId(String regId) {
-		this.regId = regId;
-	}
-	
 	public String getRegId() {
 		return regId;
 	}
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-
 	public String getUuid() {
 		return this.uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	//Type이 정확하게 일치해야 한다. return type이 long일경우 에러발생
