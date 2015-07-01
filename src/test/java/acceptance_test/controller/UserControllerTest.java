@@ -39,7 +39,7 @@ public class UserControllerTest extends WithIntergrationTest {
 //                    formParam("uuid", "testUuid").
                     body(userDTO).
             when().
-                    post("/user").
+                    post("/users").
 
             then().
                     statusCode(200).

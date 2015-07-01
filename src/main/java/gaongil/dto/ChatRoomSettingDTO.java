@@ -1,6 +1,6 @@
 package gaongil.dto;
 
-import gaongil.domain.ChatRoomSetting;
+import gaongil.domain.InvitationStatus;
 import gaongil.domain.User;
 
 /**
@@ -14,9 +14,37 @@ public class ChatRoomSettingDTO {
 
     private boolean alarmOn;
 
-    private ChatRoomSetting.Status status;
+    private InvitationStatus status;
 
-    public ChatRoomSetting.Status getStatus() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ChatRoomDTO getGroup() {
+        return group;
+    }
+
+    public void setGroup(ChatRoomDTO group) {
+        this.group = group;
+    }
+
+    public boolean isAlarmOn() {
+        return alarmOn;
+    }
+
+    public void setAlarmOn(boolean alarmOn) {
+        this.alarmOn = alarmOn;
+    }
+
+    public void setStatus(InvitationStatus status) {
+        this.status = status;
+    }
+
+    public InvitationStatus getStatus() {
         return status;
     }
 }

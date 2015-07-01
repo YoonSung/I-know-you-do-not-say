@@ -1,11 +1,7 @@
 package gaongil.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import gaongil.domain.User;
 import org.springframework.util.StringUtils;
-
-import javax.persistence.Column;
 
 /**
  * Created by yoon on 15. 7. 1..
@@ -28,7 +24,7 @@ public class UserDTO implements DTO<User> {
         return isValidPhoneNumber() == true && !StringUtils.isEmpty(this.regId) ? true : false;
     }
 
-    private boolean isValidPhoneNumber() {
+    public boolean isValidPhoneNumber() {
 
         if (this.phoneNumber == null)
             return false;
@@ -93,7 +89,7 @@ public class UserDTO implements DTO<User> {
 
     @Override
     public User getDomain() {
-        return User.createUser(
+        return User.create(
             this.id,
             this.phoneNumber,
             this.nickname,

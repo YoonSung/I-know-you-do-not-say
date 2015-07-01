@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -29,20 +29,14 @@ public class UserController {
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String create(@RequestBody UserDTO userForm, @Response ResponseApplicationCode code) {
-
 		log.debug("UserForm : {}", userForm.toString());
 
-		if (userForm!= null && userForm.canRegistable()) {
-			User createdUser = userService.create(userForm);
-			log.debug("regId : {}, phoneNumber : {}", userForm.getRegId(), userForm.getPhoneNumber());
+		User createdUser = userService.create(userForm);
 
-			//TODO Add Retry Template
-			securityRememberMeService.setTokenToUser(new UserTokenGenerator(createdUser.getId(), createdUser.getUuid()));
-			code.set(ApplicationCode.CREATE_NEWDATA);
-
-		} else {
-			code.set(ApplicationCode.UNEXPECTED);
-		}
+		//TODO Add Retry Template
+		//Add UserToken to Client Cookie
+		securityRememberMeService.setTokenToUser(new UserTokenGenerator(createdUser.getId(), createdUser.getUuid()));
+		code.set(ApplicationCode.CREATE_NEWDATA);
 
 		return "";
 	}

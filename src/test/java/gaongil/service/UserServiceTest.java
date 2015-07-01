@@ -3,6 +3,7 @@ package gaongil.service;
 import static org.mockito.Mockito.when;
 import gaongil.config.DBConfig;
 import gaongil.domain.User;
+import gaongil.dto.UserDTO;
 import gaongil.repository.UserRepository;
 import gaongil.support.exception.WrongParameterException;
 
@@ -30,14 +31,17 @@ public class UserServiceTest {
 		String regId = "testRegId";
 		String phoneNumber = "01012341234";
 		
-		User user = new User();
-		user.setRegId(regId);
-		user.setPhoneNumber(phoneNumber);
-		
+		UserDTO userDTO = new UserDTO();
+		userDTO.setRegId(regId);
+		userDTO.setPhoneNumber(phoneNumber);
+
 		//WHEN
-		when(userService.create(user)).thenReturn(user);
+		when(userService.create(userDTO)).thenReturn(userDTO.getDomain());
 		
-		userService.create(user);
+		userService.create(userDTO);
+
+		//THEN
+
 	}
 	
 	@Test(expected = WrongParameterException.class)
@@ -45,11 +49,11 @@ public class UserServiceTest {
 		String regId = "";
 		String phoneNumber = "01012341234";
 		
-		User user = new User();
-		user.setRegId(regId);
-		user.setPhoneNumber(phoneNumber);
+		UserDTO userDTO = new UserDTO();
+		userDTO.setRegId(regId);
+		userDTO.setPhoneNumber(phoneNumber);
 		
-		userService.create(user);
+		userService.create(userDTO);
 	}
 
 }

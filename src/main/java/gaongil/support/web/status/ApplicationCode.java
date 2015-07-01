@@ -1,18 +1,20 @@
 package gaongil.support.web.status;
 
 import gaongil.support.exception.NotFoundException;
+import gaongil.support.exception.WithPermissionException;
 import gaongil.support.exception.WrongParameterException;
 
 public enum ApplicationCode {
 	OK 							(200, "요청성공"),
 	CREATE_NEWDATA 				(201, "새로운 데이터를 생성했습니다"),
 	WRONG_PARAMETER 			(400, "잘못된 Parameter 요청입니다", new WrongParameterException()),
+	PERMISSION_DENIED			(403, "권한이 없습니다", new WithPermissionException()),
 	NOT_FOUND 					(404, "요청자원을 찾지 못했습니다", new NotFoundException()),
 	UNEXPECTED					(500, "예기치 못한 에러가 발생했습니다")
-	
+
 	//TODO add code
 	;
-	
+
 	private int intValue;
 	private String description;
 	private Exception exception;

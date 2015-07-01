@@ -3,8 +3,9 @@ package gaongil.dto;
 import gaongil.domain.ChatRoom;
 import gaongil.domain.Message;
 import gaongil.domain.User;
+import org.springframework.util.StringUtils;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +27,39 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 		this.name = name;
 	}
 
+	public ChatRoomDTO() {
+
+	}
+
+	public boolean canRegistable() {
+		if (StringUtils.isEmpty(this.name.trim()))
+			return false;
+
+		if (this.users.size() == 0)
+			return false;
+
+		return true;
+	}
+
 	@Override
 	public ChatRoom getDomain() {
-		return null;
+		return ChatRoom.create(
+				this.name
+		);
+	}
+
+	public ChatRoom getDomainWithUsers(List<User> addedUsers) {
+		return ChatRoom.create(
+				this.name,
+				addedUsers
+		);
+	}
+
+	public void addChatRoomSettingDTO(ChatRoomSettingDTO dto) {
+		if (this.chatRoomSettings == null)
+			chatRoomSettings = new ArrayList<>();
+
+		chatRoomSettings.add(dto);
 	}
 
 	public Long getId() {
@@ -73,5 +104,9 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 
 	public List<ChatRoomSettingDTO> getChatRoomSettings() {
 		return chatRoomSettings;
+	}
+
+	public List<UserDTO> getUsers() {
+		return users;
 	}
 }

@@ -15,10 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.util.StringUtils;
-
 //TODO Seperate to DTO, domain
 @Entity
 @Table(name="tbl_user")
@@ -28,7 +24,7 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String phoneNumber;
 	
 	@Column
@@ -37,10 +33,10 @@ public class User {
 	@Column
 	private String imagePath;
 	
-	@Column(nullable = false)
+	@Column()
 	private String regId;
 
-	@Column(nullable = false)
+	@Column()
 	private String uuid;
 
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
@@ -59,7 +55,7 @@ public class User {
 
 	public User(){}
 
-	public static User createUser(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
+	public static User create(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
 		return new User(id, phoneNumber, nickname, imagePath, regId, uuid);
 	}
 

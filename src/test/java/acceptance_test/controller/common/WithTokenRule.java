@@ -1,6 +1,8 @@
 package acceptance_test.controller.common;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.RestAssuredConfig;
@@ -38,6 +40,7 @@ public class WithTokenRule implements TestRule {
                 new Jackson2ObjectMapperFactory() {
                     @Override
                     public ObjectMapper create(Class aClass, String s) {
+                        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
                         //objectMapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
                         return objectMapper;
                     }
@@ -54,9 +57,9 @@ public class WithTokenRule implements TestRule {
     }
 
     public enum TYPE {
-        USER("/user"),
+        USER("/users"),
         //TODO change url
-        MEMBER("/member");
+        MEMBER("/members");
 
         String url;
         String token;

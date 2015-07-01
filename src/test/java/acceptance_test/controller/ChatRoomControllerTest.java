@@ -4,6 +4,7 @@ import acceptance_test.controller.common.WithIntergrationTest;
 import acceptance_test.controller.common.WithTokenRule;
 import com.jayway.restassured.response.Response;
 import gaongil.domain.ChatRoomSetting;
+import gaongil.domain.InvitationStatus;
 import gaongil.dto.ChatRoomDTO;
 import gaongil.dto.ChatRoomSettingDTO;
 import gaongil.dto.UserDTO;
@@ -75,7 +76,7 @@ public class ChatRoomControllerTest extends WithIntergrationTest {
         //5. check Group user status
         List<ChatRoomSettingDTO> resultChatRoomSettingDTOs = resultChatRoomDTO.getChatRoomSettings();
         for (ChatRoomSettingDTO dto : resultChatRoomSettingDTOs) {
-            assertEquals(dto.getStatus(), ChatRoomSetting.Status.NOT_REGISTRATION);
+            assertEquals(dto.getStatus(), InvitationStatus.NOT_REGISTRATION);
         }
     }
 }
