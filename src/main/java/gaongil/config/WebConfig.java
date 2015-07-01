@@ -1,5 +1,6 @@
 package gaongil.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
 import gaongil.support.web.converter.ResponseMessageConverter;
 import gaongil.support.web.holder.RequestHolder;
@@ -131,11 +132,11 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 	@Bean
 	public View mappingJackson2JsonView() {
 		MappingJackson2JsonView view = new MappingJackson2JsonView();
-		view.setPrettyPrint(true);
+		//view.setPrettyPrint(true);
 		
-		//TODO is okay? check it later
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		
 		view.setObjectMapper(mapper);
 		return view;

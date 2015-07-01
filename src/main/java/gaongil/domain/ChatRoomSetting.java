@@ -2,18 +2,18 @@ package gaongil.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="tbl_chat_room_setting")
-public class ChatRoomSetting implements Serializable {
+public class ChatRoomSetting {
 
-	private static final long serialVersionUID = -1454873402326517765L;
+	public enum Status {
+		WAIT_USER_CONFIRM,
+		NOT_REGISTRATION,
+		JOIN,
+		//BANISH,
+	}
 
 	@Id
 	@Column(name="user_id")
@@ -25,14 +25,17 @@ public class ChatRoomSetting implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
-	private User users;
+	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name="group_id")
-	private ChatRoom groups;
+	private ChatRoom group;
 	
 	@Column(name="alarm_on")
 	private boolean alarmOn;
-	
+
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
 	public ChatRoomSetting(){}
 }

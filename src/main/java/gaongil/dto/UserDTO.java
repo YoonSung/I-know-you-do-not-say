@@ -11,6 +11,7 @@ import javax.persistence.Column;
  * Created by yoon on 15. 7. 1..
  */
 public class UserDTO implements DTO<User> {
+
     private Long id;
 
     private String phoneNumber;
@@ -113,4 +114,5 @@ public class UserDTO implements DTO<User> {
                 ", uuid='" + uuid + '\'' +
                 '}';
     }
+
 }
