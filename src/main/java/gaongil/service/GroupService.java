@@ -1,7 +1,6 @@
 package gaongil.service;
 
 import gaongil.ccs.GcmCcsSender;
-import gaongil.ccs.SmackCcsClient;
 import gaongil.domain.ChatRoom;
 import gaongil.domain.ChatRoomSetting;
 import gaongil.domain.InvitationStatus;
@@ -23,9 +22,6 @@ import java.util.List;
  */
 @Service
 public class GroupService {
-
-    @Autowired
-    private ChatRoomRepository chatRoomRepository;
 
     @Autowired
     private UserService userService;

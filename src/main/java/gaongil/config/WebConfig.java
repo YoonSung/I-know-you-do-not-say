@@ -134,7 +134,11 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 	public View mappingJackson2JsonView() {
 		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		//view.setPrettyPrint(true);
-		
+		view.setObjectMapper(objectMapper());
+		return view;
+	}
+
+	public ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		//mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
@@ -144,8 +148,7 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 				.withSetterVisibility(JsonAutoDetect.Visibility.NONE)
 				.withCreatorVisibility(JsonAutoDetect.Visibility.NONE);
 
-		view.setObjectMapper(mapper);
-		return view;
+		return mapper;
 	}
 	
 	@Bean

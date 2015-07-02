@@ -11,6 +11,7 @@ import com.jayway.restassured.mapper.factory.Jackson2ObjectMapperFactory;
 import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.RequestSpecification;
 import gaongil.config.SecurityConfig;
+import gaongil.config.WebConfig;
 import gaongil.dto.UserDTO;
 import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
 import org.junit.rules.TestRule;
@@ -33,20 +34,14 @@ import static com.jayway.restassured.config.ObjectMapperConfig.objectMapperConfi
  */
 public class WithTokenRule implements TestRule {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper;
     private static final String TEST_SERVER_BASE_URL = "http://localhost:8080";
 
     //intergration
     public static final String AUTH_COOKIE_NAME = "WITH_AUTH";
 
     static {
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        //objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE);
+        objectMapper = new WebConfig().objectMapper();
         
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(objectMapperConfig().jackson2ObjectMapperFactory(
@@ -137,16 +132,13 @@ public class WithTokenRule implements TestRule {
 
         //request
         RestTemplate restTemplate = new RestTemplate();
-
         HttpHeaders requestHeader = new HttpHeaders();
         requestHeader.setContentType(MediaType.APPLICATION_JSON);
-
         HttpEntity<String> entity = new HttpEntity<String>(parameter, requestHeader);
 
 
         //response
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-
         HttpHeaders responseHeaders = response.getHeaders();
         String cookies = responseHeaders.get(HttpHeaders.SET_COOKIE).get(0);
         String[] cookieEntries = cookies.split(";");
