@@ -1,5 +1,6 @@
 package gaongil.service;
 
+import gaongil.ccs.GcmCcsSender;
 import gaongil.ccs.SmackCcsClient;
 import gaongil.domain.ChatRoom;
 import gaongil.domain.ChatRoomSetting;
@@ -36,7 +37,7 @@ public class GroupService {
     private ChatRoomSettingService chatRoomSettingService;
 
     @Autowired
-    SmackCcsClient ccsClient;
+    private GcmCcsSender gcmCcsSender;
 
     //TODO Transaction
     public ChatRoomDTO create(User currentUser, ChatRoomDTO chatRoomDTO) {

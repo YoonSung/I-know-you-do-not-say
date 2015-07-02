@@ -17,14 +17,16 @@ public class ChatRoomSetting {
 	@Column(name="group_id")
 	private Long roomId;
 
-	@ManyToOne
-	@JoinColumn(name="user_id")
+	//@ManyToOne
+	//@JoinColumn(name="user_id")
+	@Transient
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name="group_id")
+	//@ManyToOne
+	//@JoinColumn(name="group_id")
+	@Transient
 	private ChatRoom group;
-	
+
 	@Column(name="alarm_on")
 	private boolean alarmOn;
 

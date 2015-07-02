@@ -9,23 +9,23 @@ import java.io.Serializable;
 public class ChatRoomSettingPK implements Serializable {
 
     private long userId;
-    private long groupId;
+    private long roomId;
 
     public ChatRoomSettingPK(long userId, long groupId) {
         this.userId = userId;
-        this.groupId = groupId;
+        this.roomId = groupId;
     }
 
     public boolean equals(Object object) {
         if (object instanceof ChatRoomSettingPK) {
             ChatRoomSettingPK pk = (ChatRoomSettingPK)object;
-            return userId == pk.userId && groupId == pk.groupId;
+            return userId == pk.userId && roomId == pk.roomId;
         } else {
             return false;
         }
     }
 
     public int hashCode() {
-        return (int)(userId + groupId);
+        return (int)(userId + roomId);
     }
 }

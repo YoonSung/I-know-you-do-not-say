@@ -1,5 +1,7 @@
 package gaongil.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import gaongil.domain.User;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +26,7 @@ public class UserDTO implements DTO<User> {
         return isValidPhoneNumber() == true && !StringUtils.isEmpty(this.regId) ? true : false;
     }
 
+    @JsonIgnore
     public boolean isValidPhoneNumber() {
 
         if (this.phoneNumber == null)

@@ -30,7 +30,8 @@ public class CustomExceptionResolver extends AbstractHandlerExceptionResolver {
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
 		log.debug("doResolveException");
 		exception.printStackTrace();
-		
+
+		//TODO change header status code
 		holder.saveApplicationCode(ApplicationCode.getApplicationCode(exception));
 		
 		ServletWebRequest webRequest = new ServletWebRequest(request, response);

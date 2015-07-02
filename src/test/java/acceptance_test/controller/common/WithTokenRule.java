@@ -3,6 +3,7 @@ package acceptance_test.controller.common;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.RestAssuredConfig;
@@ -10,14 +11,20 @@ import com.jayway.restassured.mapper.factory.Jackson2ObjectMapperFactory;
 import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.RequestSpecification;
 import gaongil.config.SecurityConfig;
+import gaongil.dto.UserDTO;
+import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 import static com.jayway.restassured.config.ObjectMapperConfig.objectMapperConfig;
 
@@ -34,13 +41,18 @@ public class WithTokenRule implements TestRule {
 
     static {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
+        //objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE);
+        
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(objectMapperConfig().jackson2ObjectMapperFactory(
                 new Jackson2ObjectMapperFactory() {
                     @Override
                     public ObjectMapper create(Class aClass, String s) {
-                        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
                         //objectMapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
                         return objectMapper;
                     }
@@ -94,7 +106,7 @@ public class WithTokenRule implements TestRule {
             //memberToken = generateMemberTokenFromServer();
         }
 
-        return RestAssured.given().cookie(SecurityConfig.getAuthCookieName(), type.getToken());
+        return RestAssured.given().cookie(AUTH_COOKIE_NAME, type.getToken());
     }
 
     @Override
@@ -113,30 +125,36 @@ public class WithTokenRule implements TestRule {
     }
 
     private String generateUserTokenFromServer() throws Exception {
-        return generateUserTokenByRestTemplate();
+        UserDTO dto = new UserDTO();
+        dto.setPhoneNumber("01099258547");
+        dto.setRegId("testRegId");
+        dto.setUuid("testUuid");
+
+        return getTokenFromServer(TYPE.USER.getUrl(), objectMapper.writeValueAsString(dto));
     }
 
-    private String generateUserTokenByRestTemplate() {
+    private String getTokenFromServer(String url, String parameter) throws JsonProcessingException {
 
-        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
-        parameters.add("phoneNumber", "01099258547");
-        parameters.add("regId", "testRegId");
-        parameters.add("uuid", "testUuid");
-
-        return getTokenFromServer(TYPE.USER.getUrl(), parameters);
-    }
-
-    private String getTokenFromServer(String url, MultiValueMap parameters) {
+        //request
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.postForEntity(url, parameters, String.class);
-        HttpHeaders headers = response.getHeaders();
-        String cookies = headers.get(HttpHeaders.SET_COOKIE).get(0);
+
+        HttpHeaders requestHeader = new HttpHeaders();
+        requestHeader.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> entity = new HttpEntity<String>(parameter, requestHeader);
+
+
+        //response
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+        HttpHeaders responseHeaders = response.getHeaders();
+        String cookies = responseHeaders.get(HttpHeaders.SET_COOKIE).get(0);
         String[] cookieEntries = cookies.split(";");
 
         for (String cookieEntry : cookieEntries) {
             cookieEntry = cookieEntry.trim();
-            if (cookieEntry.startsWith(SecurityConfig.getAuthCookieName())) {
-                return cookieEntry.replace(SecurityConfig.getAuthCookieName()+"=","");
+            if (cookieEntry.startsWith(AUTH_COOKIE_NAME)) {
+                return cookieEntry.replace(AUTH_COOKIE_NAME+"=","");
             }
         }
 
