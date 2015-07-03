@@ -290,7 +290,7 @@
 					<version>3.2.1</version>
 					<configuration>
 						<url>${database.url}</url>
-						<user>${database.username}</user>
+						<userId>${database.username}</userId>
 						<password>${database.password}</password>
 						<locations>
 							<location>filesystem:sql/migration</location>

@@ -34,4 +34,11 @@ public class ChatRoomSettingService {
 
         return chatRoomSettingRepository.save(newDomain);
     }
+
+    public ChatRoomSetting create(ChatRoomSetting chatRoomSetting) {
+        if (chatRoomSetting == null)
+            throw new WrongParameterException();
+
+        return chatRoomSettingRepository.save(chatRoomSetting);
+    }
 }

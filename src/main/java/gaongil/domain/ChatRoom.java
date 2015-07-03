@@ -30,8 +30,9 @@ public class ChatRoom {
 	@JoinColumn(name="chat_room_id")
 	private List<Message> messages;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "chat_room_id")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "chatRoom")
+	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.chatRoomId")
+	//@JoinColumn(name = "chat_room_id")
 	private List<ChatRoomSetting> chatRoomSettings;
 
 	//TODO
@@ -68,16 +69,27 @@ public class ChatRoom {
 
 	public ChatRoomDTO getDTOWithReferenceData() {
 		ChatRoomDTO dto1 = getDTO();
-		List<ChatRoomSettingDTO> dto2 = new ArrayList<>();
 
-		for (ChatRoomSetting chatRoomSetting : this.chatRoomSettings) {
-			dto2.add(chatRoomSetting.getDTOWithReferenceData());
+		if (getChatRoomSettings() == null) {
+			return dto1;
+
+		} else {
+			List<ChatRoomSettingDTO> dto2 = new ArrayList<>();
+			for (ChatRoomSetting chatRoomSetting : getChatRoomSettings()) {
+				dto2.add(chatRoomSetting.getDTOWithReferenceData());
+			}
+
+			dto1.setChatRoomSettings(dto2);
 		}
 
-		return null;
+		return dto1;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public List<ChatRoomSetting> getChatRoomSettings() {
+		return chatRoomSettings;
 	}
 }

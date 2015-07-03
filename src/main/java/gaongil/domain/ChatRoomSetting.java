@@ -8,17 +8,29 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="tbl_chat_room_setting")
-@IdClass(ChatRoomSettingPK.class)
 public class ChatRoomSetting {
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name="chat_room_id")
+	@AttributeOverrides({
+			@AttributeOverride(name = "chatRoomId", column = @Column(name="chat_room_id")),
+			@AttributeOverride(name="userId", column = @Column(name="user_id"))
+	})
+	@EmbeddedId
+	ChatRoomSettingPK id;
+
+	//@Id
+	//@MapsId("chatRoomId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "chat_room_id", nullable = false, insertable = false, updatable = false)
+	//@JoinColumn(name="chat_room_id")
+	//@MapsId("chat_room_id")
 	private ChatRoom chatRoom;
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name="user_id")
+	//@Id
+	//@MapsId("userId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+	//@JoinColumn(name="user_id")
+//	@MapsId("user_id")
 	private User user;
 
 	//TODO H2database not yet support, 1.5 Roadmap will support enum type
@@ -32,16 +44,8 @@ public class ChatRoomSetting {
 
 	public ChatRoomSetting(){}
 
-	public ChatRoomSetting(ChatRoom chatRoom, User user, InvitationStatus status, boolean alarmOn) {
-		this.chatRoom = chatRoom;
-		this.user = user;
-		this.status = status;
-		this.alarmOn = alarmOn;
-	}
-
-	public ChatRoomSetting(ChatRoom chatRoom, User user, InvitationStatus status) {
-		this.chatRoom = chatRoom;
-		this.user = user;
+	public ChatRoomSetting(ChatRoomSettingPK chatRoomSettingPK, InvitationStatus status) {
+		this.id = chatRoomSettingPK;
 		this.status = status;
 	}
 
@@ -76,5 +80,29 @@ public class ChatRoomSetting {
 
 	public InvitationStatus getStatus() {
 		return status;
+	}
+
+	public ChatRoomSettingPK getId() {
+		return id;
+	}
+
+	public void setId(ChatRoomSettingPK id) {
+		this.id = id;
+	}
+
+	public void setChatRoom(ChatRoom chatRoom) {
+		this.chatRoom = chatRoom;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setStatus(InvitationStatus status) {
+		this.status = status;
+	}
+
+	public void setAlarmOn(boolean alarmOn) {
+		this.alarmOn = alarmOn;
 	}
 }

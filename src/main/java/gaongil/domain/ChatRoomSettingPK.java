@@ -4,31 +4,32 @@ package gaongil.domain;
  * Created by yoon on 15. 7. 2..
  */
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-public class ChatRoomSettingPK implements Serializable {
-/*
-    private Long user;
-    private Long chatRoom;
+@Embeddable
+public class ChatRoomSettingPK implements Serializable  {
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "chat_room_id")
+    private Long chatRoomId;
 
     public ChatRoomSettingPK() {
     }
 
-    public ChatRoomSettingPK(Long userId, Long chatRoomId) {
-        this.user = userId;
-        this.chatRoom = chatRoomId;
-    }
-
-    public ChatRoomSettingPK(ChatRoom chatRoom, User user) {
-        this.chatRoom = chatRoom.getId();
-        this.user = user.getId();
+    public ChatRoomSettingPK(ChatRoom chatRoomId, User userId) {
+        this.chatRoomId = chatRoomId.getId();
+        this.userId = userId.getId();
     }
 
     @Override
     public boolean equals(Object object) {
         if (object instanceof ChatRoomSettingPK) {
             ChatRoomSettingPK pk = (ChatRoomSettingPK) object;
-            return user == pk.user && chatRoom == pk.chatRoom;
+            return userId == pk.userId && chatRoomId == pk.chatRoomId;
         } else {
             return false;
         }
@@ -36,27 +37,26 @@ public class ChatRoomSettingPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = user != null ? user.hashCode() : 0;
-        result = 31 * result + (chatRoom != null ? chatRoom.hashCode() : 0);
+        int result = userId != null ? userId.hashCode() : 0;
+        result = 31 * result + (chatRoomId != null ? chatRoomId.hashCode() : 0);
         return result;
     }
 
-    public Long getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(Long user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getChatRoom() {
-        return chatRoom;
+    public Long getChatRoomId() {
+        return chatRoomId;
     }
 
-    public void setChatRoom(Long chatRoom) {
-        this.chatRoom = chatRoom;
+    public void setChatRoomId(Long chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
-*/
     /*
     private Long userId;
     private Long chatRoomId;
@@ -69,9 +69,9 @@ public class ChatRoomSettingPK implements Serializable {
         this.chatRoomId = chatRoomId;
     }
 
-    public ChatRoomSettingPK(ChatRoom chatRoom, User user) {
-        this.chatRoomId = chatRoom.getId();
-        this.userId = user.getId();
+    public ChatRoomSettingPK(ChatRoom chatRoomId, User userId) {
+        this.chatRoomId = chatRoomId.getId();
+        this.userId = userId.getId();
     }
 
     public Long getUserId() {
@@ -106,23 +106,23 @@ public class ChatRoomSettingPK implements Serializable {
         result = 31 * result + (chatRoomId != null ? chatRoomId.hashCode() : 0);
         return result;
     }
-*/
 
-    private User user;
-    private ChatRoom chatRoom;
+
+    private User userId;
+    private ChatRoom chatRoomId;
 
     public ChatRoomSettingPK(){}
 
-    public ChatRoomSettingPK(ChatRoom chatRoom, User user) {
-        this.user =  user;
-        this.chatRoom = chatRoom;
+    public ChatRoomSettingPK(ChatRoom chatRoomId, User userId) {
+        this.userId =  userId;
+        this.chatRoomId = chatRoomId;
     }
 
     @Override
     public boolean equals(Object object) {
         if (object instanceof ChatRoomSettingPK) {
             ChatRoomSettingPK pk = (ChatRoomSettingPK) object;
-            return user == pk.user && chatRoom == pk.chatRoom;
+            return userId == pk.userId && chatRoomId == pk.chatRoomId;
         } else {
             return false;
         }
@@ -130,24 +130,25 @@ public class ChatRoomSettingPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = user != null ? user.hashCode() : 0;
-        result = 31 * result + (chatRoom != null ? chatRoom.hashCode() : 0);
+        int result = userId != null ? userId.hashCode() : 0;
+        result = 31 * result + (chatRoomId != null ? chatRoomId.hashCode() : 0);
         return result;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserId() {
+        return userId;
     }
 
-    public ChatRoom getChatRoom() {
-        return chatRoom;
+    public ChatRoom getChatRoomId() {
+        return chatRoomId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
-    public void setChatRoom(ChatRoom chatRoom) {
-        this.chatRoom = chatRoom;
+    public void setChatRoomId(ChatRoom chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
+    */
 }

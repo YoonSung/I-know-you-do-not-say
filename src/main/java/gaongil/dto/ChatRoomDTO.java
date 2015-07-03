@@ -63,10 +63,6 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 		this.name = name;
 	}
 
-	public List<UserDTO> getUserDTOs() {
-		return users;
-	}
-
 	public void setUsers(List<UserDTO> users) {
 		this.users = users;
 	}
@@ -105,5 +101,13 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 				", messages=" + messages +
 				", createdDate=" + createdDate +
 				'}';
+	}
+
+	public void setChatRoomSettings(List<ChatRoomSettingDTO> chatRoomSettings) {
+		this.chatRoomSettings = chatRoomSettings;
+	}
+
+	public void addUser(User user) {
+
 	}
 }

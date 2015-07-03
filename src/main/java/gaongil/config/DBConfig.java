@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -56,7 +57,7 @@ public class DBConfig {
 		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		entityManagerFactoryBean.setPackagesToScan("gaongil.domain");
 		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-		
+
 		String jpaDialect = Constant.PROPERTY_KEY_JPA_DIALECT;
 		String jpaFormatSql = Constant.PROPERTY_KEY_JPA_FORMATSQL;
 		String jpaNamingStrategy = Constant.PROPERTY_KEY_JPA_NAMING_STRATEGY;
@@ -74,7 +75,7 @@ public class DBConfig {
 		return entityManagerFactoryBean;
 	}
 	
-	@Bean
+	@Bean(name = "transactionManager")
 	public JpaTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(

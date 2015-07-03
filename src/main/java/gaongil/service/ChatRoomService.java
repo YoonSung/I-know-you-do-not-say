@@ -1,15 +1,19 @@
 package gaongil.service;
 
-import gaongil.domain.ChatRoom;
-import gaongil.domain.ChatRoomSetting;
-import gaongil.domain.User;
+import gaongil.domain.*;
 import gaongil.dto.ChatRoomDTO;
 import gaongil.dto.ChatRoomSettingDTO;
+import gaongil.dto.UserDTO;
 import gaongil.repository.ChatRoomRepository;
 import gaongil.support.exception.WrongParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +23,10 @@ import java.util.List;
 public class ChatRoomService {
 
     @Autowired
-    private UserService userService;
+    private ChatRoomRepository chatRoomRepository;
 
     @Autowired
-    private ChatRoomRepository chatRoomRepository;
+    private UserService userService;
 
     @Autowired
     private ChatRoomSettingService chatRoomSettingService;
@@ -31,26 +35,49 @@ public class ChatRoomService {
         return chatRoomRepository.save(dto.getDomain());
     }
 
-    public ChatRoom createWithUsers(ChatRoomDTO dto, List<User> addedUsers) {
-        if (dto == null ||
-                !dto.canRegistable() ||
-                addedUsers == null ||
-                addedUsers.size() == 0)
+    //@Transactional
+    public ChatRoom createWithUsers(ChatRoomDTO dto) {
+        if (dto == null ||!dto.canRegistable())
             throw new WrongParameterException();
 
         //Create ChatRoom
         ChatRoom createdChatRoom = create(dto);
 
-        //Create ChatRoomSettings
-        ChatRoom newChatRoom = new ChatRoom(createdChatRoom.getId(), createdChatRoom.getName(), addedUsers);
+        //Create newUser and ChatRoomSetting
+        for(UserDTO userDTO : dto.getUsers()) {
+            User selectedUser = userService.findByPhoneNumber(userDTO.getPhoneNumber());
 
-        /*
-        chatRoomSettingService.creates(createdChatRoom, addedUsers);
-        userService.createsTemporally(addedUsers);
+            InvitationStatus status = InvitationStatus.NOT_REGISTRATION;
 
-        //TODO Refactoring
-        ChatRoomDTO returnDTO1 = createdChatRoom.getDTOWithReferenceData();
-        */
-        return chatRoomRepository.save(newChatRoom);
+            if (selectedUser == null) {
+                selectedUser = userService.createTemporally(userDTO);
+            } else {
+                status = InvitationStatus.WAIT_USER_CONFIRM;
+            }
+
+            ChatRoomSetting chatRoomSetting = new ChatRoomSetting(new ChatRoomSettingPK(createdChatRoom, selectedUser), status);
+            chatRoomSettingService.create(chatRoomSetting);
+
+            //test
+            ChatRoomSetting testDomain = chatRoomSettingService.findOne(createdChatRoom, selectedUser);
+            System.out.println("tsetDomain : "+testDomain);
+            System.out.println(testDomain.getId().getChatRoomId());
+            System.out.println(testDomain.getId().getUserId());
+            System.out.println(testDomain.getUser());
+            System.out.println(testDomain.getChatRoom());
+            System.out.println(testDomain.getStatus());
+            System.out.println(testDomain.getDTO().toString());
+            System.out.println(testDomain.getDTOWithReferenceData());
+/*
+            if (testDomain != null) {
+                System.out.println(testDomain.getUser().getDTO().toString());
+                System.out.println(testDomain.getChatRoom().getDTO().toString());
+            }
+*/
+
+            System.out.println(chatRoomRepository.findOne(createdChatRoom.getId()).getChatRoomSettings());
+        }
+
+        return chatRoomRepository.findOne(createdChatRoom.getId());
     }
 }

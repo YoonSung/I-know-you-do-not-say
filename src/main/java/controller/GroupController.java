@@ -1,5 +1,6 @@
 package controller;
 
+import gaongil.domain.ChatRoom;
 import gaongil.domain.User;
 import gaongil.dto.ChatRoomDTO;
 import gaongil.service.GroupService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by yoon on 15. 7. 1..
  */
@@ -28,12 +31,15 @@ public class GroupController {
     GroupService groupService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
+    @Transactional
     public ChatRoomDTO create(@LoginUser User currentUser, @RequestBody ChatRoomDTO requestedChatRoom, @Response ResponseApplicationCode code) {
         log.debug("GroupForm : {}", requestedChatRoom.toString());
         log.debug("LoginUser : {}", currentUser.getId());
+        requestedChatRoom.addUser(currentUser);
+        ChatRoom newChatRoom = groupService.create(currentUser, requestedChatRoom);
+        //TODO ccs send message to already registeredUsers
 
-        ChatRoomDTO newChatRoom = groupService.create(currentUser, requestedChatRoom);
         code.set(ApplicationCode.CREATE_NEWDATA);
-        return newChatRoom;
+        return newChatRoom.getDTOWithReferenceData();
     }
 }

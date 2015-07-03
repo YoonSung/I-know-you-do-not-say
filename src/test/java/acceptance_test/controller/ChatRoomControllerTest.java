@@ -59,7 +59,7 @@ public class ChatRoomControllerTest extends WithIntergrationTest {
         ChatRoomDTO resultChatRoomDTO = (ChatRoomDTO) responseMessage.getData();
         assertEquals(chatRoomTitle, resultChatRoomDTO.getName());
 
-        List<UserDTO> resultUsers = resultChatRoomDTO.getUserDTOs();
+        List<UserDTO> resultUsers = resultChatRoomDTO.getUsers();
         //3. check Group size
         assertEquals(3, resultUsers.size());
 

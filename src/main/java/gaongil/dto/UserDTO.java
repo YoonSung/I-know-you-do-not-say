@@ -113,5 +113,4 @@ public class UserDTO implements DTO<User> {
                 ", uuid='" + uuid + '\'' +
                 '}';
     }
-
 }
