@@ -57,25 +57,6 @@ public class ChatRoomService {
 
             ChatRoomSetting chatRoomSetting = new ChatRoomSetting(new ChatRoomSettingPK(createdChatRoom, selectedUser), status);
             chatRoomSettingService.create(chatRoomSetting);
-
-            //test
-            ChatRoomSetting testDomain = chatRoomSettingService.findOne(createdChatRoom, selectedUser);
-            System.out.println("tsetDomain : "+testDomain);
-            System.out.println(testDomain.getId().getChatRoomId());
-            System.out.println(testDomain.getId().getUserId());
-            System.out.println(testDomain.getUser());
-            System.out.println(testDomain.getChatRoom());
-            System.out.println(testDomain.getStatus());
-            System.out.println(testDomain.getDTO().toString());
-            System.out.println(testDomain.getDTOWithReferenceData());
-/*
-            if (testDomain != null) {
-                System.out.println(testDomain.getUser().getDTO().toString());
-                System.out.println(testDomain.getChatRoom().getDTO().toString());
-            }
-*/
-
-            System.out.println(chatRoomRepository.findOne(createdChatRoom.getId()).getChatRoomSettings());
         }
 
         return chatRoomRepository.findOne(createdChatRoom.getId());

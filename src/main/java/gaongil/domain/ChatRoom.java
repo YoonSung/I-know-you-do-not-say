@@ -13,6 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="tbl_chat_room")
+@Cacheable(value = false)
 public class ChatRoom {
 
 	@Id
@@ -30,9 +31,8 @@ public class ChatRoom {
 	@JoinColumn(name="chat_room_id")
 	private List<Message> messages;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "chatRoom")
-	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.chatRoomId")
-	//@JoinColumn(name = "chat_room_id")
+	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "id.chatRoom")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.chatRoom")
 	private List<ChatRoomSetting> chatRoomSettings;
 
 	//TODO
@@ -69,13 +69,13 @@ public class ChatRoom {
 
 	public ChatRoomDTO getDTOWithReferenceData() {
 		ChatRoomDTO dto1 = getDTO();
-
-		if (getChatRoomSettings() == null) {
+		List<ChatRoomSetting> chatRoomSettings = getChatRoomSettings();
+		if (chatRoomSettings == null) {
 			return dto1;
 
 		} else {
 			List<ChatRoomSettingDTO> dto2 = new ArrayList<>();
-			for (ChatRoomSetting chatRoomSetting : getChatRoomSettings()) {
+			for (ChatRoomSetting chatRoomSetting : chatRoomSettings) {
 				dto2.add(chatRoomSetting.getDTOWithReferenceData());
 			}
 
@@ -91,5 +91,33 @@ public class ChatRoom {
 
 	public List<ChatRoomSetting> getChatRoomSettings() {
 		return chatRoomSettings;
+	}
+
+	public void setChatRoomSettings(List<ChatRoomSetting> chatRoomSettings) {
+		this.chatRoomSettings = chatRoomSettings;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

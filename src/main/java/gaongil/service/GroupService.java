@@ -29,7 +29,7 @@ public class GroupService {
     private ChatRoomService chatRoomService;
 
     //TODO Transaction
-    public ChatRoom create(User currentUser, ChatRoomDTO chatRoomDTO) {
+    public ChatRoomDTO create(User currentUser, ChatRoomDTO chatRoomDTO) {
 
         // Validation
         if (currentUser == null)
@@ -38,6 +38,6 @@ public class GroupService {
         if (chatRoomDTO == null || !chatRoomDTO.canRegistable())
             throw new WrongParameterException();
 
-        return chatRoomService.createWithUsers(chatRoomDTO);
+        return chatRoomService.createWithUsers(chatRoomDTO).getDTOWithReferenceData();
     }
 }

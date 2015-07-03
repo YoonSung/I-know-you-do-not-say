@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().httpBasic()
 				//[test end]
 
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+				//.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
 				.and().csrf().disable();
 				//.and()
 				//.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())

@@ -10,28 +10,8 @@ import javax.persistence.*;
 @Table(name="tbl_chat_room_setting")
 public class ChatRoomSetting {
 
-	@AttributeOverrides({
-			@AttributeOverride(name = "chatRoomId", column = @Column(name="chat_room_id")),
-			@AttributeOverride(name="userId", column = @Column(name="user_id"))
-	})
 	@EmbeddedId
 	ChatRoomSettingPK id;
-
-	//@Id
-	//@MapsId("chatRoomId")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "chat_room_id", nullable = false, insertable = false, updatable = false)
-	//@JoinColumn(name="chat_room_id")
-	//@MapsId("chat_room_id")
-	private ChatRoom chatRoom;
-
-	//@Id
-	//@MapsId("userId")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
-	//@JoinColumn(name="user_id")
-//	@MapsId("user_id")
-	private User user;
 
 	//TODO H2database not yet support, 1.5 Roadmap will support enum type
 	//@Column(name="status", columnDefinition = InvitationStatus.COLUMN_DEFINITION)
@@ -61,17 +41,10 @@ public class ChatRoomSetting {
 
 		ChatRoomSettingDTO dto  = new ChatRoomSettingDTO();
 		dto.setStatus(this.status);
-		dto.setUser(this.user.getDTO());
+		dto.setUser(this.id.getUser().getDTO());
+		dto.setGroup(this.id.getChatRoom().getDTO());
 
 		return dto;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public ChatRoom getChatRoom() {
-		return chatRoom;
 	}
 
 	public boolean isAlarmOn() {
@@ -88,14 +61,6 @@ public class ChatRoomSetting {
 
 	public void setId(ChatRoomSettingPK id) {
 		this.id = id;
-	}
-
-	public void setChatRoom(ChatRoom chatRoom) {
-		this.chatRoom = chatRoom;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public void setStatus(InvitationStatus status) {

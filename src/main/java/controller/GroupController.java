@@ -1,8 +1,12 @@
 package controller;
 
 import gaongil.domain.ChatRoom;
+import gaongil.domain.ChatRoomSetting;
 import gaongil.domain.User;
 import gaongil.dto.ChatRoomDTO;
+import gaongil.dto.ChatRoomSettingDTO;
+import gaongil.repository.ChatRoomRepository;
+import gaongil.service.ChatRoomSettingService;
 import gaongil.service.GroupService;
 import gaongil.support.web.resolver.argument.LoginUser;
 import gaongil.support.web.resolver.argument.Response;
@@ -30,16 +34,29 @@ public class GroupController {
     @Autowired
     GroupService groupService;
 
+    @Autowired
+    private ChatRoomRepository chatRoomService;
+
     @RequestMapping(value = "", method = RequestMethod.POST)
-    @Transactional
     public ChatRoomDTO create(@LoginUser User currentUser, @RequestBody ChatRoomDTO requestedChatRoom, @Response ResponseApplicationCode code) {
         log.debug("GroupForm : {}", requestedChatRoom.toString());
         log.debug("LoginUser : {}", currentUser.getId());
         requestedChatRoom.addUser(currentUser);
-        ChatRoom newChatRoom = groupService.create(currentUser, requestedChatRoom);
+
+        ChatRoomDTO newChatRoomDTO = groupService.create(currentUser, requestedChatRoom);
         //TODO ccs send message to already registeredUsers
 
+        //ChatRoom newChatRoom = groupService.create(currentUser, requestedChatRoom);
+        //code.set(ApplicationCode.CREATE_NEWDATA);
+        //return newChatRoom.getDTOWithReferenceData();
+
+        for (ChatRoomSettingDTO dto : chatRoomService.findOne(1L).getDTOWithReferenceData().getChatRoomSettings()) {
+            System.out.println(dto.getUser().toString());
+            System.out.println(dto.getGroup().toString());
+            System.out.println(dto.getStatus());
+        }
+
         code.set(ApplicationCode.CREATE_NEWDATA);
-        return newChatRoom.getDTOWithReferenceData();
+        return newChatRoomDTO;
     }
 }
