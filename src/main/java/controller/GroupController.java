@@ -38,25 +38,13 @@ public class GroupController {
     private ChatRoomRepository chatRoomService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ChatRoomDTO create(@LoginUser User currentUser, @RequestBody ChatRoomDTO requestedChatRoom, @Response ResponseApplicationCode code) {
+    public ChatRoomDTO create(@RequestBody ChatRoomDTO requestedChatRoom, @Response ResponseApplicationCode code) {
         log.debug("GroupForm : {}", requestedChatRoom.toString());
-        log.debug("LoginUser : {}", currentUser.getId());
-        requestedChatRoom.addUser(currentUser);
 
-        ChatRoomDTO newChatRoomDTO = groupService.create(currentUser, requestedChatRoom);
+        ChatRoom newChatRoom = groupService.create(requestedChatRoom);
         //TODO ccs send message to already registeredUsers
 
-        //ChatRoom newChatRoom = groupService.create(currentUser, requestedChatRoom);
-        //code.set(ApplicationCode.CREATE_NEWDATA);
-        //return newChatRoom.getDTOWithReferenceData();
-
-        for (ChatRoomSettingDTO dto : chatRoomService.findOne(1L).getDTOWithReferenceData().getChatRoomSettings()) {
-            System.out.println(dto.getUser().toString());
-            System.out.println(dto.getGroup().toString());
-            System.out.println(dto.getStatus());
-        }
-
         code.set(ApplicationCode.CREATE_NEWDATA);
-        return newChatRoomDTO;
+        return newChatRoom.getDTOWithReferenceData();
     }
 }

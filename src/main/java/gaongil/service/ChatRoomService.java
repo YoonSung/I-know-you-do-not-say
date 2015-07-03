@@ -35,13 +35,21 @@ public class ChatRoomService {
         return chatRoomRepository.save(dto.getDomain());
     }
 
-    //@Transactional
     public ChatRoom createWithUsers(ChatRoomDTO dto) {
+        ChatRoom newChatRoom = createWithUsersIncludeCurrentUser(dto);
+        return chatRoomRepository.findOne(newChatRoom.getId());
+    }
+
+    @Transactional
+    private ChatRoom createWithUsersIncludeCurrentUser(ChatRoomDTO dto) {
         if (dto == null ||!dto.canRegistable())
             throw new WrongParameterException();
 
         //Create ChatRoom
         ChatRoom createdChatRoom = create(dto);
+
+        //Create currentUser's ChatRoomSetting
+        chatRoomSettingService.create(new ChatRoomSetting(new ChatRoomSettingPK(createdChatRoom, userService.getCurrentLoginUser()), InvitationStatus.JOIN));
 
         //Create newUser and ChatRoomSetting
         for(UserDTO userDTO : dto.getUsers()) {
@@ -59,6 +67,6 @@ public class ChatRoomService {
             chatRoomSettingService.create(chatRoomSetting);
         }
 
-        return chatRoomRepository.findOne(createdChatRoom.getId());
+        return createdChatRoom;
     }
 }

@@ -10,8 +10,6 @@ public class ChatRoomSettingDTO {
 
     private UserDTO user;
 
-    private ChatRoomDTO group;
-
     private boolean alarmOn;
 
     private InvitationStatus status;
@@ -22,14 +20,6 @@ public class ChatRoomSettingDTO {
 
     public void setUser(UserDTO user) {
         this.user = user;
-    }
-
-    public ChatRoomDTO getGroup() {
-        return group;
-    }
-
-    public void setGroup(ChatRoomDTO group) {
-        this.group = group;
     }
 
     public boolean isAlarmOn() {
@@ -46,5 +36,14 @@ public class ChatRoomSettingDTO {
 
     public InvitationStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatRoomSettingDTO{" +
+                "user=" + user +
+                ", alarmOn=" + alarmOn +
+                ", status=" + status +
+                '}';
     }
 }

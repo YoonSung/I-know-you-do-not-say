@@ -42,7 +42,6 @@ public class ChatRoomSetting {
 		ChatRoomSettingDTO dto  = new ChatRoomSettingDTO();
 		dto.setStatus(this.status);
 		dto.setUser(this.id.getUser().getDTO());
-		dto.setGroup(this.id.getChatRoom().getDTO());
 
 		return dto;
 	}

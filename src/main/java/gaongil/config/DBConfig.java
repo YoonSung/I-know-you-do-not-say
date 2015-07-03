@@ -70,12 +70,20 @@ public class DBConfig {
 		jpaProperties.put(jpaNamingStrategy, environment.getProperty(jpaNamingStrategy));
 		jpaProperties.put(jpaShowSql, environment.getProperty(jpaShowSql));
 		jpaProperties.put(jpaOperationMode, environment.getProperty(jpaOperationMode));
-		
+
+		/*
+		jpaProperties.put("hibernate.cache.provider_class", "org.hibernate.cache.SingletonEhCacheProvider");
+		jpaProperties.put("hibernate.cache.use_second_level_cache", "false");
+		jpaProperties.put("hibernate.cache.use_query_cache", "false");
+		*/
+
+		//jpaProperties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+
 		entityManagerFactoryBean.setJpaProperties(jpaProperties);
 		return entityManagerFactoryBean;
 	}
 	
-	@Bean(name = "transactionManager")
+	@Bean
 	public JpaTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(

@@ -13,7 +13,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="tbl_chat_room")
-@Cacheable(value = false)
 public class ChatRoom {
 
 	@Id
@@ -31,7 +30,6 @@ public class ChatRoom {
 	@JoinColumn(name="chat_room_id")
 	private List<Message> messages;
 
-	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "id.chatRoom")
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.chatRoom")
 	private List<ChatRoomSetting> chatRoomSettings;
 

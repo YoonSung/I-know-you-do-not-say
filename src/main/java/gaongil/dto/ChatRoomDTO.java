@@ -106,8 +106,4 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 	public void setChatRoomSettings(List<ChatRoomSettingDTO> chatRoomSettings) {
 		this.chatRoomSettings = chatRoomSettings;
 	}
-
-	public void addUser(User user) {
-
-	}
 }
