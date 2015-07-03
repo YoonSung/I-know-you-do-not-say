@@ -4,8 +4,6 @@ import acceptance_test.controller.common.WithIntergrationTest;
 import acceptance_test.controller.common.WithTokenRule;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
-import gaongil.config.SecurityConfig;
-import gaongil.domain.User;
 import gaongil.dto.UserDTO;
 import gaongil.support.web.converter.ResponseMessage;
 import gaongil.support.web.status.ApplicationCode;
@@ -46,7 +44,7 @@ public class UserControllerTest extends WithIntergrationTest {
                     extract().response();
 
         ResponseMessage responseMessage = response.as(ResponseMessage.class);
-        assertEquals(responseMessage.getCode(), ApplicationCode.CREATE_NEWDATA.intValue());
+        assertEquals(ApplicationCode.CREATE_NEWDATA.intValue(), responseMessage.getCode());
 
         String token = response.getCookie(WithTokenRule.AUTH_COOKIE_NAME);
         assertNotNull(token);

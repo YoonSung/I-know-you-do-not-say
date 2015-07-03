@@ -45,13 +45,14 @@ public class ChatRoomService {
         if (dto == null ||!dto.canRegistable())
             throw new WrongParameterException();
 
-        //Create ChatRoom
+        // Create ChatRoom
         ChatRoom createdChatRoom = create(dto);
 
-        //Create currentUser's ChatRoomSetting
+        // Create currentUser's ChatRoomSetting
         chatRoomSettingService.create(new ChatRoomSetting(new ChatRoomSettingPK(createdChatRoom, userService.getCurrentLoginUser()), InvitationStatus.JOIN));
 
-        //Create newUser and ChatRoomSetting
+        // TODO : seperate to method
+        // Create newUser and ChatRoomSetting
         for(UserDTO userDTO : dto.getUsers()) {
             User selectedUser = userService.findByPhoneNumber(userDTO.getPhoneNumber());
 

@@ -5,6 +5,8 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.specification.RequestSpecification;
 import org.junit.Rule;
 
+import java.nio.charset.Charset;
+
 /**
  * Created by yoon on 15. 6. 19..
  */
@@ -14,10 +16,18 @@ public class WithIntergrationTest {
     public WithTokenRule tokenRule = WithTokenRule.getInstance();
 
     protected RequestSpecification given(WithTokenRule.TYPE type) {
-        return this.tokenRule.given(type).contentType(ContentType.JSON);
+        return addOption(this.tokenRule.given(type));
     }
 
     protected RequestSpecification given() {
-        return RestAssured.given().contentType(ContentType.JSON);
+        return addOption(RestAssured.given());
+    }
+
+    private RequestSpecification addOption(RequestSpecification specification) {
+        return specification.contentType(ContentType.JSON.withCharset("UTF8"));
+    }
+
+    protected <T> T casting(Object data, Class<T> chatRoomDTOClass) {
+        return WithTokenRule.WITH_OBJECT_MAPPER.convertValue(data, chatRoomDTOClass);
     }
 }

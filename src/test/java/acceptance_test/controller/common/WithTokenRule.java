@@ -1,8 +1,5 @@
 package acceptance_test.controller.common;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
@@ -10,10 +7,8 @@ import com.jayway.restassured.config.RestAssuredConfig;
 import com.jayway.restassured.mapper.factory.Jackson2ObjectMapperFactory;
 import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.RequestSpecification;
-import gaongil.config.SecurityConfig;
 import gaongil.config.WebConfig;
 import gaongil.dto.UserDTO;
-import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -21,11 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
 
 import static com.jayway.restassured.config.ObjectMapperConfig.objectMapperConfig;
 
@@ -34,22 +25,22 @@ import static com.jayway.restassured.config.ObjectMapperConfig.objectMapperConfi
  */
 public class WithTokenRule implements TestRule {
 
-    private static ObjectMapper objectMapper;
+    public static ObjectMapper WITH_OBJECT_MAPPER;
     private static final String TEST_SERVER_BASE_URL = "http://localhost:8080";
 
     //intergration
     public static final String AUTH_COOKIE_NAME = "WITH_AUTH";
 
     static {
-        objectMapper = new WebConfig().objectMapper();
+        WITH_OBJECT_MAPPER = new WebConfig().objectMapper();
         
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(objectMapperConfig().jackson2ObjectMapperFactory(
                 new Jackson2ObjectMapperFactory() {
                     @Override
                     public ObjectMapper create(Class aClass, String s) {
-                        //objectMapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
-                        return objectMapper;
+                        //WITH_OBJECT_MAPPER.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
+                        return WITH_OBJECT_MAPPER;
                     }
                 }
         ));
@@ -125,7 +116,7 @@ public class WithTokenRule implements TestRule {
         dto.setRegId("testRegId");
         dto.setUuid("testUuid");
 
-        return getTokenFromServer(TYPE.USER.getUrl(), objectMapper.writeValueAsString(dto));
+        return getTokenFromServer(TYPE.USER.getUrl(), WITH_OBJECT_MAPPER.writeValueAsString(dto));
     }
 
     private String getTokenFromServer(String url, String parameter) throws JsonProcessingException {

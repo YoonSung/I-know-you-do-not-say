@@ -17,11 +17,6 @@ public class GroupService {
 
     //TODO Transaction
     public ChatRoom create(ChatRoomDTO chatRoomDTO) {
-
-        // Validation
-        if (chatRoomDTO == null || !chatRoomDTO.canRegistable())
-            throw new WrongParameterException();
-
         return chatRoomService.createWithUsers(chatRoomDTO);
     }
 }

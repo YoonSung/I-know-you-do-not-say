@@ -1,14 +1,8 @@
 package controller;
 
 import gaongil.domain.ChatRoom;
-import gaongil.domain.ChatRoomSetting;
-import gaongil.domain.User;
 import gaongil.dto.ChatRoomDTO;
-import gaongil.dto.ChatRoomSettingDTO;
-import gaongil.repository.ChatRoomRepository;
-import gaongil.service.ChatRoomSettingService;
 import gaongil.service.GroupService;
-import gaongil.support.web.resolver.argument.LoginUser;
 import gaongil.support.web.resolver.argument.Response;
 import gaongil.support.web.resolver.argument.ResponseApplicationCode;
 import gaongil.support.web.status.ApplicationCode;
@@ -19,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.transaction.Transactional;
 
 /**
  * Created by yoon on 15. 7. 1..
@@ -33,9 +25,6 @@ public class GroupController {
 
     @Autowired
     GroupService groupService;
-
-    @Autowired
-    private ChatRoomRepository chatRoomService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ChatRoomDTO create(@RequestBody ChatRoomDTO requestedChatRoom, @Response ResponseApplicationCode code) {

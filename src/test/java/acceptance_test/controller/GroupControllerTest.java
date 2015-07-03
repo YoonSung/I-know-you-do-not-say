@@ -18,17 +18,17 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by yoon on 15. 7. 1..
  */
-public class ChatRoomControllerTest extends WithIntergrationTest {
+public class GroupControllerTest extends WithIntergrationTest {
 
     @Test
-    public void 그룹생성() {
+    public void 생성() {
 
-        String chatRoomTitle = "테스트그룹";
-        String phoneNumberPrefix = "0109925854";
-        String nicknamePrefix = "테스트친구_";
-        int userNumber = 3;
+        final String chatRoomTitle = "테스트그룹";
+        final String phoneNumberPrefix = "0109925854";
+        final String nicknamePrefix = "테스트친구_";
+        final int userNumber = 3;
 
-        //GIVEN
+        // GIVEN
         List<UserDTO> invitedUsers = new ArrayList<>();
 
         for (int i = 0; i < userNumber; i++) {
@@ -44,39 +44,55 @@ public class ChatRoomControllerTest extends WithIntergrationTest {
         Response response = given(WithTokenRule.TYPE.USER).
                 body(chatRoomDTO).
 
-        //WHEN, THEN
+        // WHEN, THEN
         when().
                 post("/groups").
         then().extract().response();
 
-        //CHECK RESULT
+        // CHECK RESULT
         ResponseMessage responseMessage = response.as(ResponseMessage.class);
 
-        //1. check status code
+        // 1. check status code
         assertEquals(201, responseMessage.getCode());
 
-        //2. check chatRoomTitle
-        ChatRoomDTO resultChatRoomDTO = (ChatRoomDTO) responseMessage.getData();
+        // 2. check chatRoomTitle
+        ChatRoomDTO resultChatRoomDTO = casting(responseMessage.getData(), ChatRoomDTO.class);
         assertEquals(chatRoomTitle, resultChatRoomDTO.getName());
 
-        List<UserDTO> resultUsers = resultChatRoomDTO.getUsers();
-        //3. check Group size
-        assertEquals(3, resultUsers.size());
+        List<ChatRoomSettingDTO> resultChatRoomSettings = resultChatRoomDTO.getChatRoomSettings();
 
-        //4. check Group user nicknames
+        // 3. check Group size
+        // current user +1
+        assertEquals(userNumber + 1, resultChatRoomSettings.size());
+
+        // 4. check Group user nicknames
         ArrayList<String> nickNames = new ArrayList<>();
-        for (UserDTO userDTO : resultUsers) {
-            nickNames.add(userDTO.getNickname());
+
+        for (ChatRoomSettingDTO chatRoomSettingDTO : resultChatRoomSettings) {
+            nickNames.add(chatRoomSettingDTO.getUser().getNickname());
         }
 
         for (int i = 0; i < userNumber; i++) {
             assertTrue(nickNames.contains(nicknamePrefix + i));
         }
 
-        //5. check Group user status
+        // 5. check Group user status
         List<ChatRoomSettingDTO> resultChatRoomSettingDTOs = resultChatRoomDTO.getChatRoomSettings();
+
+        int notRegistration = userNumber;
+        int join = 1;
         for (ChatRoomSettingDTO dto : resultChatRoomSettingDTOs) {
-            assertEquals(dto.getStatus(), InvitationStatus.NOT_REGISTRATION);
+            switch(dto.getStatus()) {
+                case NOT_REGISTRATION:
+                    notRegistration--;
+                    break;
+                case JOIN:
+                    join--;
+                    break;
+            }
         }
+
+        assertEquals(0, notRegistration);
+        assertEquals(0, join);
     }
 }
