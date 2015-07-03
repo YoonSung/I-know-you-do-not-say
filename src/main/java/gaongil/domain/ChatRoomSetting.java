@@ -39,6 +39,12 @@ public class ChatRoomSetting {
 		this.alarmOn = alarmOn;
 	}
 
+	public ChatRoomSetting(ChatRoom chatRoom, User user, InvitationStatus status) {
+		this.chatRoom = chatRoom;
+		this.user = user;
+		this.status = status;
+	}
+
 	public ChatRoomSettingDTO getDTO() {
 		ChatRoomSettingDTO dto = new ChatRoomSettingDTO();
 		dto.setAlarmOn(alarmOn);
