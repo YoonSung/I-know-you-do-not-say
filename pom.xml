@@ -332,6 +332,7 @@
 
 		<profile>
 			<!-- Generate SQL from Entity Class.  -->
+			<!-- command  -> mvn exec:java -PsqlGenerate -->
 			<id>sqlGenerate</id>
 			<build>
 				<plugins>

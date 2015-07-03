@@ -24,7 +24,7 @@ public class ChatRoomControllerTest extends WithIntergrationTest {
     public void 그룹생성() {
 
         String chatRoomTitle = "테스트그룹";
-        String phoneNumberPrefix = "01099258547";
+        String phoneNumberPrefix = "0109925854";
         String nicknamePrefix = "테스트친구_";
         int userNumber = 3;
 
@@ -35,13 +35,14 @@ public class ChatRoomControllerTest extends WithIntergrationTest {
             UserDTO userDTO = new UserDTO();
             userDTO.setPhoneNumber(phoneNumberPrefix+i);
             userDTO.setNickname(nicknamePrefix+i);
+            invitedUsers.add(userDTO);
         }
 
         ChatRoomDTO chatRoomDTO = new ChatRoomDTO(chatRoomTitle);
         chatRoomDTO.setUsers(invitedUsers);
 
         Response response = given(WithTokenRule.TYPE.USER).
-                body(invitedUsers).
+                body(chatRoomDTO).
 
         //WHEN, THEN
         when().
@@ -49,7 +50,6 @@ public class ChatRoomControllerTest extends WithIntergrationTest {
         then().extract().response();
 
         //CHECK RESULT
-
         ResponseMessage responseMessage = response.as(ResponseMessage.class);
 
         //1. check status code

@@ -32,7 +32,7 @@
     <logger name="org.hibernate.type.BasicTypeRegistry" level="WARN" />
 
 	<root>
-		<priority value="INFO" />
+		<priority value="DEBUG" />
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

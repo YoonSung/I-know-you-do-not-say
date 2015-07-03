@@ -8,7 +8,7 @@ import gaongil.domain.User;
  */
 public class ChatRoomSettingDTO {
 
-    private User user;
+    private UserDTO user;
 
     private ChatRoomDTO group;
 
@@ -16,11 +16,11 @@ public class ChatRoomSettingDTO {
 
     private InvitationStatus status;
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 

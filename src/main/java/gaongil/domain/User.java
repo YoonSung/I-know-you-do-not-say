@@ -1,5 +1,7 @@
 package gaongil.domain;
 
+import gaongil.dto.UserDTO;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -55,11 +57,7 @@ public class User {
 
 	public User(){}
 
-	public static User create(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
-		return new User(id, phoneNumber, nickname, imagePath, regId, uuid);
-	}
-
-	private User(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
+	public User(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
 		this.id = id;
 		this.phoneNumber = phoneNumber;
 		this.nickname = nickname;
@@ -91,5 +89,14 @@ public class User {
 	//Type이 정확하게 일치해야 한다. return type이 long일경우 에러발생
 	public Long getId() {
 		return id;
+	}
+
+	public UserDTO getDTO() {
+		UserDTO dto = new UserDTO();
+		dto.setId(this.id);
+		dto.setPhoneNumber(this.phoneNumber);
+		dto.setNickname(this.nickname);
+
+		return dto;
 	}
 }

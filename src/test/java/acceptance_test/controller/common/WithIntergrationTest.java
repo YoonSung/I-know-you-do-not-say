@@ -1,6 +1,7 @@
 package acceptance_test.controller.common;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.specification.RequestSpecification;
 import org.junit.Rule;
 
@@ -13,10 +14,10 @@ public class WithIntergrationTest {
     public WithTokenRule tokenRule = WithTokenRule.getInstance();
 
     protected RequestSpecification given(WithTokenRule.TYPE type) {
-        return this.tokenRule.given(type);
+        return this.tokenRule.given(type).contentType(ContentType.JSON);
     }
 
     protected RequestSpecification given() {
-        return RestAssured.given();
+        return RestAssured.given().contentType(ContentType.JSON);
     }
 }

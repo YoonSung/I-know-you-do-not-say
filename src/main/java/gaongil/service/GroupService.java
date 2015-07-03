@@ -42,13 +42,13 @@ public class GroupService {
         if (currentUser == null)
             throw new WithPermissionException();
 
-        if (chatRoomDTO == null)
+        if (chatRoomDTO == null || !chatRoomDTO.canRegistable())
             throw new WrongParameterException();
 
         // Have to be added Users List declaration,
         // And add current login user
-        List<User> addedUsers = new ArrayList<>();
-        addedUsers.add(currentUser);
+        List<User> newUsers = new ArrayList<>();
+        newUsers.add(currentUser);
 
         // Have to be added notification
         List<User> alreadyRegisteredUser = new ArrayList<>();
@@ -58,28 +58,25 @@ public class GroupService {
 
             if (selectedUser == null) {
                 selectedUser = userService.createTemporally(userDTO);
+                newUsers.add(selectedUser);
+
             } else {
                 alreadyRegisteredUser.add(selectedUser);
             }
-
-            addedUsers.add(selectedUser);
         }
 
-        ChatRoom createdChatRoom = chatRoomService.createWithUsers(chatRoomDTO, addedUsers);
+        //TODO insert chatRoomSettings와 chatRoom을 분리
+        ChatRoom createdChatRoom = chatRoomService.createWithUsers(chatRoomDTO, newUsers);
         ChatRoomDTO returnDTO1 = createdChatRoom.getDTO();
 
         for(User user : alreadyRegisteredUser) {
             ChatRoomSetting domain = chatRoomSettingService.findOne(createdChatRoom, user);
-            ChatRoomSetting newDomain = ChatRoomSetting.create(domain, InvitationStatus.WAIT_USER_CONFIRM);
-
-            ChatRoomSettingDTO returnDTO2 = chatRoomSettingService.update(newDomain).getDTO();
-            returnDTO2.setUser(user);
-
-            returnDTO1.addChatRoomSettingDTO(returnDTO2);
+            ChatRoomSetting newDomain = new ChatRoomSetting(domain.getChatRoom(), domain.getUser(), InvitationStatus.WAIT_USER_CONFIRM, domain.isAlarmOn());
+            chatRoomSettingService.update(newDomain);
         }
 
         //TODO ccs send message to already registeredUsers
 
-        return returnDTO1;
+        return createdChatRoom.getDTOWithReferenceData();
     }
 }

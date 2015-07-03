@@ -32,10 +32,10 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 	}
 
 	public boolean canRegistable() {
-		if (StringUtils.isEmpty(this.name.trim()))
+		if (StringUtils.isEmpty(this.name))
 			return false;
 
-		if (this.users.size() == 0)
+		if (this.users == null || this.users.size() == 0)
 			return false;
 
 		return true;
@@ -43,23 +43,8 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 
 	@Override
 	public ChatRoom getDomain() {
-		return ChatRoom.create(
-				this.name
-		);
-	}
-
-	public ChatRoom getDomainWithUsers(List<User> addedUsers) {
-		return ChatRoom.create(
-				this.name,
-				addedUsers
-		);
-	}
-
-	public void addChatRoomSettingDTO(ChatRoomSettingDTO dto) {
-		if (this.chatRoomSettings == null)
-			chatRoomSettings = new ArrayList<>();
-
-		chatRoomSettings.add(dto);
+		ChatRoom domain = new ChatRoom(this.id, this.name);
+		return domain;
 	}
 
 	public Long getId() {
@@ -108,5 +93,17 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 
 	public List<UserDTO> getUsers() {
 		return users;
+	}
+
+	@Override
+	public String toString() {
+		return "ChatRoomDTO{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", chatRoomSettings=" + chatRoomSettings +
+				", users=" + users +
+				", messages=" + messages +
+				", createdDate=" + createdDate +
+				'}';
 	}
 }

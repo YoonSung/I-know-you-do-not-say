@@ -126,6 +126,7 @@ public class SecurityRememberMeService extends AbstractRememberMeServices {
             case 3:
                 WithSecurityUser memberUserDetails =  (WithSecurityUser) securityUserDetailService.loadUserByUsername(cookieTokens[0]);
                 MemberTokenGenerator memberTokenGenerator = new MemberTokenGenerator(memberUserDetails.getUsername(), memberUserDetails.getPassword());
+
                 checkWithUserDetails(cookieTokens, memberTokenGenerator);
                 return memberUserDetails;
 

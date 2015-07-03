@@ -25,7 +25,7 @@ public class ChatRoomSettingService {
                 || user.getId() == null)
             throw new WrongParameterException();
 
-        return chatRoomSettingRepository.findOne(new ChatRoomSettingPK(chatRoom.getId(), user.getId()));
+        return chatRoomSettingRepository.findOne(new ChatRoomSettingPK(chatRoom, user));
     }
 
     public ChatRoomSetting update(ChatRoomSetting newDomain) {

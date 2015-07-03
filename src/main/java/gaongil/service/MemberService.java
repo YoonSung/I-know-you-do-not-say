@@ -21,7 +21,7 @@ public class MemberService {
 
 	public Member getCurrentLoginMember() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		if (authentication == null)
 			throw new LoginRequiredException();
 		

@@ -1,6 +1,8 @@
 package gaongil.domain;
 
+import gaongil.dto.ChatRoomDTO;
 import gaongil.dto.ChatRoomSettingDTO;
+import gaongil.dto.UserDTO;
 
 import javax.persistence.*;
 
@@ -10,69 +12,56 @@ import javax.persistence.*;
 public class ChatRoomSetting {
 
 	@Id
-	@Column(name="user_id")
-	private Long userId;
+	@ManyToOne
+	@JoinColumn(name="chat_room_id")
+	private ChatRoom chatRoom;
 
 	@Id
-	@Column(name="group_id")
-	private Long roomId;
-
-	//@ManyToOne
-	//@JoinColumn(name="user_id")
-	@Transient
+	@ManyToOne
+	@JoinColumn(name="user_id")
 	private User user;
-	
-	//@ManyToOne
-	//@JoinColumn(name="group_id")
-	@Transient
-	private ChatRoom group;
+
+	//TODO H2database not yet support, 1.5 Roadmap will support enum type
+	//@Column(name="status", columnDefinition = InvitationStatus.COLUMN_DEFINITION)
+	@Column(name="status", columnDefinition = "varchar(20) default 'NOT_REGISTRATION'")
+	@Enumerated(EnumType.STRING)
+	private InvitationStatus status;
 
 	@Column(name="alarm_on")
 	private boolean alarmOn;
 
-	@Column(name="status", columnDefinition = InvitationStatus.COLUMN_DEFINITION)
-	@Enumerated(EnumType.STRING)
-	private InvitationStatus status;
-
 	public ChatRoomSetting(){}
 
-	private ChatRoomSetting(ChatRoomSetting domain, InvitationStatus status) {
-		this.userId = domain.getUserId();
-		this.roomId = domain.getRoomId();
-		this.user = domain.getUser();
-		this.group = domain.getGroup();
-		this.alarmOn = domain.isAlarmOn();
+	public ChatRoomSetting(ChatRoom chatRoom, User user, InvitationStatus status, boolean alarmOn) {
+		this.chatRoom = chatRoom;
+		this.user = user;
 		this.status = status;
+		this.alarmOn = alarmOn;
 	}
 
 	public ChatRoomSettingDTO getDTO() {
 		ChatRoomSettingDTO dto = new ChatRoomSettingDTO();
-		dto.setUser(user);
-		dto.setGroup(group.getDTO());
 		dto.setAlarmOn(alarmOn);
 		dto.setStatus(status);
 
 		return dto;
 	}
 
-	public static ChatRoomSetting create(ChatRoomSetting domain, InvitationStatus waitUserConfirm) {
-		return new ChatRoomSetting(domain, waitUserConfirm);
-	}
+	public ChatRoomSettingDTO getDTOWithReferenceData() {
 
-	public Long getUserId() {
-		return userId;
-	}
+		ChatRoomSettingDTO dto  = new ChatRoomSettingDTO();
+		dto.setStatus(this.status);
+		dto.setUser(this.user.getDTO());
 
-	public Long getRoomId() {
-		return roomId;
+		return dto;
 	}
 
 	public User getUser() {
 		return user;
 	}
 
-	public ChatRoom getGroup() {
-		return group;
+	public ChatRoom getChatRoom() {
+		return chatRoom;
 	}
 
 	public boolean isAlarmOn() {

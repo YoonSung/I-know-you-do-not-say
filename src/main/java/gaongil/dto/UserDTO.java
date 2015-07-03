@@ -92,7 +92,7 @@ public class UserDTO implements DTO<User> {
 
     @Override
     public User getDomain() {
-        return User.create(
+        return new User(
             this.id,
             this.phoneNumber,
             this.nickname,

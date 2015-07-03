@@ -1,11 +1,15 @@
 package gaongil.service;
 
+import gaongil.domain.Member;
 import gaongil.domain.User;
 import gaongil.dto.UserDTO;
 import gaongil.repository.UserRepository;
+import gaongil.security.LoginRequiredException;
 import gaongil.support.exception.WrongParameterException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,7 +27,7 @@ public class UserService {
 
 	//TODO Batch, delete long period member (Invited Long time ago)
 	public User createTemporally(UserDTO userDTO) {
-		if (StringUtils.isEmpty(userDTO.getPhoneNumber()) || userDTO.isValidPhoneNumber())
+		if (StringUtils.isEmpty(userDTO.getPhoneNumber()) || !userDTO.isValidPhoneNumber())
 			throw new WrongParameterException();
 
 		return userRepository.save(userDTO.getDomain());
@@ -41,5 +45,16 @@ public class UserService {
 			throw new WrongParameterException();
 
 		return userRepository.findByPhoneNumber(phoneNumber);
+	}
+
+	public User getCurrentLoginUser() {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		if (authentication == null)
+			throw new LoginRequiredException();
+
+		String id = authentication.getName();
+		return findById(Long.parseLong(id));
 	}
 }
