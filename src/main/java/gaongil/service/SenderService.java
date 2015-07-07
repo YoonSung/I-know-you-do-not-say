@@ -28,6 +28,7 @@ public class SenderService {
                 alreadyRegisteredUser.add(domain.getId().getUser());
         }
 
-        //gcmSender.sends(alreadyRegisteredUser, Constant.MESSAGE_INVITE_TO_GROUP);
+        // TODO CloudMessage - Type4
+        //gcmSender.sends(alreadyRegisteredUser, );
     }
 }

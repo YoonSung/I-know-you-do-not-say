@@ -25,14 +25,12 @@ public class GroupService {
     public ChatRoom create(ChatRoomDTO chatRoomDTO) {
         ChatRoom newChatRoom = chatRoomService.createWithUsers(chatRoomDTO);
 
-        /* TODO
         try {
             messageSenderService.inviteToGroup(newChatRoom);
         } catch (Exception e) {
             log.error("message sender error", e.getMessage());
             e.printStackTrace();
         }
-        */
 
         return newChatRoom;
     }

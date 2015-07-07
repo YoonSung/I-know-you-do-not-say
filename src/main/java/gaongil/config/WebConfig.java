@@ -138,6 +138,7 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 		return view;
 	}
 
+	@Bean
 	public ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		//mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
