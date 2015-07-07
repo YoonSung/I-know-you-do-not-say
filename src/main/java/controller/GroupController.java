@@ -2,6 +2,7 @@ package controller;
 
 import gaongil.domain.ChatRoom;
 import gaongil.dto.ChatRoomDTO;
+import gaongil.service.SenderService;
 import gaongil.service.GroupService;
 import gaongil.support.web.resolver.argument.Response;
 import gaongil.support.web.resolver.argument.ResponseApplicationCode;
@@ -31,7 +32,6 @@ public class GroupController {
         log.debug("GroupForm : {}", requestedChatRoom.toString());
 
         ChatRoom newChatRoom = groupService.create(requestedChatRoom);
-        //TODO ccs send message to already registeredUsers
 
         code.set(ApplicationCode.CREATE_NEWDATA);
         return newChatRoom.getDTOWithReferenceData();

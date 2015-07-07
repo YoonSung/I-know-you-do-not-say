@@ -3,6 +3,8 @@ package gaongil.service;
 import gaongil.domain.ChatRoom;
 import gaongil.dto.ChatRoomDTO;
 import gaongil.support.exception.WrongParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class GroupService {
 
+    private Logger log = LoggerFactory.getLogger(GroupService.class);
+
     @Autowired
     private ChatRoomService chatRoomService;
 
-    //TODO Transaction
+    @Autowired
+    SenderService messageSenderService;
+
     public ChatRoom create(ChatRoomDTO chatRoomDTO) {
-        return chatRoomService.createWithUsers(chatRoomDTO);
+        ChatRoom newChatRoom = chatRoomService.createWithUsers(chatRoomDTO);
+
+        /* TODO
+        try {
+            messageSenderService.inviteToGroup(newChatRoom);
+        } catch (Exception e) {
+            log.error("message sender error", e.getMessage());
+            e.printStackTrace();
+        }
+        */
+
+        return newChatRoom;
     }
 }

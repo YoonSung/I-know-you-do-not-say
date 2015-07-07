@@ -26,8 +26,7 @@ public class ChatRoom {
 	@JoinTable(name="tbl_chat_room_setting", joinColumns=@JoinColumn(name="chat_room_id"), inverseJoinColumns=@JoinColumn(name="user_id"))
 	private List<User> users;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JoinColumn(name="chat_room_id")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "to")
 	private List<Message> messages;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id.chatRoom")
@@ -89,26 +88,6 @@ public class ChatRoom {
 
 	public List<ChatRoomSetting> getChatRoomSettings() {
 		return chatRoomSettings;
-	}
-
-	public void setChatRoomSettings(List<ChatRoomSetting> chatRoomSettings) {
-		this.chatRoomSettings = chatRoomSettings;
-	}
-
-	public List<Message> getMessages() {
-		return messages;
-	}
-
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
-
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 
 	public void setName(String name) {
