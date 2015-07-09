@@ -2,14 +2,12 @@ package gaongil.dto;
 
 import gaongil.domain.ChatRoom;
 import gaongil.domain.Message;
-import gaongil.domain.User;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ChatRoomDTO implements DTO<ChatRoom> {
+public class ChatRoomDTO implements ConvertableToDomain<ChatRoom> {
 
 	private Long id;
 	
@@ -42,7 +40,7 @@ public class ChatRoomDTO implements DTO<ChatRoom> {
 	}
 
 	@Override
-	public ChatRoom getDomain() {
+	public ChatRoom toDomain() {
 		ChatRoom domain = new ChatRoom(this.id, this.name);
 		return domain;
 	}

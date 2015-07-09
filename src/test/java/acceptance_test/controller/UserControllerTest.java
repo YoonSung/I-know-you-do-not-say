@@ -23,7 +23,7 @@ public class UserControllerTest extends WithIntergrationTest {
         //TODO AOP적용, 중복제거
         UserDTO userDTO = new UserDTO();
 
-        userDTO.setPhoneNumber("01099258547");
+        userDTO.setPhoneNumber("01012341234");
         userDTO.setRegId("testRegId");
         userDTO.setUuid("testUuid");
 

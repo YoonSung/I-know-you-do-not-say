@@ -2,7 +2,6 @@ package gaongil.service;
 
 import static org.mockito.Mockito.when;
 import gaongil.config.DBConfig;
-import gaongil.domain.User;
 import gaongil.dto.UserDTO;
 import gaongil.repository.UserRepository;
 import gaongil.support.exception.WrongParameterException;
@@ -36,7 +35,7 @@ public class UserServiceTest {
 		userDTO.setPhoneNumber(phoneNumber);
 
 		//WHEN
-		when(userService.create(userDTO)).thenReturn(userDTO.getDomain());
+		when(userService.create(userDTO)).thenReturn(userDTO.toDomain());
 		
 		userService.create(userDTO);
 

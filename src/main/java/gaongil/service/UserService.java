@@ -1,6 +1,5 @@
 package gaongil.service;
 
-import gaongil.domain.Member;
 import gaongil.domain.User;
 import gaongil.dto.UserDTO;
 import gaongil.repository.UserRepository;
@@ -22,7 +21,7 @@ public class UserService {
 		if (userDTO == null || userDTO.canRegistable() == false)
 			throw new WrongParameterException();
 
-		return userRepository.save(userDTO.getDomain());
+		return userRepository.save(userDTO.toDomain());
 	}
 
 	//TODO Batch, delete long period member (Invited Long time ago)
@@ -30,7 +29,7 @@ public class UserService {
 		if (StringUtils.isEmpty(userDTO.getPhoneNumber()) || !userDTO.isValidPhoneNumber())
 			throw new WrongParameterException();
 
-		return userRepository.save(userDTO.getDomain());
+		return userRepository.save(userDTO.toDomain());
 	}
 
 	public User findById(Long id) {

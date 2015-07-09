@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Created by yoon on 15. 7. 1..
  */
-public interface DTO<T> {
+interface ConvertableToDomain<T> {
     @JsonIgnore
-    T getDomain();
+    T toDomain();
 }

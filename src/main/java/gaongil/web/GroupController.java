@@ -1,8 +1,7 @@
-package controller;
+package gaongil.web;
 
 import gaongil.domain.ChatRoom;
 import gaongil.dto.ChatRoomDTO;
-import gaongil.service.SenderService;
 import gaongil.service.GroupService;
 import gaongil.support.web.resolver.argument.Response;
 import gaongil.support.web.resolver.argument.ResponseApplicationCode;
@@ -34,6 +33,6 @@ public class GroupController {
         ChatRoom newChatRoom = groupService.create(requestedChatRoom);
 
         code.set(ApplicationCode.CREATE_NEWDATA);
-        return newChatRoom.getDTOWithReferenceData();
+        return newChatRoom.toDTOWithReferenceData();
     }
 }

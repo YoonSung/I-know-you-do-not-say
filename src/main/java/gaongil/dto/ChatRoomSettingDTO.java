@@ -1,7 +1,7 @@
 package gaongil.dto;
 
+import gaongil.domain.ChatRoomSetting;
 import gaongil.domain.InvitationStatus;
-import gaongil.domain.User;
 
 /**
  * Created by yoon on 15. 7. 1..

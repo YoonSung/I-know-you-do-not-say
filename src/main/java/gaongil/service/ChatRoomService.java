@@ -2,19 +2,13 @@ package gaongil.service;
 
 import gaongil.domain.*;
 import gaongil.dto.ChatRoomDTO;
-import gaongil.dto.ChatRoomSettingDTO;
 import gaongil.dto.UserDTO;
 import gaongil.repository.ChatRoomRepository;
 import gaongil.support.exception.WrongParameterException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yoon on 15. 7. 1..
@@ -32,7 +26,7 @@ public class ChatRoomService {
     private ChatRoomSettingService chatRoomSettingService;
 
     private ChatRoom create(ChatRoomDTO dto) {
-        return chatRoomRepository.save(dto.getDomain());
+        return chatRoomRepository.save(dto.toDomain());
     }
 
     public ChatRoom createWithUsers(ChatRoomDTO dto) {

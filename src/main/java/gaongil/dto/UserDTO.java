@@ -1,14 +1,13 @@
 package gaongil.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import gaongil.domain.User;
 import org.springframework.util.StringUtils;
 
 /**
  * Created by yoon on 15. 7. 1..
  */
-public class UserDTO implements DTO<User> {
+public class UserDTO implements ConvertableToDomain<User> {
 
     private Long id;
 
@@ -91,7 +90,7 @@ public class UserDTO implements DTO<User> {
     }
 
     @Override
-    public User getDomain() {
+    public User toDomain() {
         return new User(
             this.id,
             this.phoneNumber,

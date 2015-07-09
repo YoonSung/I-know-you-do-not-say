@@ -31,6 +31,7 @@ public class IntergrationTestLauncher {
             //another options (ex new String[]{"-tcp", "-tcpPort", ...})
             //http://www.h2database.com/html/advanced.html?highlight=tcpPort&search=tcpPort#firstFound
             dbServer = org.h2.tools.Server.createTcpServer();
+            dbServer.start();
 
             //Web Server Container
             tomcat = new Tomcat();
@@ -69,7 +70,6 @@ public class IntergrationTestLauncher {
     private static void startTestWithServer(Tomcat tomcat, org.h2.tools.Server dbServer) throws Exception {
 
         WebServerLauncher.startServer(tomcat, () -> {
-            dbStart(dbServer);
             waitForTomcatStart(tomcat);
 
             try {

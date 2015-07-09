@@ -1,14 +1,12 @@
 package gaongil.domain;
 
-import gaongil.dto.ChatRoomDTO;
 import gaongil.dto.ChatRoomSettingDTO;
-import gaongil.dto.UserDTO;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="tbl_chat_room_setting")
-public class ChatRoomSetting {
+public class ChatRoomSetting implements ConvertableToDto<ChatRoomSettingDTO> {
 
 	@EmbeddedId
 	ChatRoomSettingPK id;
@@ -29,7 +27,8 @@ public class ChatRoomSetting {
 		this.status = status;
 	}
 
-	public ChatRoomSettingDTO getDTO() {
+	@Override
+	public ChatRoomSettingDTO toDTOExcludeReferenceData() {
 		ChatRoomSettingDTO dto = new ChatRoomSettingDTO();
 		dto.setAlarmOn(alarmOn);
 		dto.setStatus(status);
@@ -37,11 +36,12 @@ public class ChatRoomSetting {
 		return dto;
 	}
 
-	public ChatRoomSettingDTO getDTOWithReferenceData() {
+	@Override
+	public ChatRoomSettingDTO toDTOWithReferenceData() {
 
 		ChatRoomSettingDTO dto  = new ChatRoomSettingDTO();
 		dto.setStatus(this.status);
-		dto.setUser(this.id.getUser().getDTO());
+		dto.setUser(this.id.getUser().toDTOExcludeReferenceData());
 
 		return dto;
 	}

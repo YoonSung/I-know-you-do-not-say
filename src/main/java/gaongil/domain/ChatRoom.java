@@ -2,18 +2,15 @@ package gaongil.domain;
 
 import gaongil.dto.ChatRoomDTO;
 import gaongil.dto.ChatRoomSettingDTO;
-import gaongil.dto.DTO;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="tbl_chat_room")
-public class ChatRoom {
+public class ChatRoom implements ConvertableToDto<ChatRoomDTO> {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -51,7 +48,8 @@ public class ChatRoom {
 		this.name = name;
 	}
 
-	public ChatRoomDTO getDTO() {
+	@Override
+	public ChatRoomDTO toDTOExcludeReferenceData() {
 		ChatRoomDTO dto = new ChatRoomDTO();
 		dto.setId(this.id);
 		dto.setName(this.name);
@@ -64,8 +62,9 @@ public class ChatRoom {
 		return id;
 	}
 
-	public ChatRoomDTO getDTOWithReferenceData() {
-		ChatRoomDTO dto1 = getDTO();
+	@Override
+	public ChatRoomDTO toDTOWithReferenceData() {
+		ChatRoomDTO dto1 = toDTOExcludeReferenceData();
 		List<ChatRoomSetting> chatRoomSettings = getChatRoomSettings();
 		if (chatRoomSettings == null) {
 			return dto1;
@@ -73,7 +72,7 @@ public class ChatRoom {
 		} else {
 			List<ChatRoomSettingDTO> dto2 = new ArrayList<>();
 			for (ChatRoomSetting chatRoomSetting : chatRoomSettings) {
-				dto2.add(chatRoomSetting.getDTOWithReferenceData());
+				dto2.add(chatRoomSetting.toDTOWithReferenceData());
 			}
 
 			dto1.setChatRoomSettings(dto2);

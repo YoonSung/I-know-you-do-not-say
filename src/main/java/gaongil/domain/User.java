@@ -17,10 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-//TODO Seperate to DTO, domain
+//TODO Seperate to ConvertableToDomain, domain
 @Entity
 @Table(name="tbl_user")
-public class User {
+public class User implements ConvertableToDto<UserDTO> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -91,12 +91,22 @@ public class User {
 		return id;
 	}
 
-	public UserDTO getDTO() {
+	/*
+	    T toDTOExcludeReferenceData();
+    T toDTOWithReferenceData();
+	 */
+
+	public UserDTO toDTOExcludeReferenceData() {
 		UserDTO dto = new UserDTO();
 		dto.setId(this.id);
 		dto.setPhoneNumber(this.phoneNumber);
 		dto.setNickname(this.nickname);
 
 		return dto;
+	}
+
+	@Override
+	public UserDTO toDTOWithReferenceData() {
+		return this.toDTOExcludeReferenceData();
 	}
 }

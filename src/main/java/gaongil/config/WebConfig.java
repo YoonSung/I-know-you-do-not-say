@@ -41,12 +41,10 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-@ComponentScan(basePackages={"controller"})
+@ComponentScan(basePackages={"gaongil.web"})
 public class WebConfig extends WebMvcConfigurationSupport implements WebApplicationInitializer {
 
 	@Override

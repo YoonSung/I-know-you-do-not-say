@@ -1,4 +1,4 @@
-package controller;
+package gaongil.web;
 
 import gaongil.domain.User;
 import gaongil.dto.UserDTO;
