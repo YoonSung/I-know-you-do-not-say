@@ -9,7 +9,7 @@ public final class Type1 implements CloudMessageData {
         return 1;
     }
 
-    enum SubType {
+    public enum SubType {
         CHAT_MESSAGE(1),
         ADMIN_NOTIFICATION(2),
         UPDATE_FRIEND_STATUS(3),

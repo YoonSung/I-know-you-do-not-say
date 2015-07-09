@@ -2,6 +2,7 @@ package gaongil.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import gaongil.support.web.converter.CustomMappingJackson2HttpMessageConverter;
 import gaongil.support.web.converter.ResponseMessageConverter;
 import gaongil.support.web.holder.RequestHolder;
@@ -140,6 +141,8 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 	public ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		//mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		mapper.getSerializationConfig().getDefaultVisibilityChecker()
 				.withFieldVisibility(JsonAutoDetect.Visibility.ANY)

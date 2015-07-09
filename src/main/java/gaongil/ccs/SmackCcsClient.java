@@ -1,5 +1,7 @@
 package gaongil.ccs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.ConnectionListener;
@@ -20,6 +22,8 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.util.StringUtils;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.IOException;
@@ -37,6 +41,7 @@ import javax.net.ssl.SSLSocketFactory;
  * <p>
  * <p>For illustration purposes only.
  */
+@Component
 public class SmackCcsClient {
 
     private static final Logger logger = Logger.getLogger("SmackCcsClient");
@@ -46,6 +51,9 @@ public class SmackCcsClient {
 
     private static final String GCM_ELEMENT_NAME = "gcm";
     private static final String GCM_NAMESPACE = "google:mobile:data";
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     static {
 
@@ -172,7 +180,7 @@ public class SmackCcsClient {
      * @param delayWhileIdle GCM delay_while_idle parameter (Optional).
      * @return JSON encoded GCM message.
      */
-    public static String createJsonMessage(String to, String messageId,
+    public String createJsonMessage(String to, String messageId,
                                            Map<String, String> payload, String collapseKey, Long timeToLive,
                                            Boolean delayWhileIdle) {
         Map<String, Object> message = new HashMap<String, Object>();
@@ -188,7 +196,14 @@ public class SmackCcsClient {
         }
         message.put("message_id", messageId);
         message.put("data", payload);
-        return JSONValue.toJSONString(message);
+        //return JSONValue.toJSONString(message);
+        try {
+            return this.objectMapper.writeValueAsString(message);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
@@ -199,12 +214,20 @@ public class SmackCcsClient {
      * @param messageId messageId of the upstream message to be acknowledged to CCS.
      * @return JSON encoded ack.
      */
-    protected static String createJsonAck(String to, String messageId) {
+    protected String createJsonAck(String to, String messageId) {
         Map<String, Object> message = new HashMap<String, Object>();
         message.put("message_type", "ack");
         message.put("to", to);
         message.put("message_id", messageId);
-        return JSONValue.toJSONString(message);
+        //return JSONValue.toJSONString(message);
+
+        try {
+            return this.objectMapper.writeValueAsString(message);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void disconnect() throws NotConnectedException {
@@ -293,29 +316,6 @@ public class SmackCcsClient {
         }, new PacketTypeFilter(Message.class));
 
         connection.login(senderId + "@gcm.googleapis.com", apiKey);
-    }
-
-    public static void main(String[] args) throws Exception {
-        final long senderId = 1234567890L; // your GCM sender id
-        final String password = "Your API key";
-
-        SmackCcsClient ccsClient = new SmackCcsClient();
-
-        ccsClient.connect(senderId, password);
-
-        // Send a sample hello downstream message to a device.
-        String toRegId = "RegistrationIdOfTheTargetDevice";
-        String messageId = ccsClient.nextMessageId();
-        Map<String, String> payload = new HashMap<String, String>();
-        payload.put("Hello", "World");
-        payload.put("CCS", "Dummy Message");
-        payload.put("EmbeddedMessageId", messageId);
-        String collapseKey = "sample";
-        Long timeToLive = 10000L;
-        String message = createJsonMessage(toRegId, messageId, payload,
-                collapseKey, timeToLive, true);
-
-        ccsClient.sendDownstreamMessage(message);
     }
 
     /**

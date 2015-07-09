@@ -24,7 +24,9 @@ public class GcmCcsSender {
 
 	private static final long PROJECT_ID = 342931063456L;
 	private static final String API_KEY = "AIzaSyDKgha7E7VgCHQCu5JC4whgahlERlEiegM";
-	private SmackCcsClient mCssClient = new SmackCcsClient();
+
+	@Autowired
+	private SmackCcsClient mCssClient;
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -69,6 +71,7 @@ public class GcmCcsSender {
 			mCssClient.sendDownstreamMessage(jsonMessage);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
+			e.printStackTrace();
 			throw new RuntimeException();
 		}
 	}
