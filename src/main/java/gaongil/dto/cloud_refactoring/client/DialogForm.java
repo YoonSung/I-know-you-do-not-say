@@ -1,11 +1,11 @@
-package gaongil.dto.cloud;
+package gaongil.dto.cloud_refactoring.client;
 
 import gaongil.domain.User;
 
 /**
  * Created by yoon on 15. 7. 7..
  */
-public class DialogForm {
+public class DialogForm implements ClientDTO {
 
     private String senderPhoneNumber;
     private String question;

@@ -1,6 +1,7 @@
 package gaongil.ccs;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -76,6 +77,16 @@ public class GcmCcsSender {
 		}
 	}
 
+	@Async
+	public void sends(List<User> alreadyRegisteredUser, CloudMessage message) {
+
+		Assert.notNull(alreadyRegisteredUser);
+		Assert.notNull(message);
+
+		for(User user : alreadyRegisteredUser) {
+			send(user, message);
+		}
+	}
 
 	@PreDestroy
 	public void destroy() {
