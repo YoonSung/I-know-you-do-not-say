@@ -3,13 +3,15 @@ package gaongil.dto.cloud;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gaongil.config.WebConfig;
+import gaongil.dto.cloud.client.ClientDTO;
+import gaongil.dto.cloud.client.PlainText;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
 
 /**
- * Created by yoon on 15. 7. 9..
+ * Created by yoon on 15. 7. 10..
  */
 public class CloudMessageTest {
 
@@ -22,7 +24,28 @@ public class CloudMessageTest {
 
     @Test
     public void format() throws JsonProcessingException {
-        CloudMessage message = CloudMessage.createType1(Type1.SubType.CHAT_MESSAGE, "test");
+        CloudMessage message = new CloudMessage(Strategy1.CHAT_MESSAGE, new PlainText("testesetests"));
         System.out.println(objectMapper.writeValueAsString(message));
+    }
+
+    public String getJsonString() throws JsonProcessingException {
+        CloudMessage message = new CloudMessage(Strategy1.CHAT_MESSAGE, new PlainText("testesteste"));
+        return objectMapper.writeValueAsString(message);
+    }
+
+    @Test
+    public void deserialize() throws IOException {
+
+        String json = getJsonString();
+        System.out.println(json);
+
+        CloudMessage message = objectMapper.readValue(json, CloudMessage.class);
+        System.out.println(message.toString());
+
+        ClientStrategy clientStrategy = message.getStrategy();
+
+        ((ClientDTO) objectMapper.convertValue(message.getData(), clientStrategy.getDTO())).process(clientStrategy);
+        //System.out.println(objectMapper.convertValue(message.getData(), clientStrategy.getDTO()));
+        //System.out.println(objectMapper.writeValueAsString(objectMapper.convertValue(message.getData(), clientStrategy.getDTO())));
     }
 }

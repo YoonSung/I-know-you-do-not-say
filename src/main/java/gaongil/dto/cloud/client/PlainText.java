@@ -1,8 +1,6 @@
-package gaongil.dto.cloud_refactoring.client;
+package gaongil.dto.cloud.client;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-import gaongil.dto.cloud_refactoring.ClientStrategy;
+import gaongil.dto.cloud.ClientStrategy;
 
 /**
  * Created by yoon on 15. 7. 10..
@@ -26,6 +24,7 @@ public class PlainText implements ClientDTO {
 
     @Override
     public void process(ClientStrategy strategy) {
+        System.out.println(strategy);
         System.out.println("PlainText");
     }
 }

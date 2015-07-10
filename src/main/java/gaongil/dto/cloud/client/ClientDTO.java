@@ -1,6 +1,6 @@
-package gaongil.dto.cloud_refactoring.client;
+package gaongil.dto.cloud.client;
 
-import gaongil.dto.cloud_refactoring.ClientStrategy;
+import gaongil.dto.cloud.ClientStrategy;
 
 /**
  * Created by yoon on 15. 7. 10..

@@ -1,5 +1,8 @@
 package gaongil.dto.cloud;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import gaongil.dto.cloud.client.ClientDTO;
 import org.springframework.util.Assert;
 
 /**
@@ -7,40 +10,72 @@ import org.springframework.util.Assert;
  */
 public class CloudMessage {
 
-    private int processType;
-    private CloudMessageData data;
+    @JsonProperty("strategy")
+    private int strategyCode;
 
-    private CloudMessage(CloudMessageData type){
-        this.processType = type.intValue();
-        this.data = type;
+    @JsonProperty("type")
+    private int subTypeCode;
+
+    @JsonProperty("data")
+    private Object data;
+
+    private CloudMessage() {
     }
 
-    public static CloudMessage createType1(Type1.SubType subType, Object data) {
-        Assert.notNull(subType);
+    public CloudMessage(ClientStrategy strategyCode, ClientDTO data) {
+        Assert.notNull(strategyCode);
         Assert.notNull(data);
 
-        return new CloudMessage(new Type1(subType, data));
+        this.strategyCode = strategyCode.getStrategyCode();
+        this.subTypeCode = strategyCode.getSubTypeCode();
+
+        this.data = data;
     }
 
-    // TODO
-    public static CloudMessage createType2(Type2.SubType subType) {
-        Assert.notNull(subType);
-
-        return new CloudMessage(new Type2(subType));
+    public int getStrategyCode() {
+        return strategyCode;
     }
 
-    // TODO
-    public static CloudMessage createType3(Type3.SubType subType) {
-        Assert.notNull(subType);
-
-        return new CloudMessage(new Type3(subType));
+    public int getSubTypeCode() {
+        return subTypeCode;
     }
 
-    // TODO
-    public static CloudMessage createType4(Type4.SubType subType, Object data) {
-        Assert.notNull(subType);
-        Assert.notNull(data);
+    public Object getData() {
+        return data;
+    }
 
-        return new CloudMessage(new Type4(subType, data));
+    @JsonIgnore
+    public ClientStrategy getStrategy() {
+        ClientStrategy[] strategys = null;
+        switch (this.strategyCode) {
+            case 1:
+                strategys = Strategy1.values();
+                break;
+            case 2:
+                strategys = Strategy2.values();
+                break;
+            case 3:
+                strategys = Strategy3.values();
+                break;
+            case 4:
+                strategys = Strategy4.values();
+                break;
+        }
+
+        for (ClientStrategy strategy : strategys) {
+            if (strategy.getSubTypeCode() == subTypeCode)
+                return strategy;
+        }
+
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "CloudMessage{" +
+                "data=" + data +
+                ", subTypeCode=" + subTypeCode +
+                ", strategyCode=" + strategyCode +
+                '}';
     }
 }

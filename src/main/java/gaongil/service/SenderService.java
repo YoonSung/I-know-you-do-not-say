@@ -3,9 +3,8 @@ package gaongil.service;
 import gaongil.ccs.GcmCcsSender;
 import gaongil.domain.*;
 import gaongil.dto.cloud.CloudMessage;
-import gaongil.dto.cloud.DialogForm;
-import gaongil.dto.cloud.Type4;
-import gaongil.support.Constant;
+import gaongil.dto.cloud.Strategy4;
+import gaongil.dto.cloud.client.DialogForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +41,7 @@ public class SenderService {
         }
 
         DialogForm dialogForm = new DialogForm(currentUser, "'%s'님이 '%s' 그룹에 추가했습니다.\n초대에 응하시겠습니까?", "거절", "수락", "/groups/%n");
-        CloudMessage message = CloudMessage.createType4(Type4.SubType.GROUP_INVITATION, dialogForm);
+        CloudMessage message = new CloudMessage(Strategy4.GROUP_INVITATION, dialogForm);
         gcmSender.sends(alreadyRegisteredUser, message);
     }
 }

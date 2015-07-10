@@ -1,4 +1,4 @@
-package gaongil.dto.cloud_refactoring;
+package gaongil.dto.cloud;
 
 /**
  * Created by yoon on 15. 7. 10..
