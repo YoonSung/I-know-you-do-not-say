@@ -6,8 +6,10 @@ import gaongil.support.exception.WithPermissionException;
 import gaongil.support.exception.WrongParameterException;
 
 public enum ApplicationCode {
+	CLIENT_DTO					(100, ""),
 	OK 							(200, "요청성공"),
 	CREATE_NEWDATA 				(201, "새로운 데이터를 생성했습니다"),
+	UPDATE_DATA 				(202, "새로운 데이터를 생성했습니다"),
 	WRONG_PARAMETER 			(400, "잘못된 Parameter 요청입니다", new WrongParameterException()),
 	ILLEGAL_PARAMETER			(400, "잘못된 Parameter 요청입니다", new IllegalArgumentException()),
 	NOT_LOGINED					(402, "로그인 상태가 아닙니다", new LoginRequiredException()),

@@ -23,7 +23,7 @@ public class TestController {
     @RequestMapping("/test/{message}")
     public @ResponseBody String index(@PathVariable String message) {
 
-        User user = new User(null, null, null, null, "fYhXGqsNZfs:APA91bE4UYUn2013RD7mAGR_zqn68Ya2SsHg1ebaIcsmVzVkfnm6KZLGgk2wPhRu6O796GcJEucHq_VI8DNPhHyOrS6sOkXodF-VOYEwJk6CNy7y-cfrgkDAWrqlAPGekgpSYLnV8Olm", null);
+        User user = new User(null, null, null, null, "e79j_1u8-9Q:APA91bFbp2kmFPa_ZaBKLanAigKlz5_UMtABFdUEjne_hcyv9TwldbAXJSZL0guBwd_T7eZdjN-fUxTrwKIZL6xCV9fdifbZf1KAWKBaGdMZc8M-Btkcki3SC54cIz65pBTZb-R4iXzd", null);
         CloudMessage cloudMessage = new CloudMessage(Strategy1.CHAT_MESSAGE, new PlainText(message));
         gcmCcsSender.send(user, cloudMessage);
 

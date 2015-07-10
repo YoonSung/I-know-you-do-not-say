@@ -32,6 +32,23 @@ public class UserService {
 		return userRepository.save(userDTO.toDomain());
 	}
 
+	public User createByInvitation(User selectedUser, UserDTO userForm) {
+		if (StringUtils.isEmpty(userForm.getUuid()) || StringUtils.isEmpty(userForm.getRegId()))
+			throw new WrongParameterException();
+
+		// public User(Long id, String phoneNumber, String nickname, String imagePath, String regId, String uuid) {
+		User newUser = new User(
+				selectedUser.getId(),
+				selectedUser.getPhoneNumber(),
+				selectedUser.getNickname(),
+				selectedUser.getImagePath(),
+				userForm.getRegId(),
+				userForm.getUuid()
+		);
+
+		return userRepository.save(newUser);
+	}
+
 	public User findById(Long id) {
 		if (id == null)
 			throw new WrongParameterException();
@@ -55,5 +72,9 @@ public class UserService {
 
 		String id = authentication.getName();
 		return findById(Long.parseLong(id));
+	}
+
+	public void delete(User selectedUser) {
+		userRepository.delete(selectedUser);
 	}
 }

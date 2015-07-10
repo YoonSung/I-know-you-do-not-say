@@ -109,4 +109,30 @@ public class User implements ConvertableToDto<UserDTO> {
 	public UserDTO toDTOWithReferenceData() {
 		return this.toDTOExcludeReferenceData();
 	}
+
+	public boolean isSameUserForm(UserDTO userForm) {
+		if (this.regId != userForm.getRegId())
+			return false;
+
+		if (this.uuid != userForm.getUuid())
+			return false;
+
+		return true;
+	}
+
+	public boolean isInvitedUser() {
+		if (this.regId != null)
+			return false;
+
+		if (this.uuid != null)
+			return false;
+
+		if (this.id == null)
+			return false;
+
+		if (this.phoneNumber == null)
+			return false;
+
+		return true;
+	}
 }
