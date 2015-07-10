@@ -1,6 +1,7 @@
 package gaongil.dto.cloud_refactoring.client;
 
 import gaongil.domain.User;
+import gaongil.dto.cloud_refactoring.ClientStrategy;
 
 /**
  * Created by yoon on 15. 7. 7..
@@ -13,6 +14,8 @@ public class DialogForm implements ClientDTO {
     private String confirm;
     private String comment;
     private String returnUrl;
+
+    private DialogForm(){}
 
     public DialogForm(String question, String deny, String confirm, String comment, String returnUrl) {
         this.question = question;
@@ -38,5 +41,10 @@ public class DialogForm implements ClientDTO {
         this.confirm = confirm;
         this.comment = comment;
         this.returnUrl = returnUrl;
+    }
+
+    @Override
+    public void process(ClientStrategy strategy) {
+        System.out.println("DialogForm");
     }
 }

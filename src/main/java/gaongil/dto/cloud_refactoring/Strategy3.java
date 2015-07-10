@@ -14,7 +14,12 @@ public enum Strategy3 implements ClientStrategy {
     }
 
     @Override
-    public int getSubCode() {
+    public int getSubTypeCode() {
         return this.subCode;
+    }
+
+    @Override
+    public Class getDTO() {
+        return null;
     }
 }

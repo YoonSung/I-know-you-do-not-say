@@ -26,11 +26,12 @@ public enum Strategy1 implements ClientStrategy {
     }
 
     @Override
-    public int getSubCode() {
+    public int getSubTypeCode() {
         return subCode;
     }
 
-    public Class getDto() {
+    @Override
+    public Class getDTO() {
         return dto;
     }
 }
