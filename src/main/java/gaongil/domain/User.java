@@ -111,10 +111,10 @@ public class User implements ConvertableToDto<UserDTO> {
 	}
 
 	public boolean isSameUserForm(UserDTO userForm) {
-		if (this.regId != userForm.getRegId())
+		if (this.regId.equalsIgnoreCase(userForm.getRegId()) == false)
 			return false;
 
-		if (this.uuid != userForm.getUuid())
+		if (this.uuid.equalsIgnoreCase(userForm.getUuid()) == false)
 			return false;
 
 		return true;

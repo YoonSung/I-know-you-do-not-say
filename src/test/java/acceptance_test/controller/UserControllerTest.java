@@ -28,14 +28,16 @@ public class UserControllerTest extends WithIntergrationTest {
         userDTO.setUuid("testUuid");
 
         //ContentType을 JSON으로 지정하면, JSON 형태의 body데이터를 스프링서버에서 @RequestBody annotation을 통해 객체화 시켜준다.
-        //반대로 ContentType이 일반 String일 경우, formData로 전송하며, 스프링서버에서는 @RequestBody를 사용하면 안된다.
+        //반대로 ContentType이 일반 String일 경우, formData로 전송하며(contentType form-url-encoding & multipart), 스프링서버에서는 @RequestBody를 사용하면 안된다.
+        //http://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         Response response =
             given().
-                    contentType(ContentType.JSON).
-//                    formParam("phoneNumber", "01099258547").
-//                    formParam("regId", "testRegId").
-//                    formParam("uuid", "testUuid").
-                    body(userDTO).
+//                    contentType(ContentType.JSON).
+//                    body(userDTO).
+                    contentType(ContentType.URLENC).
+                    formParam("phoneNumber", "01099258547").
+                    formParam("regId", "testRegId").
+                    formParam("uuid", "testUuid").
             when().
                     post("/users").
 

@@ -48,7 +48,7 @@ public class UserController {
 	 *
 	 */
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String create(@RequestBody UserDTO userForm, @Response ResponseApplicationCode code) {
+	public String create(UserDTO userForm, @Response ResponseApplicationCode code) {
 		log.debug("UserForm : {}", userForm.toString());
 
 		// Check User Exist
@@ -56,6 +56,7 @@ public class UserController {
 
 		// Case 1.
 		if (selectedUser == null) {
+			log.debug("Case 1");
 			//TODO Add Retry Template
 			User createdUser = userService.create(userForm);
 
@@ -67,6 +68,7 @@ public class UserController {
 		} else {
 			// Case 4.
 			if (selectedUser.isInvitedUser()) {
+				log.debug("Case 4");
 				User createdUser = userService.createByInvitation(selectedUser, userForm);
 
 				// Add UserToken to Client Cookie
@@ -75,11 +77,13 @@ public class UserController {
 
 			// Case 2.
 			} else if (selectedUser.isSameUserForm(userForm)) {
+				log.debug("Case 2");
 				securityRememberMeService.setTokenToUser(new UserTokenGenerator(selectedUser.getId(), selectedUser.getUuid()));
 				code.set(ApplicationCode.OK);
 
 			// Case 3.
 			} else {
+				log.debug("Case 3");
 				// TODO 2. announce and confirmation to user
 				// check register request, alert to user and confirmation about another register request.
 				//code.set(ApplicationCode.CLIENT_DTO);
