@@ -144,7 +144,7 @@ public class WebConfig extends WebMvcConfigurationSupport implements WebApplicat
 		mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
-		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		mapper.getSerializationConfig().getDefaultVisibilityChecker()
 				.withFieldVisibility(JsonAutoDetect.Visibility.ANY)
 				.withGetterVisibility(JsonAutoDetect.Visibility.NONE)

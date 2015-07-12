@@ -2,6 +2,7 @@ package gaongil.support.web.converter;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class CustomMappingJackson2HttpMessageConverter extends MappingJackson2Ht
 
 	@Autowired
 	ResponseMessageConverter responseMessageConverter;
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@Override
 	protected void writeInternal(Object object, HttpOutputMessage outputMessage)

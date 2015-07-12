@@ -12,11 +12,13 @@ import gaongil.dto.UserDTO;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.jayway.restassured.config.ObjectMapperConfig.objectMapperConfig;
 
@@ -27,6 +29,13 @@ public class WithTokenRule implements TestRule {
 
     public static ObjectMapper WITH_OBJECT_MAPPER;
     private static final String TEST_SERVER_BASE_URL = "http://localhost:8080";
+
+    private final String PHONENUMBER_KEY = "phoneNumber";
+    private final String PHONENUMBER_VALUE = "01099258547";
+    private final String REG_ID_KEY = "regId";
+    private final String REG_ID_VALUE = "testRegId";
+    private final String UUID_KEY = "uuid";
+    private final String UUID_VALUE = "testUuid";
 
     //intergration
     public static final String AUTH_COOKIE_NAME = "WITH_AUTH";
@@ -83,7 +92,9 @@ public class WithTokenRule implements TestRule {
 
         if (type.getToken() == null) {
             try {
-                TYPE.USER.setToken(generateUserTokenFromServer());
+                //TYPE.USER.setToken(generateUserTokenByJsonParameter());
+                TYPE.USER.setToken(generateUserTokenByPostParameter());
+
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException("Generating Token Failure");
@@ -110,16 +121,16 @@ public class WithTokenRule implements TestRule {
         return null;
     }
 
-    private String generateUserTokenFromServer() throws Exception {
+    private String generateUserTokenByJsonParameter() throws Exception {
         UserDTO dto = new UserDTO();
-        dto.setPhoneNumber("01099258547");
-        dto.setRegId("testRegId");
-        dto.setUuid("testUuid");
+        dto.setPhoneNumber(PHONENUMBER_VALUE);
+        dto.setRegId(REG_ID_VALUE);
+        dto.setUuid(UUID_VALUE);
 
-        return getTokenFromServer(TYPE.USER.getUrl(), WITH_OBJECT_MAPPER.writeValueAsString(dto));
+        return getTokenFromServerByJsonParameter(TYPE.USER.getUrl(), WITH_OBJECT_MAPPER.writeValueAsString(dto));
     }
 
-    private String getTokenFromServer(String url, String parameter) throws JsonProcessingException {
+    private String getTokenFromServerByJsonParameter(String url, String parameter) throws JsonProcessingException {
 
         //request
         RestTemplate restTemplate = new RestTemplate();
@@ -145,4 +156,36 @@ public class WithTokenRule implements TestRule {
     }
 
 
+    private String generateUserTokenByPostParameter() throws Exception {
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add(PHONENUMBER_KEY, PHONENUMBER_VALUE);
+        parameters.add(REG_ID_KEY, REG_ID_VALUE);
+        parameters.add(UUID_KEY, UUID_VALUE);
+
+        return getTokenFromServerByPostParameter(TYPE.USER.getUrl(), parameters);
+    }
+
+    private String getTokenFromServerByPostParameter(String url, MultiValueMap parameters) throws JsonProcessingException {
+
+        //request
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, headers);
+
+        //response
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        HttpHeaders responseHeaders = response.getHeaders();
+        String cookies = responseHeaders.get(HttpHeaders.SET_COOKIE).get(0);
+        String[] cookieEntries = cookies.split(";");
+
+        for (String cookieEntry : cookieEntries) {
+            cookieEntry = cookieEntry.trim();
+            if (cookieEntry.startsWith(AUTH_COOKIE_NAME)) {
+                return cookieEntry.replace(AUTH_COOKIE_NAME+"=","");
+            }
+        }
+
+        throw new RuntimeException("Generating Token Failure");
+    }
 }
